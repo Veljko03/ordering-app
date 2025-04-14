@@ -1,18 +1,18 @@
 "use client";
-import { useLoadScript } from "@react-google-maps/api";
+import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
 
-const Places = () => {
-  const libraries = ["places"];
+const lib = ["places"];
 
+const Places = () => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY,
-    libraries,
+    libraries: lib,
   });
   const [selectedPlace, setSelectedPlace] = useState(null);
 
   const inputRef = useRef(null);
-  console.log("input ref: ", inputRef);
+  //console.log("input ref: ", inputRef);
 
   useEffect(() => {
     if (isLoaded && inputRef.current) {
@@ -24,9 +24,12 @@ const Places = () => {
           types: ["address"],
         }
       );
+      console.log(autocomplete);
 
       autocomplete.addListener("place_changed", () => {
         const place = autocomplete.getPlace();
+        console.log(place);
+
         setSelectedPlace(place);
       });
     }
@@ -50,6 +53,30 @@ const Places = () => {
           borderRadius: "4px",
         }}
       />
+      <div style={{ height: "500px", width: "100%" }}>
+        {selectedPlace && (
+          <GoogleMap
+            mapContainerStyle={{ width: "100%", height: "100%" }}
+            center={
+              selectedPlace.geometry.location
+                ? {
+                    lat: selectedPlace.geometry.location.lat(),
+                    lng: selectedPlace.geometry.location.lng(),
+                  }
+                : { lat: 44.8176, lng: 20.4569 }
+            }
+            zoom={19}
+          >
+            <Marker
+              position={{
+                lat: selectedPlace.geometry.location.lat(),
+                lng: selectedPlace.geometry.location.lng(),
+              }}
+            />
+          </GoogleMap>
+        )}
+        <h1 className="a"></h1>
+      </div>
     </div>
   );
 };
