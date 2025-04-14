@@ -10,9 +10,8 @@ const Places = () => {
     libraries: lib,
   });
   const [selectedPlace, setSelectedPlace] = useState(null);
-
+  const [showPopup, setShowPopup] = useState(true);
   const inputRef = useRef(null);
-  //console.log("input ref: ", inputRef);
 
   useEffect(() => {
     if (isLoaded && inputRef.current) {
@@ -33,50 +32,86 @@ const Places = () => {
         setSelectedPlace(place);
       });
     }
-  }, [isLoaded]);
+  }, [isLoaded, showPopup]);
 
   if (loadError) return <div>Error loading Google Maps API</div>;
   if (!isLoaded) return <div>Loading...</div>;
 
   return (
     <div>
-      <h1>Places Search</h1>
-      <input
-        type="text"
-        placeholder="Search for a place"
-        ref={inputRef}
-        style={{
-          width: "100%",
-          padding: "8px",
-          fontSize: "16px",
-          border: "1px solid white",
-          borderRadius: "4px",
-        }}
-      />
-      <div style={{ height: "500px", width: "100%" }}>
-        {selectedPlace && (
-          <GoogleMap
-            mapContainerStyle={{ width: "100%", height: "100%" }}
-            center={
-              selectedPlace.geometry.location
-                ? {
-                    lat: selectedPlace.geometry.location.lat(),
-                    lng: selectedPlace.geometry.location.lng(),
-                  }
-                : { lat: 44.8176, lng: 20.4569 }
-            }
-            zoom={19}
+      <button
+        className="bg-white text-black w-200 h-8 rounded-sm "
+        onClick={() => setShowPopup(true)}
+      >
+        Enter your adrress
+      </button>
+      {showPopup && (
+        <div
+          className="fixed inset-0 bg-black/55 flex  items-center justify-center"
+          onClick={() => setShowPopup(false)}
+        >
+          <div
+            className="bg-white text-black w-200 h-200 flex flex-col gap-2 p-4"
+            onClick={(e) => e.stopPropagation()}
           >
-            <Marker
-              position={{
-                lat: selectedPlace.geometry.location.lat(),
-                lng: selectedPlace.geometry.location.lng(),
+            <button
+              className="bg-red-600 cursor-pointer rounded  w-20 ml-auto"
+              onClick={() => {
+                setSelectedPlace(null);
+                setShowPopup(false);
               }}
+            >
+              Close
+            </button>
+            <input
+              type="text"
+              placeholder="Search for a place"
+              ref={inputRef}
+              className="rounded-md border-white border-black p-4 w-full"
             />
-          </GoogleMap>
-        )}
-        <h1 className="a"></h1>
-      </div>
+            <div className="h-300 w-full">
+              {selectedPlace && (
+                <GoogleMap
+                  mapContainerStyle={{ width: "100%", height: "100%" }}
+                  center={
+                    selectedPlace.geometry.location
+                      ? {
+                          lat: selectedPlace.geometry.location.lat(),
+                          lng: selectedPlace.geometry.location.lng(),
+                        }
+                      : { lat: 44.8176, lng: 20.4569 }
+                  }
+                  zoom={19}
+                >
+                  <Marker
+                    position={{
+                      lat: selectedPlace.geometry.location.lat(),
+                      lng: selectedPlace.geometry.location.lng(),
+                    }}
+                  />
+                </GoogleMap>
+              )}
+            </div>
+            <div className="flex gap-20 items-center justify-center mt-5">
+              <button
+                className="bg-red-600 cursor-pointer rounded  w-20 "
+                onClick={() => {
+                  setShowPopup(false);
+                  setSelectedPlace(null);
+                }}
+              >
+                Cancle
+              </button>
+              <button
+                className="bg-green-500 cursor-pointer rounded  w-20 "
+                onClick={() => setShowPopup(false)}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
