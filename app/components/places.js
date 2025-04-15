@@ -12,7 +12,7 @@ const Places = () => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [showPopup, setShowPopup] = useState(true);
   const inputRef = useRef(null);
-
+  // resiti error ako je losa adresa
   useEffect(() => {
     if (isLoaded && inputRef.current) {
       const autocomplete = new google.maps.places.Autocomplete(
@@ -28,7 +28,14 @@ const Places = () => {
       autocomplete.addListener("place_changed", () => {
         const place = autocomplete.getPlace();
         console.log(place);
-
+        if (!place.geometry || !place.formatted_address) {
+          setSelectedPlace(null);
+          alert("bad address");
+          if (inputRef.current) {
+            inputRef.current.value = "";
+          }
+          return;
+        }
         setSelectedPlace(place);
       });
     }
@@ -74,7 +81,7 @@ const Places = () => {
                 <GoogleMap
                   mapContainerStyle={{ width: "100%", height: "100%" }}
                   center={
-                    selectedPlace.geometry.location
+                    selectedPlace.geometry?.location
                       ? {
                           lat: selectedPlace.geometry.location.lat(),
                           lng: selectedPlace.geometry.location.lng(),
@@ -85,8 +92,8 @@ const Places = () => {
                 >
                   <Marker
                     position={{
-                      lat: selectedPlace.geometry.location.lat(),
-                      lng: selectedPlace.geometry.location.lng(),
+                      lat: selectedPlace.geometry?.location.lat(),
+                      lng: selectedPlace.geometry?.location.lng(),
                     }}
                   />
                 </GoogleMap>
