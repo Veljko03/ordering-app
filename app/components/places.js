@@ -1,6 +1,8 @@
 "use client";
 import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
+import { point, polygon, booleanPointInPolygon } from "@turf/turf";
+import { deliveryPrices } from "./deliveryPrices";
 
 const lib = ["places"];
 
@@ -12,6 +14,7 @@ const Places = () => {
   });
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [showPopup, setShowPopup] = useState(true);
+  const [deliveryPrice, setDeliveryPrice] = useState(null);
   const inputRef = useRef(null);
   // resiti error ako je losa adresa
   useEffect(() => {
@@ -46,6 +49,28 @@ const Places = () => {
       });
     }
   }, [isLoaded, showPopup]);
+
+  if (selectedPlace) {
+    const userPoint1 = selectedPlace.geometry.location.lat();
+    const userPoint2 = selectedPlace.geometry.location.lng();
+    if (userPoint1 && userPoint2) {
+      const userPosition = point([userPoint2, userPoint1]);
+      const validZones = deliveryPrices.filter(
+        (zone) => zone.coordinates && zone.coordinates.length > 0
+      );
+      console.log("user position", userPosition);
+      console.log("valid zones ", validZones);
+
+      validZones.forEach((cityArea) => {
+        console.log("area cordinates ", cityArea.coordinates);
+
+        const poly = polygon(cityArea.coordinates);
+        if (booleanPointInPolygon(userPosition, poly)) {
+          console.log("Cena dostave je ", cityArea.price);
+        }
+      });
+    }
+  }
 
   if (loadError) return <div>Error loading Google Maps API</div>;
   if (!isLoaded) return <div>Loading...</div>;

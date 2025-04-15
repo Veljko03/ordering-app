@@ -12,6 +12,7 @@
     "@googlemaps/extended-component-library": "^0.6.13",
     "@next/third-parties": "^15.3.0",
     "@react-google-maps/api": "^2.20.6",
+    "@turf/turf": "^7.2.0",
     "next": "^15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
