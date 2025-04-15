@@ -8,6 +8,7 @@ const Places = () => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY,
     libraries: lib,
+    language: "sr",
   });
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [showPopup, setShowPopup] = useState(true);
@@ -21,6 +22,11 @@ const Places = () => {
           componentRestrictions: { country: "RS" },
           fields: ["place_id", "geometry", "name", "formatted_address"],
           types: ["address"],
+          bounds: new google.maps.LatLngBounds( //Novi sad coord
+            { lat: 45.19, lng: 19.67 },
+            { lat: 45.31873, lng: 19.90285 }
+          ),
+          strictBounds: true,
         }
       );
       console.log(autocomplete);
