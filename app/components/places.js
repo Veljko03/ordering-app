@@ -13,7 +13,7 @@ const Places = () => {
     language: "sr",
   });
   const [selectedPlace, setSelectedPlace] = useState(null);
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
   const [deliveryPrice, setDeliveryPrice] = useState(null);
   const inputRef = useRef(null);
   // resiti error ako je losa adresa
@@ -46,6 +46,7 @@ const Places = () => {
           return;
         }
         setSelectedPlace(place);
+        setDeliveryPrice(null);
       });
     }
   }, [isLoaded, showPopup]);
@@ -62,11 +63,11 @@ const Places = () => {
       console.log("valid zones ", validZones);
 
       validZones.forEach((cityArea) => {
-        console.log("area cordinates ", cityArea.coordinates);
-
+        if (deliveryPrice) return;
         const poly = polygon(cityArea.coordinates);
         if (booleanPointInPolygon(userPosition, poly)) {
           console.log("Cena dostave je ", cityArea.price);
+          setDeliveryPrice(cityArea.price);
         }
       });
     }
@@ -83,6 +84,11 @@ const Places = () => {
       >
         Enter your adrress
       </button>
+      {deliveryPrice && (
+        <h1 className="mt-5 text-2xl font-bold">
+          Cena vase dostave je: {deliveryPrice} rsd
+        </h1>
+      )}
       {showPopup && (
         <div
           className="fixed inset-0 bg-black/55 flex  items-center justify-center"
