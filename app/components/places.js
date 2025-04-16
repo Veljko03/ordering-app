@@ -16,7 +16,7 @@ const Places = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [deliveryPrice, setDeliveryPrice] = useState(null);
   const inputRef = useRef(null);
-  // resiti error ako je losa adresa
+
   useEffect(() => {
     if (isLoaded && inputRef.current) {
       const autocomplete = new google.maps.places.Autocomplete(
@@ -101,7 +101,7 @@ const Places = () => {
           onClick={() => setShowPopup(false)}
         >
           <div
-            className="bg-white text-black w-200 h-200 flex flex-col gap-2 p-4"
+            className="bg-white text-black w-200 h-150 flex flex-col gap-2 p-4"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -113,6 +113,7 @@ const Places = () => {
             >
               Close
             </button>
+
             <input
               type="text"
               placeholder="Search for a place"
