@@ -75,6 +75,7 @@ const Places = () => {
 
   if (loadError) return <div>Error loading Google Maps API</div>;
   if (!isLoaded) return <div>Loading...</div>;
+  console.log("Selected place name ", selectedPlace);
 
   return (
     <div>
@@ -84,6 +85,11 @@ const Places = () => {
       >
         Enter your adrress
       </button>
+      {selectedPlace && (
+        <h1 className="mt-5 text-2xl font-bold">
+          Vasa adresa je: {selectedPlace.name}
+        </h1>
+      )}
       {deliveryPrice && (
         <h1 className="mt-5 text-2xl font-bold">
           Cena vase dostave je: {deliveryPrice} rsd
@@ -141,7 +147,8 @@ const Places = () => {
                 className="bg-red-600 cursor-pointer rounded  w-20 "
                 onClick={() => {
                   setShowPopup(false);
-                  setSelectedPlace(null);
+                  if (!selectedPlace) setSelectedPlace(null);
+                  if (!deliveryPrice) setDeliveryPrice(null);
                 }}
               >
                 Cancle
