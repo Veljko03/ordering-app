@@ -2,7 +2,7 @@
 import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
 import { point, polygon, booleanPointInPolygon } from "@turf/turf";
-import { deliveryPrices } from "./deliveryPrices";
+import { deliveryPrices } from "../placesData/deliveryPrices";
 
 const lib = ["places"];
 
@@ -23,7 +23,13 @@ const Places = () => {
         inputRef.current,
         {
           componentRestrictions: { country: "RS" },
-          fields: ["place_id", "geometry", "name", "formatted_address"],
+          fields: [
+            "place_id",
+            "geometry",
+            "name",
+            "formatted_address",
+            "address_components",
+          ],
           types: ["address"],
           bounds: new google.maps.LatLngBounds( //Novi sad coord
             { lat: 45.19, lng: 19.67 },
@@ -45,6 +51,15 @@ const Places = () => {
           }
           return;
         }
+
+        // const hasStreetNumber = place.address_components.some((c) =>
+        //   c.types.includes("street_number")
+        // );
+
+        // if (!hasStreetNumber) {
+        //   alert("Molimo odaberite adresu koja sadrži broj ulice.");
+        //   return;
+        // }
         setSelectedPlace(place);
         setDeliveryPrice(null);
       });
@@ -54,6 +69,7 @@ const Places = () => {
   if (selectedPlace) {
     const userPoint1 = selectedPlace.geometry.location.lat();
     const userPoint2 = selectedPlace.geometry.location.lng();
+
     if (userPoint1 && userPoint2) {
       const userPosition = point([userPoint2, userPoint1]);
       const validZones = deliveryPrices.filter(
@@ -87,7 +103,7 @@ const Places = () => {
       </button>
       {selectedPlace && (
         <h1 className="mt-5 text-2xl font-bold">
-          Vasa adresa je: {selectedPlace.name}
+          Vasa adresa je: {selectedPlace.formatted_address}
         </h1>
       )}
       {deliveryPrice && (
@@ -107,7 +123,6 @@ const Places = () => {
             <button
               className="bg-red-600 cursor-pointer rounded  w-20 ml-auto"
               onClick={() => {
-                setSelectedPlace(null);
                 setShowPopup(false);
               }}
             >
