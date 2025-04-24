@@ -20,3 +20,9 @@ export async function POST(req) {
     });
   }
 }
+
+export async function GET() {
+  await mongoose.connect(process.env.NEXT_MONGO_URL);
+  const schedules = await Schedule.find();
+  return new Response(JSON.stringify(schedules), { status: 201 });
+}

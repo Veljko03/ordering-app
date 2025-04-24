@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const WeekSchedule = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -20,6 +20,104 @@ const WeekSchedule = () => {
     sunStart: "",
     sunEnd: "",
   });
+  const [backendData, setBackendData] = useState(null);
+  const [restaurantWorks, setRestaurantWorks] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/schedule", {
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((dataa) => {
+        console.log("dataaaaaa ", dataa);
+        setBackendData(dataa);
+        const data = dataa[0].schedule;
+        const transformedData = {
+          monStart: data.find((day) => day.day === "mon")?.startTime || "",
+          monEnd: data.find((day) => day.day === "mon")?.endTime || "",
+          tueStart: data.find((day) => day.day === "tue")?.startTime || "",
+          tueEnd: data.find((day) => day.day === "tue")?.endTime || "",
+          wenStart: data.find((day) => day.day === "wen")?.startTime || "",
+          wenEnd: data.find((day) => day.day === "wen")?.endTime || "",
+          thuStart: data.find((day) => day.day === "thu")?.startTime || "",
+          thuEnd: data.find((day) => day.day === "thu")?.endTime || "",
+          friStart: data.find((day) => day.day === "fri")?.startTime || "",
+          friEnd: data.find((day) => day.day === "fri")?.endTime || "",
+          satStart: data.find((day) => day.day === "sat")?.startTime || "",
+          satEnd: data.find((day) => day.day === "sat")?.endTime || "",
+          sunStart: data.find((day) => day.day === "sun")?.startTime || "",
+          sunEnd: data.find((day) => day.day === "sun")?.endTime || "",
+        };
+
+        setTimesForEachDay(transformedData);
+      })
+      .catch((error) => {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
+      });
+  }, []);
+
+  const getDayInWeek = (dayInDig) => {
+    if (dayInDig === 1) {
+      return "mon";
+    } else if (dayInDig === 2) {
+      return "tue";
+    } else if (dayInDig === 3) {
+      return "wed";
+    } else if (dayInDig === 4) {
+      return "thu";
+    } else if (dayInDig === 5) {
+      return "fri";
+    } else if (dayInDig === 6) {
+      return "sat";
+    } else {
+      return "sun";
+    }
+  };
+  const getCurrentTime = () => {
+    const now = new Date();
+    const hours = now.getHours(); // Dobijamo sate (0-23)
+    const minutes = now.getMinutes(); // Dobijamo minute (0-59)
+    return `${hours}:${minutes < 10 ? "0" + minutes : minutes}`; // Dodajemo nulu za minute ako su ispod 10
+  };
+
+  //checking for current day values to see if restaurant works
+  if (backendData && !restaurantWorks) {
+    const d = new Date();
+    let day = d.getDay();
+    const dayInWeek = getDayInWeek(day);
+    const currTime = getCurrentTime();
+
+    const currentDaySchedule = backendData[0].schedule.find(
+      (schedule) => schedule.day === dayInWeek
+    );
+
+    if (currentDaySchedule?.isClosed) {
+      console.log("Restoran je zatvoren danas.");
+    } else {
+      const { startTime, endTime } = currentDaySchedule;
+
+      if (
+        startTime &&
+        endTime &&
+        currTime >= startTime &&
+        currTime <= endTime
+      ) {
+        setRestaurantWorks("Restoran radi!");
+        console.log("Restoran radi!");
+      } else {
+        console.log("Restoran trenutno ne radi.");
+        setRestaurantWorks("Restoran trenutno ne radi.");
+      }
+    }
+  }
 
   const handleTimeChange = (e) => {
     const { name, value } = e.target;
@@ -55,6 +153,7 @@ const WeekSchedule = () => {
   };
   return (
     <div>
+      {restaurantWorks && <h1 className="mt-5 text-2xl ">{restaurantWorks}</h1>}
       <button
         onClick={() => setShowPopup(true)}
         className="mt-10 text-2xl bg-amber-50 text-red-700  w-100 rounded-2xl"
@@ -92,6 +191,7 @@ const WeekSchedule = () => {
                     onChange={handleTimeChange}
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.monStart}
                   />
                 </div>
                 <div className="ml-15">
@@ -102,6 +202,7 @@ const WeekSchedule = () => {
                     className="ml-auto"
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.monEnd}
                   />
                 </div>
               </div>
@@ -115,6 +216,7 @@ const WeekSchedule = () => {
                     onChange={handleTimeChange}
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.thuStart}
                   />
                 </div>
                 <div className="ml-15">
@@ -125,6 +227,7 @@ const WeekSchedule = () => {
                     className="ml-auto"
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.thuEnd}
                   />
                 </div>
               </div>
@@ -138,6 +241,7 @@ const WeekSchedule = () => {
                     onChange={handleTimeChange}
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.wenStart}
                   />
                 </div>
                 <div className="ml-15">
@@ -148,6 +252,7 @@ const WeekSchedule = () => {
                     className="ml-auto"
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.wenEnd}
                   />
                 </div>
               </div>
@@ -161,6 +266,7 @@ const WeekSchedule = () => {
                     onChange={handleTimeChange}
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.thuStart}
                   />
                 </div>
                 <div className="ml-15">
@@ -171,6 +277,7 @@ const WeekSchedule = () => {
                     className="ml-auto"
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.thuEnd}
                   />
                 </div>
               </div>
@@ -184,6 +291,7 @@ const WeekSchedule = () => {
                     onChange={handleTimeChange}
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.friStart}
                   />
                 </div>
                 <div className="ml-15">
@@ -194,6 +302,7 @@ const WeekSchedule = () => {
                     className="ml-auto"
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.friEnd}
                   />
                 </div>
               </div>
@@ -207,6 +316,7 @@ const WeekSchedule = () => {
                     onChange={handleTimeChange}
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.satStart}
                   />
                 </div>
                 <div className="ml-15">
@@ -217,6 +327,7 @@ const WeekSchedule = () => {
                     className="ml-auto"
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.satEnd}
                   />
                 </div>
               </div>
@@ -230,6 +341,7 @@ const WeekSchedule = () => {
                     onChange={handleTimeChange}
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.sunStart}
                   />
                 </div>
                 <div className="ml-15">
@@ -240,6 +352,7 @@ const WeekSchedule = () => {
                     className="ml-auto"
                     aria-label="Time"
                     type="time"
+                    value={timesForEachDay.sunEnd}
                   />
                 </div>
               </div>
