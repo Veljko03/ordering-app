@@ -1,0 +1,23 @@
+POST  http://localhost:3000/api/buisnessInfo
+Content-Type: application/json
+
+{
+  "name": "big pizza",
+  "description": "najbolja piceriaj ikada",
+  "logoUrl": "nekiLogo",
+  "contactPhone": "06003421",
+  "adress": "gunduliceva 22",
+  "social": {
+    "instagram": "insta.com",
+    "facebook": "",
+    "tiktok": "tiktok"
+  },
+  "theme": {
+    "navbarColor": "",
+    "textColor": "",
+    "font": ""
+  }
+}
+
+###
+GET http://localhost:3000/api/buisnessInfo
