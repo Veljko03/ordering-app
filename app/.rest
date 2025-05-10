@@ -2,7 +2,7 @@ POST  http://localhost:3000/api/buisnessInfo
 Content-Type: application/json
 
 {
-  "name": "big pizza",
+  "name": "big pizzaa",
   "description": "najbolja piceriaj ikada",
   "logoUrl": "nekiLogo",
   "contactPhone": "06003421",
@@ -21,3 +21,17 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/api/buisnessInfo
+
+###
+POST  http://localhost:3000/api/categories
+Content-Type: application/json
+
+{
+  "name": "hamburgeri"
+}
+
+###
+GET   http://localhost:3000/api/categories
+
+###
+DELETE   http://localhost:3000/api/categories?_id=681fb431af8ac62c6eb30a65
