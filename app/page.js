@@ -1,15 +1,51 @@
-"use client";
-
+import Image from "next/image";
+import CloudinaryUploader from "./components/CloudinaryUploader";
 import Places from "./components/PlacePicker";
 import WeekSchedule from "./components/WeekSchedule";
 
-export default function Home() {
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+  api_secret: process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET,
+});
+async function Home() {
+  const images = await cloudinary.search.expression("folder:startup").execute();
+  console.log(images.resources);
   return (
     <div style={{ padding: "50px" }}>
       <h1 className="underline"> Hello world</h1>
       <Places />
 
       <WeekSchedule />
+      <div className="mt-6">
+        <h1>Here you can add some photo</h1>
+        <CloudinaryUploader />
+      </div>
+      <div
+        className="grid grid-cols-1 sm:grid-cols-2
+          md:grid-cols-3 lg:grid-cols-4 gap-4"
+      >
+        {images.total_count > 0 &&
+          images.resources.map((image) => (
+            <div
+              key={image.asset_id}
+              className="container mx-auto max-w-screen-xl px-8 "
+            >
+              <Image
+                className="flex flex-wrap justify-center"
+                src={image.secure_url}
+                height={image.height}
+                width={image.width}
+                alt="My cloudinary image"
+                priority
+              />
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
+
+export default Home;
