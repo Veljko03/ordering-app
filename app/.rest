@@ -27,11 +27,11 @@ POST  http://localhost:3000/api/categories
 Content-Type: application/json
 
 {
-  "name": "hamburgeri"
+  "name": "pice"
 }
 
 ###
 GET   http://localhost:3000/api/categories
 
 ###
-DELETE   http://localhost:3000/api/categories?_id=681fb431af8ac62c6eb30a65
+DELETE   http://localhost:3000/api/categories?_id=68238e87f0a8528811ab36ed
