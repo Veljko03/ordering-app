@@ -3,6 +3,7 @@ import CloudinaryUploader from "./components/CloudinaryUploader";
 import Places from "./components/PlacePicker";
 import WeekSchedule from "./components/WeekSchedule";
 import { getImagesFromFolder } from "./lib/Claudinary";
+import BusinessInfo from "./components/BuisnessInfo";
 
 async function Home() {
   const images = await getImagesFromFolder("startup");
@@ -18,13 +19,12 @@ async function Home() {
         <h1>Here you can add some photo</h1>
         <CloudinaryUploader />
       </div>
-
       <div
         className="grid grid-cols-1 sm:grid-cols-2
           md:grid-cols-3 lg:grid-cols-4 gap-4"
       >
-        {images.total_count > 0 &&
-          images.resources.map((image) => (
+        {images != null &&
+          images.map((image) => (
             <div
               key={image.asset_id}
               className="container mx-auto max-w-screen-xl px-8 "
@@ -40,6 +40,7 @@ async function Home() {
             </div>
           ))}
       </div>
+      <BusinessInfo />
     </div>
   );
 }
