@@ -70,7 +70,7 @@ const WeekSchedule = () => {
     } else if (dayInDig === 2) {
       return "tue";
     } else if (dayInDig === 3) {
-      return "wed";
+      return "wen";
     } else if (dayInDig === 4) {
       return "thu";
     } else if (dayInDig === 5) {
@@ -94,14 +94,19 @@ const WeekSchedule = () => {
     let day = d.getDay();
     const dayInWeek = getDayInWeek(day);
     const currTime = getCurrentTime();
+    console.log(backendData, "backend  ");
+    console.log("day in week ", dayInWeek);
 
     const currentDaySchedule = backendData[0].schedule.find(
       (schedule) => schedule.day === dayInWeek
     );
+    console.log("curr day ", currentDaySchedule);
 
     if (currentDaySchedule?.isClosed) {
       console.log("Restoran je zatvoren danas.");
     } else {
+      console.log("currDateschedule ", currentDaySchedule);
+
       const { startTime, endTime } = currentDaySchedule;
 
       if (

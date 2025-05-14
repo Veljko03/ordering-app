@@ -10,5 +10,7 @@ export async function getImagesFromFolder(folderName) {
   const result = await cloudinary.search
     .expression(`folder:${folderName}`)
     .execute();
+  console.log(result);
+
   return result.resources;
 }

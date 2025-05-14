@@ -6,6 +6,7 @@ import { getImagesFromFolder } from "./lib/Claudinary";
 
 async function Home() {
   const images = await getImagesFromFolder("startup");
+  console.log("images", images);
 
   return (
     <div style={{ padding: "50px" }}>

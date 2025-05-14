@@ -51,6 +51,6 @@ export async function PUT(req) {
 
 export async function GET() {
   await mongoose.connect(process.env.NEXT_MONGO_URL);
-  const category = await Item.find();
-  return new Response(JSON.stringify(category), { status: 201 });
+  const items = await Item.find();
+  return new Response(JSON.stringify(items), { status: 201 });
 }
