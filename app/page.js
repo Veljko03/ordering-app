@@ -4,6 +4,8 @@ import Places from "./components/PlacePicker";
 import WeekSchedule from "./components/WeekSchedule";
 import { getImagesFromFolder } from "./lib/Claudinary";
 import BusinessInfo from "./components/BuisnessInfo";
+import CategoryManager from "./components/CategoryManager";
+import ItemManager from "./components/ItemManager";
 
 async function Home() {
   const images = await getImagesFromFolder("startup");
@@ -41,6 +43,8 @@ async function Home() {
           ))}
       </div>
       <BusinessInfo />
+      <CategoryManager />
+      <ItemManager />
     </div>
   );
 }

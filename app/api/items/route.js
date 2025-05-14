@@ -49,8 +49,18 @@ export async function PUT(req) {
   }
 }
 
-export async function GET() {
+export async function GET(request) {
   await mongoose.connect(process.env.NEXT_MONGO_URL);
-  const items = await Item.find();
-  return new Response(JSON.stringify(items), { status: 201 });
+
+  const { searchParams } = new URL(request.url);
+  const categoryId = searchParams.get("categoryId");
+
+  let items;
+  if (categoryId) {
+    items = await Item.find({ categoryId });
+  } else {
+    items = await Item.find(); //  svi itemi
+  }
+
+  return new Response(JSON.stringify(items), { status: 200 });
 }

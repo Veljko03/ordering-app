@@ -157,7 +157,7 @@ export default function BusinessInfo() {
               <button
                 onClick={() => {
                   setIsEditing(false);
-                  setFormData(info); // resetuješ nazad
+                  setFormData(info);
                 }}
                 className="bg-gray-300 px-4 py-2 rounded"
               >
