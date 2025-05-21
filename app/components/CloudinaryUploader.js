@@ -6,15 +6,16 @@ import { useState } from "react";
 const cloudPresetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME;
 
 const CloudinaryUploader = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState("");
 
   const handleManualUpload = async (e) => {
     if (!selectedFile) return;
 
     const url = await uploadPicture(selectedFile);
     alert("Uploaded URL:", url);
-    setSelectedFile(null);
+    setSelectedFile("");
   };
+  console.log("selected file ", selectedFile);
 
   return (
     <div>
@@ -33,6 +34,7 @@ const CloudinaryUploader = () => {
         <input
           type="file"
           accept="image/png, image/jpeg"
+          value={selectedFile}
           onChange={(e) => setSelectedFile(e.target.files[0])}
         />
         {selectedFile && (

@@ -6,6 +6,7 @@ import { getImagesFromFolder } from "./lib/Claudinary";
 import BusinessInfo from "./components/BuisnessInfo";
 import CategoryManager from "./components/CategoryManager";
 import ItemManager from "./components/ItemManager";
+import AdminPanel from "./components/AdminPanel";
 
 async function Home() {
   const images = await getImagesFromFolder("startup");
@@ -43,8 +44,9 @@ async function Home() {
           ))}
       </div>
       <BusinessInfo />
-      <CategoryManager />
-      <ItemManager />
+      <AdminPanel />
+      {/* <CategoryManager />
+      <ItemManager /> */}
     </div>
   );
 }

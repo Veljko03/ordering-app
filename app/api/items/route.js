@@ -38,8 +38,29 @@ export async function DELETE(req) {
 export async function PUT(req) {
   try {
     await mongoose.connect(process.env.NEXT_MONGO_URL);
-    const { _id, name } = await req.json();
-    await Item.updateOne({ _id }, { name });
+    const {
+      _id,
+      name,
+      description,
+      imageUrl,
+      categoryId,
+      sizes,
+      addons,
+      basePrice,
+    } = await req.json();
+
+    await Item.updateOne(
+      { _id },
+      {
+        name,
+        description,
+        imageUrl,
+        categoryId,
+        basePrice,
+        sizes,
+        addons,
+      }
+    );
     return Response.json(true);
   } catch (error) {
     return new Response(

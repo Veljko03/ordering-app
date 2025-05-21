@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export default function CategoryManager() {
+export default function CategoryManager({ onChange }) {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState(null);
@@ -29,6 +29,7 @@ export default function CategoryManager() {
     });
     setNewCategory("");
     fetchCategories();
+    onChange?.(); //javlja da se promenilo nesto admin panelu
   }
 
   async function deleteCategory(_id) {
@@ -36,6 +37,7 @@ export default function CategoryManager() {
       method: "DELETE",
     });
     fetchCategories();
+    onChange?.(); //javlja da se promenilo nesto admin panelu
   }
 
   async function updateCategory() {
@@ -47,6 +49,7 @@ export default function CategoryManager() {
     setEditingId(null);
     setEditingName("");
     fetchCategories();
+    onChange?.(); //javlja da se promenilo nesto admin panelu
   }
 
   async function toggleCategoryItems(categoryId) {

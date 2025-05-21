@@ -1,22 +1,24 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export default function ItemManager() {
+export default function ItemManager({ categories }) {
   const [items, setItems] = useState([]);
-  const [categories, setCategories] = useState([]);
+  //const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     imageUrl: "",
+    basePrice: "",
     categoryId: "",
     sizes: [],
     addons: [],
   });
   const [isEditing, setIsEditing] = useState(null);
+  console.log(categories, " this is cateogory in item");
 
   useEffect(() => {
     fetchItems();
-    fetchCategories();
+    //fetchCategories();
   }, []);
 
   async function fetchItems() {
@@ -25,11 +27,11 @@ export default function ItemManager() {
     setItems(data);
   }
 
-  async function fetchCategories() {
-    const res = await fetch("/api/categories");
-    const data = await res.json();
-    setCategories(data);
-  }
+  // async function fetchCategories() {
+  //   const res = await fetch("/api/categories");
+  //   const data = await res.json();
+  //   setCategories(data);
+  // }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -79,6 +81,7 @@ export default function ItemManager() {
       setFormData({
         name: "",
         description: "",
+        basePrice: "",
         imageUrl: "",
         categoryId: "",
         sizes: [],
@@ -122,6 +125,13 @@ export default function ItemManager() {
           onChange={handleChange}
           placeholder="Image URL"
         />
+        <input
+          name="basePrice"
+          type="number"
+          value={formData.basePrice}
+          onChange={handleChange}
+          placeholder="Price"
+        />
 
         <select
           name="categoryId"
@@ -129,7 +139,7 @@ export default function ItemManager() {
           onChange={handleChange}
         >
           <option value="">Select Category</option>
-          {categories.map((cat) => (
+          {categories?.map((cat) => (
             <option className="text-black" key={cat._id} value={cat._id}>
               {cat.name}
             </option>

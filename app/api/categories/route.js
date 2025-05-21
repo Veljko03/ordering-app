@@ -1,4 +1,5 @@
 import Category from "@/app/models/Category";
+import Item from "@/app/models/Item";
 import mongoose from "mongoose";
 
 export async function POST(req) {
@@ -24,8 +25,19 @@ export async function DELETE(req) {
     console.log("oov je url ", url);
 
     const _id = url.searchParams.get("_id");
+    const itemCount = await Item.countDocuments({ categoryId: _id });
+
+    if (itemCount > 0) {
+      return new Response(
+        JSON.stringify({
+          error: `Ne možeš obrisati kategoriju jer je povezana sa ${itemCount} item(a).`,
+        }),
+        { status: 400 }
+      );
+    }
     console.log("oov je id ", _id);
     await Category.deleteOne({ _id });
+    await Item.updateMany({ categoryId: _id }, { $unset: { categoryId: "" } });
     return Response.json(true);
   } catch (error) {
     return new Response(
