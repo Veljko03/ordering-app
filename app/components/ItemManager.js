@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
+//za cene dodati sa klijentske strane sa admin strane nije potrebno jer admin ne dodaje u korpu i ne obracunava
 export default function ItemManager({ categories }) {
   const [items, setItems] = useState([]);
   //const [categories, setCategories] = useState([]);
@@ -14,7 +15,6 @@ export default function ItemManager({ categories }) {
     addons: [],
   });
   const [isEditing, setIsEditing] = useState(null);
-  console.log(categories, " this is cateogory in item");
 
   useEffect(() => {
     fetchItems();
@@ -184,6 +184,7 @@ export default function ItemManager({ categories }) {
                 onChange={(e) => handleAddonChange(i, "price", e.target.value)}
               />
               <select
+                className="text-white bg-gray-700"
                 value={a.active.toString()}
                 onChange={(e) => handleAddonChange(i, "active", e.target.value)}
               >
@@ -209,6 +210,7 @@ export default function ItemManager({ categories }) {
               className="border p-2 flex justify-between items-center"
             >
               <span>{item.name}</span>
+              <span>Base price is {item.basePrice}</span>
               <div className="space-x-2">
                 <button onClick={() => handleEdit(item)}>Edit</button>
                 <button onClick={() => handleDelete(item._id)}>Delete</button>

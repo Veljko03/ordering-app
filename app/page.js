@@ -45,8 +45,6 @@ async function Home() {
       </div>
       <BusinessInfo />
       <AdminPanel />
-      {/* <CategoryManager />
-      <ItemManager /> */}
     </div>
   );
 }
