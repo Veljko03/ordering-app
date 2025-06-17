@@ -200,10 +200,11 @@ export default function BusinessInfo() {
             </label>
             <input
               type="text"
-              value={formData?.name || ""}
+              name="name"
+              value={formData.name || ""}
               onChange={handleChange}
               disabled={!isEditing}
-              className="w-full mt-1 p-2 bg-gray-100 rounded"
+              className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
             />
           </div>
 
@@ -213,10 +214,11 @@ export default function BusinessInfo() {
             </label>
             <input
               type="text"
-              value={formData?.contactPhone || ""}
+              name="contactPhone"
+              value={formData.contactPhone || ""}
               onChange={handleChange}
               disabled={!isEditing}
-              className="w-full mt-1 p-2 bg-gray-100 rounded "
+              className="w-full mt-1 p-2 bg-gray-100  text-black rounded "
             />
           </div>
 
@@ -226,10 +228,11 @@ export default function BusinessInfo() {
             </label>
             <input
               type="text"
-              value={formData?.adress || ""}
+              name="adress"
+              value={formData.adress || ""}
               onChange={handleChange}
               disabled={!isEditing}
-              className="w-full mt-1 p-2 bg-gray-100 rounded font-black"
+              className="w-full mt-1 p-2 bg-gray-100 rounded  text-black"
             />
           </div>
 
@@ -242,10 +245,11 @@ export default function BusinessInfo() {
             </label>
             <input
               type="text"
+              name="social.facebook"
               value={formData.social?.facebook || ""}
               onChange={handleChange}
               disabled={!isEditing}
-              className="w-full mt-1 p-2 bg-gray-100 rounded"
+              className="w-full mt-1 p-2 bg-gray-100 text-black rounded"
             />
           </div>
 
@@ -255,7 +259,9 @@ export default function BusinessInfo() {
             </label>
             <input
               type="text"
-              className="w-full mt-1 p-2 bg-gray-100 rounded"
+              name="social.instagram"
+              className="w-full mt-1 p-2 bg-gray-100  text-black
+               rounded"
               value={formData.social?.instagram || ""}
               onChange={handleChange}
               disabled={!isEditing}
@@ -268,10 +274,11 @@ export default function BusinessInfo() {
             </label>
             <input
               type="text"
+              name="social.tiktok"
               value={formData.social?.tiktok || ""}
               onChange={handleChange}
               disabled={!isEditing}
-              className="w-full mt-1 p-2 bg-gray-100 rounded"
+              className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
             />
           </div>
         </div>
@@ -300,7 +307,7 @@ export default function BusinessInfo() {
                   <input
                     type="text"
                     value={color}
-                    className="w-full p-2 bg-gray-100 rounded"
+                    className="w-full p-2 bg-gray-100 rounded  text-black"
                     disabled
                   />
                   <div
