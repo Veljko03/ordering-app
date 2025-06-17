@@ -57,6 +57,8 @@ export default function BusinessInfo() {
     }
   };
 
+  console.log(formData, " DATAAAAAAAA");
+
   const handleSave = async () => {
     await fetch("/api/buisnessInfo", {
       method: "POST",
@@ -69,102 +71,274 @@ export default function BusinessInfo() {
     setIsEditing(false);
   };
 
-  if (!info) return <div>Loading...</div>;
+  if (!info || !formData) return <div>Loading...</div>;
 
   return (
-    <div className="p-6  rounded shadow max-w-xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">Business Info</h2>
+    //     <div className="p-6  rounded shadow max-w-xl mx-auto">
+    //       <h2 className="text-2xl font-semibold mb-4">Business Info</h2>
 
-      <div className="space-y-4">
-        {["name", "description", "logoUrl", "contactPhone", "adress"].map(
-          (field) => (
-            <div key={field}>
-              <label className="block font-medium capitalize">{field}</label>
-              <input
-                className="border p-2 rounded w-full"
-                type="text"
-                name={field}
-                value={formData[field]}
-                onChange={handleChange}
-                disabled={!isEditing}
+    //       <div className="space-y-4">
+    //         {["name", "description", "logoUrl", "contactPhone", "adress"].map(
+    //           (field) => (
+    //             <div key={field}>
+    //               <label className="block font-medium capitalize">{field}</label>
+    //               <input
+    //                 className="border p-2 rounded w-full"
+    //                 type="text"
+    //                 name={field}
+    //                 value={formData[field]}
+    //                 onChange={handleChange}
+    //                 disabled={!isEditing}
+    //               />
+    //             </div>
+    //           )
+    //         )}
+
+    //         <div>
+    //           <label className="block font-medium">Instagram</label>
+    //           <input
+    //             className="border p-2 rounded w-full"
+    //             type="text"
+    //             name="social.instagram"
+    //             value={formData.social?.instagram || ""}
+    //             onChange={handleChange}
+    //             disabled={!isEditing}
+    //           />
+    //         </div>
+    //         <div>
+    //           <label className="block font-medium">Facebook</label>
+    //           <input
+    //             className="border p-2 rounded w-full"
+    //             type="text"
+    //             name="social.facebook"
+    //             value={formData.social?.facebook || ""}
+    //             onChange={handleChange}
+    //             disabled={!isEditing}
+    //           />
+    //         </div>
+    //         <div>
+    //           <label className="block font-medium">TikTok</label>
+    //           <input
+    //             className="border p-2 rounded w-full"
+    //             type="text"
+    //             name="social.tiktok"
+    //             value={formData.social?.tiktok || ""}
+    //             onChange={handleChange}
+    //             disabled={!isEditing}
+    //           />
+    //         </div>
+
+    //         <div>
+    //           <label className="block font-medium">Navbar Color</label>
+    //           <input
+    //             className="border p-2 rounded w-full"
+    //             type="text"
+    //             name="theme.navbarColor"
+    //             value={formData.theme?.navbarColor || ""}
+    //             onChange={handleChange}
+    //             disabled={!isEditing}
+    //           />
+    //         </div>
+
+    //         <div className="flex justify-end gap-2 mt-6">
+    //           {!isEditing ? (
+    //             <button
+    //               onClick={() => setIsEditing(true)}
+    //               className="bg-blue-500 text-white px-4 py-2 rounded"
+    //             >
+    //               Edit
+    //             </button>
+    //           ) : (
+    //             <>
+    //               <button
+    //                 onClick={handleSave}
+    //                 className="bg-green-500 text-white px-4 py-2 rounded"
+    //               >
+    //                 Save
+    //               </button>
+    //               <button
+    //                 onClick={() => {
+    //                   setIsEditing(false);
+    //                   setFormData(info);
+    //                 }}
+    //                 className="bg-gray-300 px-4 py-2 rounded"
+    //               >
+    //                 Cancel
+    //               </button>
+    //             </>
+    //           )}
+    //         </div>
+    //       </div>
+    //     </div>
+    //   );
+    // }
+
+    <div className="bg-gray-100 p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Left Side: Settings */}
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h2 className="text-2xl font-bold mb-4">Personal Info</h2>
+          <div className="flex items-start gap-4 mb-6">
+            <div className="relative">
+              <img
+                src="https://randomuser.me/api/portraits/men/1.jpg"
+                alt="Restaurant Owner"
+                className="w-20 h-20 rounded-md object-cover"
               />
+              <button className="absolute top-0 right-0 bg-white p-1 rounded-full shadow">
+                ✎
+              </button>
             </div>
-          )
-        )}
+            <p className="text-xs text-gray-500">
+              Logo should have in 1:1 ratio for better viewing experience.
+            </p>
+          </div>
 
-        <div>
-          <label className="block font-medium">Instagram</label>
-          <input
-            className="border p-2 rounded w-full"
-            type="text"
-            name="social.instagram"
-            value={formData.social?.instagram || ""}
-            onChange={handleChange}
-            disabled={!isEditing}
-          />
-        </div>
-        <div>
-          <label className="block font-medium">Facebook</label>
-          <input
-            className="border p-2 rounded w-full"
-            type="text"
-            name="social.facebook"
-            value={formData.social?.facebook || ""}
-            onChange={handleChange}
-            disabled={!isEditing}
-          />
-        </div>
-        <div>
-          <label className="block font-medium">TikTok</label>
-          <input
-            className="border p-2 rounded w-full"
-            type="text"
-            name="social.tiktok"
-            value={formData.social?.tiktok || ""}
-            onChange={handleChange}
-            disabled={!isEditing}
-          />
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Restaurant Name
+            </label>
+            <input
+              type="text"
+              value={formData?.name || ""}
+              onChange={handleChange}
+              disabled={!isEditing}
+              className="w-full mt-1 p-2 bg-gray-100 rounded"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Restaurant Phone Number
+            </label>
+            <input
+              type="text"
+              value={formData?.contactPhone || ""}
+              onChange={handleChange}
+              disabled={!isEditing}
+              className="w-full mt-1 p-2 bg-gray-100 rounded "
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Restaurant Email Address
+            </label>
+            <input
+              type="text"
+              value={formData?.adress || ""}
+              onChange={handleChange}
+              disabled={!isEditing}
+              className="w-full mt-1 p-2 bg-gray-100 rounded font-black"
+            />
+          </div>
+
+          <hr className="my-4" />
+          <h3 className="text-xl font-semibold mb-4">Social Networks</h3>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Facebook
+            </label>
+            <input
+              type="text"
+              value={formData.social?.facebook || ""}
+              onChange={handleChange}
+              disabled={!isEditing}
+              className="w-full mt-1 p-2 bg-gray-100 rounded"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Instagram
+            </label>
+            <input
+              type="text"
+              className="w-full mt-1 p-2 bg-gray-100 rounded"
+              value={formData.social?.instagram || ""}
+              onChange={handleChange}
+              disabled={!isEditing}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Tik-Tok
+            </label>
+            <input
+              type="text"
+              value={formData.social?.tiktok || ""}
+              onChange={handleChange}
+              disabled={!isEditing}
+              className="w-full mt-1 p-2 bg-gray-100 rounded"
+            />
+          </div>
         </div>
 
-        <div>
-          <label className="block font-medium">Navbar Color</label>
-          <input
-            className="border p-2 rounded w-full"
-            type="text"
-            name="theme.navbarColor"
-            value={formData.theme?.navbarColor || ""}
-            onChange={handleChange}
-            disabled={!isEditing}
-          />
-        </div>
+        {/* Right Side */}
+        <div className="flex flex-col gap-6">
+          {/* Location */}
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">Restaurant Location</h2>
+            <div className="h-64 w-full">
+              <iframe
+                src="https://maps.google.com/maps?q=delhi&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                className="w-full h-full rounded"
+                allowFullScreen
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
 
-        <div className="flex justify-end gap-2 mt-6">
-          {!isEditing ? (
-            <button
-              onClick={() => setIsEditing(true)}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-            >
-              Edit
-            </button>
-          ) : (
-            <>
+          {/* Colors */}
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">Order Color Setting</h2>
+            <div className="space-y-4">
+              {["#2146cd", "#ff6d4d", "#f72b50"].map((color) => (
+                <div key={color} className="flex items-center gap-4">
+                  <input
+                    type="text"
+                    value={color}
+                    className="w-full p-2 bg-gray-100 rounded"
+                    disabled
+                  />
+                  <div
+                    className="w-8 h-8 rounded"
+                    style={{ backgroundColor: color }}
+                  ></div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex justify-end gap-2 mt-6">
+            {!isEditing ? (
               <button
-                onClick={handleSave}
-                className="bg-green-500 text-white px-4 py-2 rounded"
+                onClick={() => setIsEditing(true)}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
               >
-                Save
+                Edit
               </button>
-              <button
-                onClick={() => {
-                  setIsEditing(false);
-                  setFormData(info);
-                }}
-                className="bg-gray-300 px-4 py-2 rounded"
-              >
-                Cancel
-              </button>
-            </>
-          )}
+            ) : (
+              <>
+                <button
+                  onClick={handleSave}
+                  className="bg-green-500 text-white px-4 py-2 rounded"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => {
+                    setIsEditing(false);
+                    setFormData(info);
+                  }}
+                  className="bg-red-600 px-4 py-2 rounded"
+                >
+                  Cancel
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
