@@ -6,6 +6,7 @@ const GeneralInfoSchema = new Schema({
   logoUrl: String,
   contactPhone: String,
   adress: String,
+  email: String,
   social: {
     instagram: String,
     facebook: String,

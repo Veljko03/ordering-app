@@ -11,6 +11,7 @@ export default function BusinessInfo() {
     logoUrl: "",
     contactPhone: "",
     adress: "",
+    email: "",
     social: {
       instagram: "",
       facebook: "",
@@ -228,8 +229,8 @@ export default function BusinessInfo() {
             </label>
             <input
               type="text"
-              name="adress"
-              value={formData.adress || ""}
+              name="email"
+              value={formData.email || ""}
               onChange={handleChange}
               disabled={!isEditing}
               className="w-full mt-1 p-2 bg-gray-100 rounded  text-black"
@@ -283,10 +284,8 @@ export default function BusinessInfo() {
           </div>
         </div>
 
-        {/* Right Side */}
         <div className="flex flex-col gap-6">
-          {/* Location */}
-          <div className="bg-white p-6 rounded-lg shadow">
+          {/* <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4">Restaurant Location</h2>
             <div className="h-64 w-full">
               <iframe
@@ -296,26 +295,78 @@ export default function BusinessInfo() {
                 loading="lazy"
               ></iframe>
             </div>
-          </div>
+          </div> */}
 
           {/* Colors */}
           <div className="bg-white p-6 rounded-lg shadow">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Restaurant Adress
+              </label>
+              <input
+                type="text"
+                name="adress"
+                value={formData.adress || ""}
+                onChange={handleChange}
+                disabled={!isEditing}
+                className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
+              />
+            </div>
             <h2 className="text-xl font-semibold mb-4">Order Color Setting</h2>
             <div className="space-y-4">
-              {["#2146cd", "#ff6d4d", "#f72b50"].map((color) => (
-                <div key={color} className="flex items-center gap-4">
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Navbar Color
+                </label>
+                <div className="flex items-center gap-4">
                   <input
                     type="text"
-                    value={color}
-                    className="w-full p-2 bg-gray-100 rounded  text-black"
-                    disabled
+                    name="theme.navbarColor"
+                    value={formData.theme?.navbarColor || ""}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                    className="w-full p-2 bg-gray-100 text-black rounded"
                   />
                   <div
                     className="w-8 h-8 rounded"
-                    style={{ backgroundColor: color }}
+                    style={{ backgroundColor: formData.theme?.navbarColor }}
                   ></div>
                 </div>
-              ))}
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Text Color
+                </label>
+                <div className="flex items-center gap-4">
+                  <input
+                    type="text"
+                    name="theme.textColor"
+                    value={formData.theme?.textColor || ""}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                    className="w-full p-2 bg-gray-100 text-black rounded"
+                  />
+                  <div
+                    className="w-8 h-8 rounded"
+                    style={{ backgroundColor: formData.theme?.textColor }}
+                  ></div>
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  Font
+                </label>
+                <input
+                  type="text"
+                  name="theme.font"
+                  value={formData.theme?.font || ""}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                  className="w-full p-2 bg-gray-100 text-black rounded"
+                />
+              </div>
             </div>
           </div>
           <div className="flex justify-end gap-2 mt-6">
