@@ -1,24 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+//mora da se sredi jer se koristi samo brojevi do 12 a moramo do 24
 const WeekSchedule = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [timesForEachDay, setTimesForEachDay] = useState({
     monStart: "",
     monEnd: "",
+    monClosed: false,
     tueStart: "",
     tueEnd: "",
+    tueClosed: false,
     wenStart: "",
     wenEnd: "",
+    wenClosed: false,
     thuStart: "",
     thuEnd: "",
+    thuClosed: false,
     friStart: "",
     friEnd: "",
+    friClosed: false,
     satStart: "",
     satEnd: "",
+    satClosed: false,
     sunStart: "",
     sunEnd: "",
+    sunClosed: false,
   });
   const [backendData, setBackendData] = useState(null);
   const [restaurantWorks, setRestaurantWorks] = useState(null);
@@ -40,18 +47,30 @@ const WeekSchedule = () => {
         const transformedData = {
           monStart: data.find((day) => day.day === "mon")?.startTime || "",
           monEnd: data.find((day) => day.day === "mon")?.endTime || "",
+          monClosed: data.find((day) => day.day === "mon")?.isClosed || false,
           tueStart: data.find((day) => day.day === "tue")?.startTime || "",
           tueEnd: data.find((day) => day.day === "tue")?.endTime || "",
+          tueClosed: data.find((day) => day.day === "tue")?.isClosed || false,
+
           wenStart: data.find((day) => day.day === "wen")?.startTime || "",
           wenEnd: data.find((day) => day.day === "wen")?.endTime || "",
+          wenClosed: data.find((day) => day.day === "wen")?.isClosed || false,
+
           thuStart: data.find((day) => day.day === "thu")?.startTime || "",
           thuEnd: data.find((day) => day.day === "thu")?.endTime || "",
+          thuClosed: data.find((day) => day.day === "thu")?.isClosed || false,
+
           friStart: data.find((day) => day.day === "fri")?.startTime || "",
           friEnd: data.find((day) => day.day === "fri")?.endTime || "",
+          friClosed: data.find((day) => day.day === "fri")?.isClosed || false,
+
           satStart: data.find((day) => day.day === "sat")?.startTime || "",
+          satClosed: data.find((day) => day.day === "sat")?.isClosed || false,
+
           satEnd: data.find((day) => day.day === "sat")?.endTime || "",
           sunStart: data.find((day) => day.day === "sun")?.startTime || "",
           sunEnd: data.find((day) => day.day === "sun")?.endTime || "",
+          sunClosed: data.find((day) => day.day === "sun")?.isClosed || false,
         };
 
         setTimesForEachDay(transformedData);
@@ -100,14 +119,18 @@ const WeekSchedule = () => {
     const currentDaySchedule = backendData[0].schedule.find(
       (schedule) => schedule.day === dayInWeek
     );
+
     console.log("curr day ", currentDaySchedule);
 
     if (currentDaySchedule?.isClosed) {
       console.log("Restoran je zatvoren danas.");
+      setRestaurantWorks("Restoran trenutno ne radi.");
+      return;
     } else {
       console.log("currDateschedule ", currentDaySchedule);
 
       const { startTime, endTime } = currentDaySchedule;
+      console.log(currTime);
 
       if (
         startTime &&
@@ -125,11 +148,11 @@ const WeekSchedule = () => {
   }
 
   const handleTimeChange = (e) => {
-    const { name, value } = e.target;
-
-    setTimesForEachDay((prev) => {
-      return { ...prev, [name]: value };
-    });
+    const { name, value, type, checked } = e.target;
+    setTimesForEachDay((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleTimeFormSubmit = (e) => {
@@ -153,223 +176,152 @@ const WeekSchedule = () => {
       day,
       startTime: currSchedule[`${day}Start`] || null,
       endTime: currSchedule[`${day}End`] || null,
-      isClosed: !currSchedule[`${day}Start`] && !currSchedule[`${day}End`],
+      isClosed: currSchedule[`${day}Closed`] || false,
     }));
   };
   return (
-    <div>
-      {restaurantWorks && <h1 className="mt-5 text-2xl ">{restaurantWorks}</h1>}
-      <button
-        onClick={() => setShowPopup(true)}
-        className="mt-10 text-2xl bg-amber-50 text-red-700  w-100 rounded-2xl"
-      >
-        Set your restaurant scedule
-      </button>
-      {showPopup && (
-        <div
-          className="fixed inset-0 bg-black/55 flex  items-center justify-center"
-          onClick={() => setShowPopup(false)}
-        >
-          <div
-            className="bg-white text-black w-200 h-150 flex flex-col gap-2 p-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="bg-red-600 cursor-pointer rounded  w-20 ml-auto"
-              onClick={() => {
-                setShowPopup(false);
-              }}
-            >
-              Close
-            </button>
-            <form
-              className="flex flex-col mt-5 bg-gray-300 p-5 gap-2 "
-              onSubmit={handleTimeFormSubmit}
-            >
-              <div className="flex items-center">
-                <h1>Ponedeljak</h1>{" "}
-                <div className="ml-auto">
-                  <h1>Pocetak</h1>
-                  <input
-                    name="monStart"
-                    className="ml-auto"
-                    onChange={handleTimeChange}
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.monStart}
-                  />
-                </div>
-                <div className="ml-15">
-                  <h1>Kraj</h1>
-                  <input
-                    name="monEnd"
-                    onChange={handleTimeChange}
-                    className="ml-auto"
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.monEnd}
-                  />
-                </div>
-              </div>
-              <div className="flex items-center">
-                <h1>Utorak</h1>{" "}
-                <div className="ml-auto">
-                  <h1>Pocetak</h1>
-                  <input
-                    name="tueStart"
-                    className="ml-auto"
-                    onChange={handleTimeChange}
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.thuStart}
-                  />
-                </div>
-                <div className="ml-15">
-                  <h1>Kraj</h1>
-                  <input
-                    name="tueEnd"
-                    onChange={handleTimeChange}
-                    className="ml-auto"
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.thuEnd}
-                  />
-                </div>
-              </div>
-              <div className="flex items-center">
-                <h1>Sreda</h1>{" "}
-                <div className="ml-auto">
-                  <h1>Pocetak</h1>
-                  <input
-                    name="wenStart"
-                    className="ml-auto"
-                    onChange={handleTimeChange}
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.wenStart}
-                  />
-                </div>
-                <div className="ml-15">
-                  <h1>Kraj</h1>
-                  <input
-                    name="wenEnd"
-                    onChange={handleTimeChange}
-                    className="ml-auto"
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.wenEnd}
-                  />
-                </div>
-              </div>
-              <div className="flex items-center">
-                <h1>Cetvrtak</h1>{" "}
-                <div className="ml-auto">
-                  <h1>Pocetak</h1>
-                  <input
-                    name="thuStart"
-                    className="ml-auto"
-                    onChange={handleTimeChange}
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.thuStart}
-                  />
-                </div>
-                <div className="ml-15">
-                  <h1>Kraj</h1>
-                  <input
-                    name="thuEnd"
-                    onChange={handleTimeChange}
-                    className="ml-auto"
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.thuEnd}
-                  />
-                </div>
-              </div>
-              <div className="flex items-center">
-                <h1>Petak</h1>{" "}
-                <div className="ml-auto">
-                  <h1>Pocetak</h1>
-                  <input
-                    name="friStart"
-                    className="ml-auto"
-                    onChange={handleTimeChange}
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.friStart}
-                  />
-                </div>
-                <div className="ml-15">
-                  <h1>Kraj</h1>
-                  <input
-                    name="friEnd"
-                    onChange={handleTimeChange}
-                    className="ml-auto"
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.friEnd}
-                  />
-                </div>
-              </div>
-              <div className="flex items-center">
-                <h1>Subota</h1>{" "}
-                <div className="ml-auto">
-                  <h1>Pocetak</h1>
-                  <input
-                    name="satStart"
-                    className="ml-auto"
-                    onChange={handleTimeChange}
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.satStart}
-                  />
-                </div>
-                <div className="ml-15">
-                  <h1>Kraj</h1>
-                  <input
-                    name="satEnd"
-                    onChange={handleTimeChange}
-                    className="ml-auto"
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.satEnd}
-                  />
-                </div>
-              </div>
-              <div className="flex items-center">
-                <h1>Nedelja</h1>{" "}
-                <div className="ml-auto">
-                  <h1>Pocetak</h1>
-                  <input
-                    name="sunStart"
-                    className="ml-auto"
-                    onChange={handleTimeChange}
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.sunStart}
-                  />
-                </div>
-                <div className="ml-15">
-                  <h1>Kraj</h1>
-                  <input
-                    name="sunEnd"
-                    onChange={handleTimeChange}
-                    className="ml-auto"
-                    aria-label="Time"
-                    type="time"
-                    value={timesForEachDay.sunEnd}
-                  />
-                </div>
-              </div>
-              <button type="submit">Sacuvaj</button>
+    <div className="bg-gray-100 p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="flex flex-col gap-6">
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">Restaurant Timings</h2>
+            <form onSubmit={handleTimeFormSubmit} className="space-y-4">
+              {[
+                "Monday",
+                "Tuesday",
+                "Wenesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ].map((day, idx) => {
+                const key = day.toLowerCase().slice(0, 3);
+                return (
+                  <div key={day} className="flex items-center gap-4">
+                    <span className="w-20 font-medium text-black">{day}</span>
+                    <input
+                      type="time"
+                      name={`${key}Start`}
+                      value={timesForEachDay[`${key}Start`] || ""}
+                      onChange={handleTimeChange}
+                      className="p-2 border rounded text-black"
+                      disabled={timesForEachDay[`${key}Closed`]}
+                    />
+                    <span className="text-black">to</span>
+                    <input
+                      type="time"
+                      name={`${key}End`}
+                      value={timesForEachDay[`${key}End`] || ""}
+                      onChange={handleTimeChange}
+                      className="p-2 border rounded text-black"
+                      disabled={timesForEachDay[`${key}Closed`]}
+                    />
+                    <label className="flex items-center gap-2 pl-24">
+                      <input
+                        type="checkbox"
+                        name={`${key}Closed`}
+                        checked={timesForEachDay[`${key}Closed`] || false}
+                        onChange={handleTimeChange}
+                      />
+                      <span className="text-sm text-gray-700">Zatvoreno</span>
+                    </label>
+                  </div>
+                );
+              })}
+              <button
+                type="submit"
+                className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                Save Schedule
+              </button>
             </form>
+          </div>
 
-            <div className=" mt-5">
-              <h1>Izuzeci...</h1>
+          {/* <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">
+              Non-working Dates (e.g. Holidays)
+            </h2>
+            <div className="space-y-2">
+              {holidays.map((date, index) => (
+                <div key={index} className="flex items-center gap-4">
+                  <input
+                    type="date"
+                    value={date}
+                    onChange={(e) => handleTimeChange(e, index, "holiday")}
+                    className="p-2 border rounded"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveHoliday(index)}
+                    className="bg-red-100 text-red-600 px-3 py-1 rounded hover:bg-red-200"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={handleAddHoliday}
+                className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                + Add Date
+              </button>
+            </div>
+          </div> 
+
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">
+              Advanced Schedule (Override Regular)
+            </h2>
+            <div className="space-y-2">
+              {specialSchedules?.map((schedule, index) => (
+                <div key={index} className="flex items-center gap-4">
+                  <input
+                    type="date"
+                    value={schedule.date}
+                    onChange={(e) =>
+                      handleTimeChange(e, index, "special", "date")
+                    }
+                    className="p-2 border rounded"
+                  />
+                  <input
+                    type="time"
+                    value={schedule.start}
+                    onChange={(e) =>
+                      handleTimeChange(e, index, "special", "start")
+                    }
+                    className="p-2 border rounded"
+                  />
+                  <span>to</span>
+                  <input
+                    type="time"
+                    value={schedule.end}
+                    onChange={(e) =>
+                      handleTimeChange(e, index, "special", "end")
+                    }
+                    className="p-2 border rounded"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveSpecialSchedule(index)}
+                    className="bg-red-100 text-red-600 px-3 py-1 rounded hover:bg-red-200"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={handleAddSpecialSchedule}
+                className="mt-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              >
+                + Add Special Schedule
+              </button>
             </div>
           </div>
+          */}
         </div>
-      )}
+      </div>
     </div>
   );
 };
