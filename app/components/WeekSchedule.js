@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-//mora da se sredi jer se koristi samo brojevi do 12 a moramo do 24
+//proveriti poredjenje stringova i vremena zbog toga mozda ne radi
 const WeekSchedule = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [timesForEachDay, setTimesForEachDay] = useState({
@@ -106,6 +106,12 @@ const WeekSchedule = () => {
     const minutes = now.getMinutes(); // Dobijamo minute (0-59)
     return `${hours}:${minutes < 10 ? "0" + minutes : minutes}`; // Dodajemo nulu za minute ako su ispod 10
   };
+  // conerting string to minutes so i can compere them
+  const toMinutes = (timeStr) => {
+    if (!timeStr) return -1;
+    const [hours, minutes] = timeStr.split(":").map(Number);
+    return hours * 60 + minutes;
+  };
 
   //checking for current day values to see if restaurant works
   if (backendData && !restaurantWorks) {
@@ -132,11 +138,15 @@ const WeekSchedule = () => {
       const { startTime, endTime } = currentDaySchedule;
       console.log(currTime);
 
+      const startTimeToMinutes = toMinutes(startTime);
+      const endTimeToMinutes = toMinutes(endTime);
+      const currTimeToMinutes = toMinutes(currTime);
+
       if (
         startTime &&
         endTime &&
-        currTime >= startTime &&
-        currTime <= endTime
+        currTimeToMinutes >= startTimeToMinutes &&
+        currTimeToMinutes <= endTimeToMinutes
       ) {
         setRestaurantWorks("Restoran radi!");
         console.log("Restoran radi!");
