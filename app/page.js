@@ -1,12 +1,10 @@
 import Image from "next/image";
 import CloudinaryUploader from "../components/CloudinaryUploader";
 import Places from "../components/PlacePicker";
-import WeekSchedule from "../components/WeekSchedule";
 import { getImagesFromFolder } from "../lib/Claudinary";
 
 import BusinessInfo from "../components/BuisnessInfo";
-import CategoryManager from "../components/CategoryManager";
-import ItemManager from "../components/ItemManager";
+
 import AdminPanel from "../components/AdminPanel";
 import Link from "next/link";
 
@@ -19,7 +17,7 @@ async function Home() {
       <Link href={"/schedule"} className="bg-red">Week Schedule</Link>
       <Places />
 
-      <WeekSchedule />
+    
       <div className="mt-6">
         <h1>Here you can add some photo</h1>
         <CloudinaryUploader />

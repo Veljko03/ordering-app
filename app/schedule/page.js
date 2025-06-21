@@ -198,7 +198,7 @@ const WeekSchedule = () => {
           <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4 text-black ">Restaurant Timings</h2>
             <div>
-                
+
             </div>
             <form onSubmit={handleTimeFormSubmit} className="space-y-4">
                 
@@ -221,6 +221,7 @@ const WeekSchedule = () => {
                         name={`${key}Closed`}
                         checked={timesForEachDay[`${key}Closed`] || false}
                         onChange={handleTimeChange}
+                        
                       />
                     </label>
                     <input
