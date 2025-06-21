@@ -24,6 +24,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="p-4 gap-6">
+          <Link href={"/"} className="text-white p-6 text-2xl">Home</Link>
           <Link href={"/schedule"} className="text-white p-6 text-2xl">Week Schedule</Link>
           <Link href={"/buisnessInfo"} className="text-white p-6 text-2xl">Buisness Info</Link>
         </div>

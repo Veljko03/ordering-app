@@ -2,9 +2,11 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
-import { point, polygon, booleanPointInPolygon } from "@turf/turf";
 
 const lib = ["places"];
+
+//bice problem sa adresom jer kada se sacuva trebaju mi i podaci o toj adresi e sada onda mora da se menja i u bazi objekat
+// da se doda umesto stringa 
 
 export default function BusinessInfo() {
   const { isLoaded, loadError } = useLoadScript({

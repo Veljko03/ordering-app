@@ -192,7 +192,7 @@ const WeekSchedule = () => {
     }));
   };
   return (
-    <div className=" p-6">
+    <div className="">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="flex flex-col gap-6">
           <div className="bg-white p-6 rounded-lg shadow">
