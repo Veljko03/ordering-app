@@ -1,8 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
+import { point, polygon, booleanPointInPolygon } from "@turf/turf";
+
+const lib = ["places"];
 
 export default function BusinessInfo() {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY,
+    libraries: lib,
+    language: "sr",
+  });
+  const [selectedPlace, setSelectedPlace] = useState(null);
+
+  const inputRef = useRef(null);
   const [info, setInfo] = useState(null);
   const [sendingData, setSendingData] = useState(false);
   const [formData, setFormData] = useState({
@@ -23,6 +35,40 @@ export default function BusinessInfo() {
       font: "",
     },
   });
+
+  useEffect(() => {
+    if (isLoaded && inputRef.current) {
+      const autocomplete = new google.maps.places.Autocomplete(
+        inputRef.current,
+        {
+          componentRestrictions: { country: "RS" },
+          fields: [
+            "place_id",
+            "geometry",
+            "name",
+            "formatted_address",
+            "address_components",
+          ],
+          types: ["address"],
+        }
+      );
+      console.log(autocomplete);
+
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        console.log(place);
+        if (!place.geometry || !place.formatted_address) {
+          setSelectedPlace(null);
+          alert("bad address");
+          if (inputRef.current) {
+            inputRef.current.value = "";
+          }
+          return;
+        }
+        setSelectedPlace(place);
+      });
+    }
+  }, [isLoaded, inputRef]);
 
   useEffect(() => {
     // Fetchujemo podatke o biznisu
@@ -83,110 +129,11 @@ export default function BusinessInfo() {
   if (!info || !formData) return <div>Loading...</div>;
 
   return (
-    //     <div className="p-6  rounded shadow max-w-xl mx-auto">
-    //       <h2 className="text-2xl font-semibold mb-4">Business Info</h2>
-
-    //       <div className="space-y-4">
-    //         {["name", "description", "logoUrl", "contactPhone", "adress"].map(
-    //           (field) => (
-    //             <div key={field}>
-    //               <label className="block font-medium capitalize">{field}</label>
-    //               <input
-    //                 className="border p-2 rounded w-full"
-    //                 type="text"
-    //                 name={field}
-    //                 value={formData[field]}
-    //                 onChange={handleChange}
-    //                 disabled={!isEditing}
-    //               />
-    //             </div>
-    //           )
-    //         )}
-
-    //         <div>
-    //           <label className="block font-medium">Instagram</label>
-    //           <input
-    //             className="border p-2 rounded w-full"
-    //             type="text"
-    //             name="social.instagram"
-    //             value={formData.social?.instagram || ""}
-    //             onChange={handleChange}
-    //             disabled={!isEditing}
-    //           />
-    //         </div>
-    //         <div>
-    //           <label className="block font-medium">Facebook</label>
-    //           <input
-    //             className="border p-2 rounded w-full"
-    //             type="text"
-    //             name="social.facebook"
-    //             value={formData.social?.facebook || ""}
-    //             onChange={handleChange}
-    //             disabled={!isEditing}
-    //           />
-    //         </div>
-    //         <div>
-    //           <label className="block font-medium">TikTok</label>
-    //           <input
-    //             className="border p-2 rounded w-full"
-    //             type="text"
-    //             name="social.tiktok"
-    //             value={formData.social?.tiktok || ""}
-    //             onChange={handleChange}
-    //             disabled={!isEditing}
-    //           />
-    //         </div>
-
-    //         <div>
-    //           <label className="block font-medium">Navbar Color</label>
-    //           <input
-    //             className="border p-2 rounded w-full"
-    //             type="text"
-    //             name="theme.navbarColor"
-    //             value={formData.theme?.navbarColor || ""}
-    //             onChange={handleChange}
-    //             disabled={!isEditing}
-    //           />
-    //         </div>
-
-    //         <div className="flex justify-end gap-2 mt-6">
-    //           {!isEditing ? (
-    //             <button
-    //               onClick={() => setIsEditing(true)}
-    //               className="bg-blue-500 text-white px-4 py-2 rounded"
-    //             >
-    //               Edit
-    //             </button>
-    //           ) : (
-    //             <>
-    //               <button
-    //                 onClick={handleSave}
-    //                 className="bg-green-500 text-white px-4 py-2 rounded"
-    //               >
-    //                 Save
-    //               </button>
-    //               <button
-    //                 onClick={() => {
-    //                   setIsEditing(false);
-    //                   setFormData(info);
-    //                 }}
-    //                 className="bg-gray-300 px-4 py-2 rounded"
-    //               >
-    //                 Cancel
-    //               </button>
-    //             </>
-    //           )}
-    //         </div>
-    //       </div>
-    //     </div>
-    //   );
-    // }
-
     <div className="bg-gray-100 p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Side: Settings */}
         <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-bold mb-4">Personal Info</h2>
+          <h2 className="text-2xl font-bold mb-4 text-black">Personal Info</h2>
           <div className="flex items-start gap-4 mb-6">
             <div className="relative">
               <img
@@ -242,8 +189,10 @@ export default function BusinessInfo() {
             />
           </div>
 
-          <hr className="my-4" />
-          <h3 className="text-xl font-semibold mb-4">Social Networks</h3>
+          <hr className="my-4 bg-black" />
+          <h3 className="text-xl text-black font-semibold mb-4">
+            Social Networks
+          </h3>
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
@@ -287,7 +236,36 @@ export default function BusinessInfo() {
         </div>
 
         <div className="flex flex-col gap-6">
-          <div className="bg-white p-6 rounded-lg shadow">
+          <input
+            type="text"
+            placeholder="Search for a place"
+            ref={inputRef}
+            className="bg-red-400"
+          />
+          <div className="h-300 w-full">
+            {selectedPlace && (
+              <GoogleMap
+                mapContainerStyle={{ width: "100%", height: "20%" }}
+                center={
+                  selectedPlace.geometry?.location
+                    ? {
+                        lat: selectedPlace.geometry.location.lat(),
+                        lng: selectedPlace.geometry.location.lng(),
+                      }
+                    : { lat: 44.8176, lng: 20.4569 }
+                }
+                zoom={19}
+              >
+                <Marker
+                  position={{
+                    lat: selectedPlace.geometry?.location.lat(),
+                    lng: selectedPlace.geometry?.location.lng(),
+                  }}
+                />
+              </GoogleMap>
+            )}
+          </div>
+          {/* <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4">Restaurant Location</h2>
             <div className="h-64 w-full">
               <iframe
@@ -309,11 +287,13 @@ export default function BusinessInfo() {
                 className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
               />
             </div>
-          </div>
+          </div> */}
 
           {/* Colors */}
           <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4">Order Color Setting</h2>
+            <h2 className="text-xl font-semibold mb-4 text-black">
+              Order Color Setting
+            </h2>
             <div className="space-y-4">
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">
