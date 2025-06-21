@@ -1,5 +1,5 @@
-import Category from "@/app/models/Category";
-import Item from "@/app/models/Item";
+import Category from "@/models/Category";
+import Item from "@/models/Item";
 import mongoose from "mongoose";
 
 export async function POST(req) {

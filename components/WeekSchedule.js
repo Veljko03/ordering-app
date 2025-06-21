@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-//proveriti poredjenje stringova i vremena zbog toga mozda ne radi
+// namestiti kada restoran radi do posle ponoci jer imam gresku ako stavim recimo da radi od 10 do 1 u ponoc
+// on ce obracunati 1  u ponoc kao 60 min i porediti to sa vremenom ovim
+//tako da mora nekako 
 const WeekSchedule = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [timesForEachDay, setTimesForEachDay] = useState({

@@ -1,4 +1,4 @@
-import GeneralInfo from "@/app/models/GeneralInfo";
+import GeneralInfo from "@/models/GeneralInfo";
 import mongoose from "mongoose";
 
 export async function POST(req) {

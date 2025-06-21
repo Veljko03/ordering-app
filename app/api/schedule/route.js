@@ -1,4 +1,4 @@
-import { Schedule } from "@/app/models/WeeklySchedule";
+import { Schedule } from "@/models/WeeklySchedule";
 import mongoose from "mongoose";
 
 export async function POST(req) {

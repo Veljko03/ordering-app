@@ -2,7 +2,7 @@
 import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
 import { point, polygon, booleanPointInPolygon } from "@turf/turf";
-import { deliveryPrices } from "../placesData/deliveryPrices";
+import { deliveryPrices } from "../app/placesData/deliveryPrices";
 
 const lib = ["places"];
 

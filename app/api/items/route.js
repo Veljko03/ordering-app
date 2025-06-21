@@ -1,4 +1,4 @@
-import Item from "@/app/models/Item";
+import Item from "@/models/Item";
 import mongoose from "mongoose";
 
 export async function POST(req) {

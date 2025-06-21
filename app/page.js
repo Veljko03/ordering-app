@@ -1,12 +1,14 @@
 import Image from "next/image";
-import CloudinaryUploader from "./components/CloudinaryUploader";
-import Places from "./components/PlacePicker";
-import WeekSchedule from "./components/WeekSchedule";
-import { getImagesFromFolder } from "./lib/Claudinary";
-import BusinessInfo from "./components/BuisnessInfo";
-import CategoryManager from "./components/CategoryManager";
-import ItemManager from "./components/ItemManager";
-import AdminPanel from "./components/AdminPanel";
+import CloudinaryUploader from "../components/CloudinaryUploader";
+import Places from "../components/PlacePicker";
+import WeekSchedule from "../components/WeekSchedule";
+import { getImagesFromFolder } from "../lib/Claudinary";
+
+import BusinessInfo from "../components/BuisnessInfo";
+import CategoryManager from "../components/CategoryManager";
+import ItemManager from "../components/ItemManager";
+import AdminPanel from "../components/AdminPanel";
+import Link from "next/link";
 
 async function Home() {
   const images = await getImagesFromFolder("startup");
@@ -14,7 +16,7 @@ async function Home() {
 
   return (
     <div style={{ padding: "50px" }}>
-      <h1 className="underline"> Hello world</h1>
+      <Link href={"/schedule"} className="bg-red">Week Schedule</Link>
       <Places />
 
       <WeekSchedule />
