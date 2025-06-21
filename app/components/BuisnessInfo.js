@@ -36,8 +36,11 @@ export default function BusinessInfo() {
     },
   });
 
-  useEffect(() => {
-    if (isLoaded && inputRef.current) {
+  // useEffect(() => {
+   
+  // }, [isLoaded, inputRef]);
+
+   if (isLoaded && inputRef.current) {
       const autocomplete = new google.maps.places.Autocomplete(
         inputRef.current,
         {
@@ -68,7 +71,6 @@ export default function BusinessInfo() {
         setSelectedPlace(place);
       });
     }
-  }, [isLoaded, inputRef]);
 
   useEffect(() => {
     // Fetchujemo podatke o biznisu
@@ -103,7 +105,7 @@ export default function BusinessInfo() {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
-
+  
   console.log(formData, " DATAAAAAAAA");
 
   const handleSave = async () => {
@@ -189,7 +191,7 @@ export default function BusinessInfo() {
             />
           </div>
 
-          <hr className="my-4 bg-black" />
+          <hr className="my-4 border-black" />
           <h3 className="text-xl text-black font-semibold mb-4">
             Social Networks
           </h3>
@@ -243,11 +245,11 @@ export default function BusinessInfo() {
             className="bg-red-400"
           />
           <div className="h-300 w-full">
-            {selectedPlace && (
+            
               <GoogleMap
                 mapContainerStyle={{ width: "100%", height: "20%" }}
                 center={
-                  selectedPlace.geometry?.location
+                  selectedPlace?.geometry?.location
                     ? {
                         lat: selectedPlace.geometry.location.lat(),
                         lng: selectedPlace.geometry.location.lng(),
@@ -256,14 +258,15 @@ export default function BusinessInfo() {
                 }
                 zoom={19}
               >
+                {selectedPlace && (
                 <Marker
                   position={{
                     lat: selectedPlace.geometry?.location.lat(),
                     lng: selectedPlace.geometry?.location.lng(),
                   }}
                 />
+              )}
               </GoogleMap>
-            )}
           </div>
           {/* <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4">Restaurant Location</h2>
