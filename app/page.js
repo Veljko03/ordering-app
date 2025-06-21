@@ -3,7 +3,6 @@ import CloudinaryUploader from "../components/CloudinaryUploader";
 import Places from "../components/PlacePicker";
 import { getImagesFromFolder } from "../lib/Claudinary";
 
-import BusinessInfo from "../components/BuisnessInfo";
 
 import AdminPanel from "../components/AdminPanel";
 import Link from "next/link";
@@ -43,7 +42,7 @@ async function Home() {
             </div>
           ))}
       </div>
-      <BusinessInfo />
+      
       <AdminPanel />
     </div>
   );
