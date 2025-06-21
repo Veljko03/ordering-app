@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function BusinessInfo() {
   const [info, setInfo] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+  const [sendingData, setSendingData] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -61,15 +61,23 @@ export default function BusinessInfo() {
   console.log(formData, " DATAAAAAAAA");
 
   const handleSave = async () => {
-    await fetch("/api/buisnessInfo", {
+    setSendingData(true);
+
+    const newData = await fetch("/api/buisnessInfo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
     });
+    console.log("NEWWWWWW", newData);
+    console.log("infoooooo", info);
+    console.log(formData, "FFFFFFFFFFFF");
 
-    setIsEditing(false);
+    if (newData) {
+      setInfo(formData);
+      setSendingData(false);
+    }
   };
 
   if (!info || !formData) return <div>Loading...</div>;
@@ -204,7 +212,6 @@ export default function BusinessInfo() {
               name="name"
               value={formData.name || ""}
               onChange={handleChange}
-              disabled={!isEditing}
               className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
             />
           </div>
@@ -218,7 +225,6 @@ export default function BusinessInfo() {
               name="contactPhone"
               value={formData.contactPhone || ""}
               onChange={handleChange}
-              disabled={!isEditing}
               className="w-full mt-1 p-2 bg-gray-100  text-black rounded "
             />
           </div>
@@ -232,7 +238,6 @@ export default function BusinessInfo() {
               name="email"
               value={formData.email || ""}
               onChange={handleChange}
-              disabled={!isEditing}
               className="w-full mt-1 p-2 bg-gray-100 rounded  text-black"
             />
           </div>
@@ -249,7 +254,6 @@ export default function BusinessInfo() {
               name="social.facebook"
               value={formData.social?.facebook || ""}
               onChange={handleChange}
-              disabled={!isEditing}
               className="w-full mt-1 p-2 bg-gray-100 text-black rounded"
             />
           </div>
@@ -265,7 +269,6 @@ export default function BusinessInfo() {
                rounded"
               value={formData.social?.instagram || ""}
               onChange={handleChange}
-              disabled={!isEditing}
             />
           </div>
 
@@ -278,27 +281,22 @@ export default function BusinessInfo() {
               name="social.tiktok"
               value={formData.social?.tiktok || ""}
               onChange={handleChange}
-              disabled={!isEditing}
               className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
             />
           </div>
         </div>
 
         <div className="flex flex-col gap-6">
-          {/* <div className="bg-white p-6 rounded-lg shadow">
+          <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4">Restaurant Location</h2>
             <div className="h-64 w-full">
               <iframe
-                src="https://maps.google.com/maps?q=delhi&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=belgrade&t=&z=13&ie=UTF8&iwloc=&output=embed"
                 className="w-full h-full rounded"
                 allowFullScreen
                 loading="lazy"
               ></iframe>
             </div>
-          </div> */}
-
-          {/* Colors */}
-          <div className="bg-white p-6 rounded-lg shadow">
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Restaurant Adress
@@ -308,10 +306,13 @@ export default function BusinessInfo() {
                 name="adress"
                 value={formData.adress || ""}
                 onChange={handleChange}
-                disabled={!isEditing}
                 className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
               />
             </div>
+          </div>
+
+          {/* Colors */}
+          <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4">Order Color Setting</h2>
             <div className="space-y-4">
               <div className="mb-4">
@@ -324,7 +325,6 @@ export default function BusinessInfo() {
                     name="theme.navbarColor"
                     value={formData.theme?.navbarColor || ""}
                     onChange={handleChange}
-                    disabled={!isEditing}
                     className="w-full p-2 bg-gray-100 text-black rounded"
                   />
                   <div
@@ -344,7 +344,6 @@ export default function BusinessInfo() {
                     name="theme.textColor"
                     value={formData.theme?.textColor || ""}
                     onChange={handleChange}
-                    disabled={!isEditing}
                     className="w-full p-2 bg-gray-100 text-black rounded"
                   />
                   <div
@@ -363,39 +362,32 @@ export default function BusinessInfo() {
                   name="theme.font"
                   value={formData.theme?.font || ""}
                   onChange={handleChange}
-                  disabled={!isEditing}
                   className="w-full p-2 bg-gray-100 text-black rounded"
                 />
               </div>
             </div>
           </div>
           <div className="flex justify-end gap-2 mt-6">
-            {!isEditing ? (
+            <>
               <button
-                onClick={() => setIsEditing(true)}
-                className="bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={handleSave}
+                hidden={sendingData}
+                disabled={sendingData}
+                className="bg-green-500 text-white px-4 py-2 rounded"
               >
-                Edit
+                Save
               </button>
-            ) : (
-              <>
-                <button
-                  onClick={handleSave}
-                  className="bg-green-500 text-white px-4 py-2 rounded"
-                >
-                  Save
-                </button>
-                <button
-                  onClick={() => {
-                    setIsEditing(false);
-                    setFormData(info);
-                  }}
-                  className="bg-red-600 px-4 py-2 rounded"
-                >
-                  Cancel
-                </button>
-              </>
-            )}
+              <button
+                onClick={() => {
+                  setFormData(info);
+                }}
+                disabled={sendingData}
+                hidden={sendingData}
+                className="bg-red-600 px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            </>
           </div>
         </div>
       </div>
