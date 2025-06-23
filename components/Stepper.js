@@ -1,20 +1,21 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import {
-  FaRocket,
-  FaTools,
-  FaPen,
-  FaDollarSign,
-  FaClipboardList,
-} from 'react-icons/fa';
+// import {
+//   FaRocket,
+//   FaTools,
+//   FaPen,
+//   FaDollarSign,
+//   FaClipboardList,
+// } from 'react-icons/fa';
+
 
 
 const steps = [
   { id: 1, name: 'Info', icon: <FaRocket />, path: '/buisnessInfo' },
   { id: 2, name: 'Week', icon: <FaTools />, path: '/schedule' },
-  { id: 3, name: 'Project', icon: <FaPen />, path: '/project' },
-  { id: 4, name: 'Budget', icon: <FaDollarSign />, path: '/budget' },
+  { id: 3, name: 'Category', icon: <FaPen />, path: '/category' },
+  { id: 4, name: 'Items', icon: <FaDollarSign />, path: '/item' },
   { id: 5, name: 'Review', icon: <FaClipboardList />, path: '/review' },
 ];
 
@@ -45,7 +46,7 @@ const Stepper = () => {
             <div className="absolute -left-6 top-1/2 w-6 h-0.5 bg-gray-600" />
           )}
           <div
-            className={`w-14 h-14 flex flex-col items-center justify-center rounded-full border-2 text-sm font-medium ${
+            className={`w-18 h-18 flex flex-col items-center justify-center rounded-full border-2 text-sm font-medium ${
               index === currentStep
                 ? 'bg-custom-blue text-white border-custom-blue'
                 : 'bg-black border-gray-500 text-gray-300'
@@ -62,7 +63,7 @@ const Stepper = () => {
 
       <button
         onClick={handleNext}
-        className="ml-6 px-4 py-2 bg-custom-blue text-white rounded-lg"
+        className="ml-6 px-4 py-2 bg-custom-blue text-white rounded-lg cursor-pointer "
         disabled={currentStep === steps.length - 1}
       >
         Next

@@ -211,7 +211,7 @@ const WeekSchedule = () => {
               ].map((day, idx) => {
                 const key = day.toLowerCase().slice(0, 3);
                 return (
-                  <div key={day} className={`flex items-center gap-4 rounded-2xl p-2  ${
+                  <div key={day} className={`flex items-center gap-4 rounded-sm p-2  ${
                 timesForEachDay[`${key}Closed`] ? "bg-gray-400" : "bg-white"
                  }`}>
                     <span className="w-20 font-medium text-black">{day}</span>
