@@ -138,7 +138,7 @@ export default function ItemManager() {
               value={formData.imageUrl}
               onChange={handleChange}
               placeholder="URL"
-              className="mb-4"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white"
             />
 
             <label className="mb-2">Item name</label>
@@ -147,7 +147,7 @@ export default function ItemManager() {
               value={formData.name}
               onChange={handleChange}
               placeholder="Pizza"
-              className="mb-4"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white"
             />
 
             <label className="mb-2">Item description</label>
@@ -156,7 +156,7 @@ export default function ItemManager() {
               value={formData.description}
               onChange={handleChange}
               placeholder="Best pizza ever"
-              className="w-full p-2 border rounded text-white mb-4"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white"
             />
 
             <label className="mb-2">Item pice</label>
@@ -166,14 +166,14 @@ export default function ItemManager() {
               value={formData.basePrice}
               onChange={handleChange}
               placeholder="300"
-              className="mb-4"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white"
             />
 
             <select
               name="categoryId"
               value={formData.categoryId}
               onChange={handleChange}
-              className="mb-4 bg-black"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white"
             >
               <option value="">Select Category</option>
               {categories?.map((cat) => (
