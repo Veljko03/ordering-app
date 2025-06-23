@@ -1,13 +1,13 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-// import {
-//   FaRocket,
-//   FaTools,
-//   FaPen,
-//   FaDollarSign,
-//   FaClipboardList,
-// } from 'react-icons/fa';
+import {
+  FaRocket,
+  FaTools,
+  FaPen,
+  FaDollarSign,
+  FaClipboardList,
+} from 'react-icons/fa';
 
 
 
