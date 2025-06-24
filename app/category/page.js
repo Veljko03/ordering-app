@@ -1,6 +1,8 @@
 "use client";
+import { LucideClock2 } from "lucide-react";
 import { useEffect, useState } from "react";
-
+import { HiPencilAlt } from "react-icons/hi";
+import { MdDeleteForever } from "react-icons/md";
 export default function CategoryManager({ onChange }) {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
@@ -79,14 +81,14 @@ export default function CategoryManager({ onChange }) {
           type="text"
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
-          placeholder="New category"
+          placeholder="Nova kategorija"
           className="border p-2 rounded"
         />
         <button
           onClick={addCategory}
           className="bg-blue-500 text-white px-4 py-2 rounded"
         >
-          Add
+          Dodaj
         </button>
       </div>
 
@@ -123,21 +125,18 @@ export default function CategoryManager({ onChange }) {
                   >
                     {cat.name}
                   </span>
-                  <button
+                  <LucideClock2 className="ml-5 cursor-pointer" />
+                  <HiPencilAlt
                     onClick={() => {
                       setEditingId(cat._id);
                       setEditingName(cat.name);
                     }}
-                    className="text-blue-500"
-                  >
-                    Rename
-                  </button>
-                  <button
+                    className="text-blue-500 text-2xl ml-auto mr-3 cursor-pointer"
+                  />
+                  <MdDeleteForever
                     onClick={() => deleteCategory(cat._id)}
-                    className="text-red-500"
-                  >
-                    Delete
-                  </button>
+                    className="text-red-500 text-2xl mr-5 cursor-pointer"
+                  />
                 </>
               )}
             </div>

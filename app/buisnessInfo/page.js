@@ -137,6 +137,7 @@ export default function BusinessInfo() {
       setSendingData(false);
     }
   };
+  const isChanged = JSON.stringify(formData) !== JSON.stringify(info);
 
   if (!info || !formData) return <div>Loading...</div>;
 
@@ -258,28 +259,30 @@ export default function BusinessInfo() {
               className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
             />
           </div>
-          <div className="flex justify-end gap-2 mt-6">
-            <>
-              <button
-                onClick={handleSave}
-                hidden={sendingData}
-                disabled={sendingData}
-                className="bg-green-500 text-white px-4 py-2 rounded"
-              >
-                Save
-              </button>
-              <button
-                onClick={() => {
-                  setFormData(info);
-                }}
-                disabled={sendingData}
-                hidden={sendingData}
-                className="bg-red-600 px-4 py-2 rounded"
-              >
-                Cancel
-              </button>
-            </>
-          </div>
+          {isChanged && (
+            <div className="flex justify-end gap-2 mt-6">
+              <>
+                <button
+                  onClick={handleSave}
+                  hidden={sendingData}
+                  disabled={sendingData}
+                  className="bg-[#7893c3] text-white border-[#7893c3] cursor-pointer px-4 py-2 rounded"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => {
+                    setFormData(info);
+                  }}
+                  disabled={sendingData}
+                  hidden={sendingData}
+                  className="bg-red-600 px-4 py-2 rounded cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col gap-3">

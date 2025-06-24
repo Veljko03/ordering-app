@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
+import { HiPencilAlt } from "react-icons/hi";
+import { MdDeleteForever } from "react-icons/md";
 
 //za cene dodati sa klijentske strane sa admin strane nije potrebno jer admin ne dodaje u korpu i ne obracunava
 export default function ItemManager() {
-  const [items, setItems] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [formData, setFormData] = useState({
+  const emptyFormData = {
     name: "",
     description: "",
     imageUrl: "",
@@ -14,7 +14,11 @@ export default function ItemManager() {
     categoryId: "",
     sizes: [],
     addons: [],
-  });
+  };
+  const [items, setItems] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [formData, setFormData] = useState(emptyFormData);
+
   const [isEditing, setIsEditing] = useState(null);
 
   useEffect(() => {
@@ -122,15 +126,17 @@ export default function ItemManager() {
     setIsEditing(item._id);
   }
 
+  const isChanged = JSON.stringify(formData) !== JSON.stringify(emptyFormData);
+
   return (
     <div className="p-6 space-y-6">
       <h2 className="text-2xl font-semibold">Items</h2>
 
       <form
         onSubmit={handleSubmit}
-        className="space-y-4 border p-4 rounded  flex flex-col gap-5"
+        className=" border p-4 rounded  flex flex-col gap-5 overflow-x-auto"
       >
-        <div className="flex gap-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col ">
             <label className="mb-2">Upload picture here</label>
             <input
@@ -138,7 +144,7 @@ export default function ItemManager() {
               value={formData.imageUrl}
               onChange={handleChange}
               placeholder="URL"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white w-full"
             />
 
             <label className="mb-2">Item name</label>
@@ -147,7 +153,7 @@ export default function ItemManager() {
               value={formData.name}
               onChange={handleChange}
               placeholder="Pizza"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white w-full"
             />
 
             <label className="mb-2">Item description</label>
@@ -156,7 +162,7 @@ export default function ItemManager() {
               value={formData.description}
               onChange={handleChange}
               placeholder="Best pizza ever"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white w-full"
             />
 
             <label className="mb-2">Item pice</label>
@@ -166,14 +172,14 @@ export default function ItemManager() {
               value={formData.basePrice}
               onChange={handleChange}
               placeholder="300"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white w-full"
             />
 
             <select
               name="categoryId"
               value={formData.categoryId}
               onChange={handleChange}
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white w-full"
             >
               <option value="">Select Category</option>
               {categories?.map((cat) => (
@@ -204,7 +210,7 @@ export default function ItemManager() {
                 />
                 <FaTrash
                   onClick={() => removeSize(i)}
-                  className="text-red-500 text-xl cursor-pointer"
+                  className="text-red-500 ml-auto text-xl cursor-pointer"
                 />
               </div>
             ))}
@@ -222,7 +228,7 @@ export default function ItemManager() {
             {formData.addons.map((a, i) => (
               <div
                 key={i}
-                className="flex gap-3 p-2 border-1 border-white rounded-2xl"
+                className="flex w-full p-2 border-1 border-white rounded-2xl"
               >
                 <input
                   placeholder="Name"
@@ -238,7 +244,7 @@ export default function ItemManager() {
                   }
                 />
                 <select
-                  className={` rounded  ${
+                  className={` rounded  mx-1 ${
                     a.active === true || a.active === "true"
                       ? "bg-green-600 text-white"
                       : "bg-red-600 text-white"
@@ -257,7 +263,7 @@ export default function ItemManager() {
                 </select>
                 <FaTrash
                   onClick={() => removeAddon(i)}
-                  className="text-red-500 ml-2 text-xl cursor-pointer"
+                  className="text-red-500 ml-auto text-xl cursor-pointer"
                 />
               </div>
             ))}
@@ -270,13 +276,22 @@ export default function ItemManager() {
             </button>
           </div>
         </div>
-
-        <button
-          className="ml-auto rounded-2xl w-30 bg-green-500 p-1.5 cursor-pointer"
-          type="submit"
-        >
-          {isEditing ? "Update" : "Add"} Item
-        </button>
+        <div className="flex gap-5 ml-auto">
+          {isChanged && (
+            <button
+              onClick={() => setFormData(emptyFormData)}
+              className=" rounded-2xl w-30 bg-red-500 p-1.5 cursor-pointer"
+            >
+              Otkazi
+            </button>
+          )}
+          <button
+            className=" rounded-2xl w-30 bg-green-500 p-1.5 cursor-pointer"
+            type="submit"
+          >
+            {isEditing ? "Update" : "Add"} Item
+          </button>
+        </div>
       </form>
 
       <div>
@@ -289,9 +304,15 @@ export default function ItemManager() {
             >
               <span>{item.name}</span>
               <span>Base price is {item.basePrice}</span>
-              <div className="space-x-2">
-                <button onClick={() => handleEdit(item)}>Edit</button>
-                <button onClick={() => handleDelete(item._id)}>Delete</button>
+              <div className="space-x-2 flex gap-5 text-3xl">
+                <HiPencilAlt
+                  className="cursor-pointer"
+                  onClick={() => handleEdit(item)}
+                />
+                <MdDeleteForever
+                  className="text-red-500 cursor-pointer"
+                  onClick={() => handleDelete(item._id)}
+                />
               </div>
             </li>
           ))}

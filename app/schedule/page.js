@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 // namestiti kada restoran radi do posle ponoci jer imam gresku ako stavim recimo da radi od 10 do 1 u ponoc
 // on ce obracunati 1  u ponoc kao 60 min i porediti to sa vremenom ovim
-//tako da mora nekako 
+//tako da mora nekako
 const WeekSchedule = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [timesForEachDay, setTimesForEachDay] = useState({
@@ -196,10 +196,11 @@ const WeekSchedule = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="flex flex-col gap-6">
           <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4 text-black ">Restaurant Timings</h2>
-          
+            <h2 className="text-xl font-semibold mb-4 text-black ">
+              Restaurant Timings
+            </h2>
+
             <form onSubmit={handleTimeFormSubmit} className="space-y-4">
-                
               {[
                 "Monday",
                 "Tuesday",
@@ -211,18 +212,22 @@ const WeekSchedule = () => {
               ].map((day, idx) => {
                 const key = day.toLowerCase().slice(0, 3);
                 return (
-                  <div key={day} className={`flex items-center gap-4 rounded-sm p-2  ${
-                timesForEachDay[`${key}Closed`] ? "bg-gray-400" : "bg-white"
-                 }`}>
+                  <div
+                    key={day}
+                    className={`flex items-center gap-4 rounded-sm p-2 w-full ${
+                      timesForEachDay[`${key}Closed`]
+                        ? "bg-gray-400"
+                        : "bg-white"
+                    }`}
+                  >
                     <span className="w-20 font-medium text-black">{day}</span>
-                       
-                     <input
-                        type="checkbox"
-                        name={`${key}Closed`}
-                        checked={timesForEachDay[`${key}Closed`] || false}
-                        onChange={handleTimeChange}
-                        
-                      />
+
+                    <input
+                      type="checkbox"
+                      name={`${key}Closed`}
+                      checked={timesForEachDay[`${key}Closed`] || false}
+                      onChange={handleTimeChange}
+                    />
                     <input
                       type="time"
                       name={`${key}Start`}
@@ -240,7 +245,6 @@ const WeekSchedule = () => {
                       className="p-2 border rounded text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
-               
                   </div>
                 );
               })}
