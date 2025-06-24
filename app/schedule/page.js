@@ -182,6 +182,16 @@ const WeekSchedule = () => {
       .catch((err) => console.error("Error:", err));
   };
 
+  const translateToSerbian = (day) => {
+    if (day == "Monday") return "Ponedeljak";
+    if (day == "Tuesday") return "Utorak";
+    if (day == "Wenesday") return "Sreda";
+    if (day == "Thursday") return "Cetvrtak";
+    if (day == "Friday") return "Petak";
+    if (day == "Saturday") return "Subota";
+    if (day == "Sunday") return "Nedelja";
+  };
+
   const formatForBackend = (currSchedule) => {
     const days = ["mon", "tue", "wen", "thu", "fri", "sat", "sun"];
     return days.map((day) => ({
@@ -192,12 +202,12 @@ const WeekSchedule = () => {
     }));
   };
   return (
-    <div className="">
+    <div className="w-full">
       <div className="flex flex-col  gap-6">
         <div className="flex flex-col gap-6">
           <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4 text-black ">
-              Restaurant Timings
+              Raspored rada restorana
             </h2>
 
             <form onSubmit={handleTimeFormSubmit} className="space-y-4">
@@ -226,7 +236,9 @@ const WeekSchedule = () => {
                         : "bg-white"
                     }`}
                   >
-                    <span className="w-20 font-medium text-black">{day}</span>
+                    <span className="w-20 font-medium text-black">
+                      {translateToSerbian(day)}
+                    </span>
                     <div className="flex justify-start">
                       <input
                         type="checkbox"
@@ -260,7 +272,7 @@ const WeekSchedule = () => {
                 type="submit"
                 className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
               >
-                Save Schedule
+                Sacuvaj
               </button>
             </form>
           </div>
