@@ -55,9 +55,6 @@ const Stepper = () => {
           className="flex items-center relative cursor-pointer"
           onClick={() => handleStepClick(index)}
         >
-          {index > 0 && (
-            <div className="absolute -left-14 top-1/2 w-14 h-0.5 bg-gray-600" />
-          )}
           <div
             className={`w-16 h-16 flex flex-col items-center justify-center rounded-full border-2 text-sm font-medium ${
               index === currentStep
@@ -68,15 +65,15 @@ const Stepper = () => {
             <div className="text-lg">{step.icon}</div>
             <span className="text-xs mt-1">{step.name}</span>
           </div>
-          {index < steps.length - 1 && (
+          {/* {index < steps.length - 1 && (
             <div className="absolute -right-6 top-1/2 w-6 h-0.5 bg-gray-600" />
-          )}
+          )} */}
         </div>
       ))}
 
       <button
         onClick={handleNext}
-        className="ml-6   bg-custom-blue text-white rounded-lg cursor-pointer "
+        className="ml-6   bg-custom-blue text-white rounded-lg cursor-pointer hidden sm:block "
         disabled={currentStep === steps.length - 1}
       >
         Next

@@ -201,6 +201,12 @@ const WeekSchedule = () => {
             </h2>
 
             <form onSubmit={handleTimeFormSubmit} className="space-y-4">
+              <div className="grid grid-cols-4   font-semibold text-sm text-gray-700 mb-2">
+                <div>Dan</div>
+                <div>Zatvoreno</div>
+                <div>Početno vreme</div>
+                <div>Krajnje vreme</div>
+              </div>
               {[
                 "Monday",
                 "Tuesday",
@@ -214,20 +220,23 @@ const WeekSchedule = () => {
                 return (
                   <div
                     key={day}
-                    className={`flex items-center gap-4 rounded-sm p-2 w-full ${
+                    className={`grid grid-cols-4 gap-2  items-center  rounded-sm p-2  ${
                       timesForEachDay[`${key}Closed`]
                         ? "bg-gray-400"
                         : "bg-white"
                     }`}
                   >
                     <span className="w-20 font-medium text-black">{day}</span>
+                    <div className="flex justify-start">
+                      <input
+                        type="checkbox"
+                        name={`${key}Closed`}
+                        className="h-4 w-4"
+                        checked={timesForEachDay[`${key}Closed`] || false}
+                        onChange={handleTimeChange}
+                      />
+                    </div>
 
-                    <input
-                      type="checkbox"
-                      name={`${key}Closed`}
-                      checked={timesForEachDay[`${key}Closed`] || false}
-                      onChange={handleTimeChange}
-                    />
                     <input
                       type="time"
                       name={`${key}Start`}
@@ -236,7 +245,6 @@ const WeekSchedule = () => {
                       className="p-2 border rounded text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
-                    <span className="text-black">to</span>
                     <input
                       type="time"
                       name={`${key}End`}
