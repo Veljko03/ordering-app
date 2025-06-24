@@ -10,6 +10,7 @@ export default function CategoryManager({ onChange }) {
   const [itemsByCategory, setItemsByCategory] = useState({});
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
 
+  //ovde mozda izmeniti u smislu da se dobave prvo itemi svi pa da se radi poredjenje samo po categroyId kod itema
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -78,14 +79,14 @@ export default function CategoryManager({ onChange }) {
           type="text"
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
-          placeholder="Nova kategorija"
+          placeholder="New category"
           className="border p-2 rounded"
         />
         <button
           onClick={addCategory}
           className="bg-blue-500 text-white px-4 py-2 rounded"
         >
-          Dodaj
+          Add
         </button>
       </div>
 
@@ -105,13 +106,13 @@ export default function CategoryManager({ onChange }) {
                     onClick={updateCategory}
                     className="bg-green-500 text-white px-2 rounded"
                   >
-                    Sačuvaj
+                    Save
                   </button>
                   <button
                     onClick={() => setEditingId(null)}
                     className="text-red-500"
                   >
-                    Otkaži
+                    Cancel
                   </button>
                 </>
               ) : (
@@ -129,13 +130,13 @@ export default function CategoryManager({ onChange }) {
                     }}
                     className="text-blue-500"
                   >
-                    Izmeni
+                    Rename
                   </button>
                   <button
                     onClick={() => deleteCategory(cat._id)}
                     className="text-red-500"
                   >
-                    Obriši
+                    Delete
                   </button>
                 </>
               )}
@@ -152,7 +153,7 @@ export default function CategoryManager({ onChange }) {
                   ))
                 ) : (
                   <li className="text-gray-500 italic">
-                    Nema itema u ovoj kategoriji.
+                    No items in this category
                   </li>
                 )}
               </ul>

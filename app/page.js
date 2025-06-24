@@ -3,20 +3,22 @@ import CloudinaryUploader from "../components/CloudinaryUploader";
 import Places from "../components/PlacePicker";
 import { getImagesFromFolder } from "../lib/Claudinary";
 
-
 import AdminPanel from "../components/AdminPanel";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 async function Home() {
+  redirect("/buisnessInfo");
   const images = await getImagesFromFolder("startup");
   console.log("images", images);
 
   return (
     <div style={{ padding: "50px" }}>
-      <Link href={"/schedule"} className="bg-red">Week Schedule</Link>
+      <Link href={"/schedule"} className="bg-red">
+        Week Schedule
+      </Link>
       <Places />
 
-    
       <div className="mt-6">
         <h1>Here you can add some photo</h1>
         <CloudinaryUploader />
@@ -42,7 +44,7 @@ async function Home() {
             </div>
           ))}
       </div>
-      
+
       <AdminPanel />
     </div>
   );
