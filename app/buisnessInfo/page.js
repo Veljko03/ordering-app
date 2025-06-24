@@ -6,7 +6,7 @@ import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 const lib = ["places"];
 
 //bice problem sa adresom jer kada se sacuva trebaju mi i podaci o toj adresi e sada onda mora da se menja i u bazi objekat
-// da se doda umesto stringa 
+// da se doda umesto stringa
 
 export default function BusinessInfo() {
   const { isLoaded, loadError } = useLoadScript({
@@ -15,7 +15,7 @@ export default function BusinessInfo() {
     language: "sr",
   });
   const [selectedPlace, setSelectedPlace] = useState(null);
-  const [someChange,setSomeChange]=useState(true)
+  const [someChange, setSomeChange] = useState(true);
 
   const inputRef = useRef(null);
   const [info, setInfo] = useState(null);
@@ -39,18 +39,15 @@ export default function BusinessInfo() {
     },
   });
 
-  
-
-  useEffect(()=>{
-     if(selectedPlace){
-    const value =selectedPlace.formatted_address
-    setFormData((prev) => ({ ...prev, adress: value }));
-    console.log(formData);
-    
-  }
-  },[selectedPlace])
-  useEffect(()=>{
-if (isLoaded && inputRef.current) {
+  useEffect(() => {
+    if (selectedPlace) {
+      const value = selectedPlace.formatted_address;
+      setFormData((prev) => ({ ...prev, adress: value }));
+      console.log(formData);
+    }
+  }, [selectedPlace]);
+  useEffect(() => {
+    if (isLoaded && inputRef.current) {
       const autocomplete = new google.maps.places.Autocomplete(
         inputRef.current,
         {
@@ -81,10 +78,9 @@ if (isLoaded && inputRef.current) {
         setSelectedPlace(place);
       });
     }
-    console.log("FFFFFFFFFFFf ",inputRef.current);
-  },[isLoaded,someChange])
-   
-    
+    console.log("FFFFFFFFFFFf ", inputRef.current);
+  }, [isLoaded, someChange]);
+
   useEffect(() => {
     // Fetchujemo podatke o biznisu
     const fetchInfo = async () => {
@@ -119,7 +115,7 @@ if (isLoaded && inputRef.current) {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
-  
+
   console.log(formData, " DATAAAAAAAA");
 
   const handleSave = async () => {
@@ -141,8 +137,6 @@ if (isLoaded && inputRef.current) {
       setSendingData(false);
     }
   };
-
-   
 
   if (!info || !formData) return <div>Loading...</div>;
 
@@ -207,6 +201,19 @@ if (isLoaded && inputRef.current) {
             />
           </div>
 
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Restaurant Adress
+            </label>
+            <input
+              type="text"
+              name="adress"
+              value={formData.adress || ""}
+              onChange={handleChange}
+              className="w-full mt-1 p-2 bg-gray-100 rounded  text-black"
+            />
+          </div>
+
           <hr className="my-4 border-black" />
           <h3 className="text-xl text-black font-semibold mb-4">
             Social Networks
@@ -251,43 +258,63 @@ if (isLoaded && inputRef.current) {
               className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
             />
           </div>
+          <div className="flex justify-end gap-2 mt-6">
+            <>
+              <button
+                onClick={handleSave}
+                hidden={sendingData}
+                disabled={sendingData}
+                className="bg-green-500 text-white px-4 py-2 rounded"
+              >
+                Save
+              </button>
+              <button
+                onClick={() => {
+                  setFormData(info);
+                }}
+                disabled={sendingData}
+                hidden={sendingData}
+                className="bg-red-600 px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            </>
+          </div>
         </div>
 
         <div className="flex flex-col gap-3">
-            <div className="m-4">
-                  <label className="block text-sm font-medium text-gray-700">
+          {/* <div className="m-4">
+            <label className="block text-sm font-medium text-gray-700">
               Adress
             </label>
-          <input
-            type="text"
-            placeholder="Search for a place"
-            ref={inputRef}
-            onChange={(prev)=>{
-                setSomeChange(!prev)
-                handleChange
-            }}
-            value={formData.adress || ""}
-            
-            className="w-full mt-1 p-2 bg-white   text-black
+            <input
+              type="text"
+              placeholder="Search for a place"
+              ref={inputRef}
+              onChange={(prev) => {
+                setSomeChange(!prev);
+                handleChange;
+              }}
+              value={formData.adress || ""}
+              className="w-full mt-1 p-2 bg-white   text-black
                rounded"
-          />
-            </div>
-           
-          <div className="h-65 w-full m-4">
-            
-              <GoogleMap
-                 mapContainerStyle={{ width: "100%", height: "100%" }}
-                center={
-                  selectedPlace?.geometry?.location
-                    ? {
-                        lat: selectedPlace.geometry.location.lat(),
-                        lng: selectedPlace.geometry.location.lng(),
-                      }
-                    : { lat: 44.8176, lng: 20.4569 }
-                }
-                zoom={19}
-              >
-                {selectedPlace && (
+            />
+          </div> */}
+
+          {/* <div className="h-65 w-full m-4">
+            <GoogleMap
+              mapContainerStyle={{ width: "100%", height: "100%" }}
+              center={
+                selectedPlace?.geometry?.location
+                  ? {
+                      lat: selectedPlace.geometry.location.lat(),
+                      lng: selectedPlace.geometry.location.lng(),
+                    }
+                  : { lat: 44.8176, lng: 20.4569 }
+              }
+              zoom={19}
+            >
+              {selectedPlace && (
                 <Marker
                   position={{
                     lat: selectedPlace.geometry?.location.lat(),
@@ -295,8 +322,8 @@ if (isLoaded && inputRef.current) {
                   }}
                 />
               )}
-              </GoogleMap>
-          </div>
+            </GoogleMap>
+          </div> */}
           {/* <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4">Restaurant Location</h2>
             <div className="h-64 w-full">
@@ -322,7 +349,7 @@ if (isLoaded && inputRef.current) {
           </div> */}
 
           {/* Colors */}
-          <div className="bg-white p-6 rounded-lg shadow">
+          {/* <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4 text-black">
               Order Color Setting
             </h2>
@@ -379,28 +406,7 @@ if (isLoaded && inputRef.current) {
               </div>
             </div>
           </div>
-          <div className="flex justify-end gap-2 mt-6">
-            <>
-              <button
-                onClick={handleSave}
-                hidden={sendingData}
-                disabled={sendingData}
-                className="bg-green-500 text-white px-4 py-2 rounded"
-              >
-                Save
-              </button>
-              <button
-                onClick={() => {
-                  setFormData(info);
-                }}
-                disabled={sendingData}
-                hidden={sendingData}
-                className="bg-red-600 px-4 py-2 rounded"
-              >
-                Cancel
-              </button>
-            </>
-          </div>
+          */}
         </div>
       </div>
     </div>
