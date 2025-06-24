@@ -193,7 +193,7 @@ const WeekSchedule = () => {
   };
   return (
     <div className="">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="flex flex-col  gap-6">
         <div className="flex flex-col gap-6">
           <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4 text-black ">
