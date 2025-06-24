@@ -230,7 +230,7 @@ const WeekSchedule = () => {
                 return (
                   <div
                     key={day}
-                    className={`grid grid-cols-4 gap-2  items-center  rounded-sm p-2  ${
+                    className={`grid grid-cols-4 gap-2 sm:gap-0  items-center  rounded-sm p-2  ${
                       timesForEachDay[`${key}Closed`]
                         ? "bg-gray-400"
                         : "bg-white"
@@ -243,7 +243,7 @@ const WeekSchedule = () => {
                       <input
                         type="checkbox"
                         name={`${key}Closed`}
-                        className="h-4 w-4"
+                        className=" h-3 w-3"
                         checked={timesForEachDay[`${key}Closed`] || false}
                         onChange={handleTimeChange}
                       />
@@ -254,7 +254,7 @@ const WeekSchedule = () => {
                       name={`${key}Start`}
                       value={timesForEachDay[`${key}Start`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded text-black"
+                      className="p-2 border rounded w-full text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                     <input
@@ -262,7 +262,7 @@ const WeekSchedule = () => {
                       name={`${key}End`}
                       value={timesForEachDay[`${key}End`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded text-black"
+                      className="p-2 border rounded w-full text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                   </div>
