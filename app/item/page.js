@@ -130,7 +130,13 @@ export default function ItemManager() {
 
   return (
     <div className="p-6 space-y-6">
-      <h2 className="text-2xl font-semibold text-black">Items</h2>
+      <h2 className="text-2xl mb-2 font-semibold text-black">
+        Informacije o jelu
+      </h2>
+      <p className="text-lg text-black">
+        Unesite podatke o jelu. Svako jelo se unosi pojedinačno. Po želji
+        dodajte dodatne napomene (npr. vegetarijansko, ljuto, bez glutena…).
+      </p>
 
       <form
         onSubmit={handleSubmit}
@@ -138,7 +144,7 @@ export default function ItemManager() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col text-black">
-            <label className="mb-2">Upload picture here</label>
+            <label className="mb-2">Unesite fotografiju</label>
             <input
               name="imageUrl"
               value={formData.imageUrl}
@@ -147,7 +153,7 @@ export default function ItemManager() {
               className="mb-4 p-2  rounded-2xl text-black w-full"
             />
 
-            <label className="mb-2 ">Item name</label>
+            <label className="mb-2 ">Naziv jela</label>
             <input
               name="name"
               value={formData.name}
@@ -156,7 +162,7 @@ export default function ItemManager() {
               className="mb-4 p-2  rounded-2xl text-black w-full"
             />
 
-            <label className="mb-2">Item description</label>
+            <label className="mb-2">Opis </label>
             <textarea
               name="description"
               value={formData.description}
@@ -165,7 +171,7 @@ export default function ItemManager() {
               className="mb-4 p-2  rounded-2xl text-black w-full"
             />
 
-            <label className="mb-2">Item pice</label>
+            <label className="mb-2">Cena </label>
             <input
               name="basePrice"
               type="number"
@@ -181,7 +187,7 @@ export default function ItemManager() {
               onChange={handleChange}
               className="mb-4 p-2  rounded-2xl text-black w-full"
             >
-              <option value="">Select Category</option>
+              <option value="">Izaberiti kategoriju</option>
               {categories?.map((cat) => (
                 <option className="text-black" key={cat._id} value={cat._id}>
                   {cat.name}
@@ -293,13 +299,13 @@ export default function ItemManager() {
             className=" rounded-2xl w-30 bg-[#7893c3] text-white uppercase  p-1.5 cursor-pointer"
             type="submit"
           >
-            {isEditing ? "Update" : "Add"} Item
+            {isEditing ? "Izmeni" : "Dodaj"} jelo
           </button>
         </div>
       </form>
 
       <div>
-        <h3 className="text-xl text-black">All Items</h3>
+        <h3 className="text-xl text-black">Sva jela</h3>
         <ul className="space-y-2">
           {items.map((item) => (
             <li
@@ -307,7 +313,7 @@ export default function ItemManager() {
               className="border p-2 flex rounded-xl p-3 justify-between items-center text-black"
             >
               <span className="text-black">{item.name}</span>
-              <span className="text-black">Base price is {item.basePrice}</span>
+              <span className="text-black">Cena je {item.basePrice} rsd</span>
               <div className="space-x-2 flex gap-5 text-3xl">
                 <HiPencilAlt
                   className="cursor-pointer"

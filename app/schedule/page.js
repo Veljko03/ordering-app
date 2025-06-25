@@ -206,9 +206,13 @@ const WeekSchedule = () => {
       <div className="flex flex-col  gap-6">
         <div className="flex flex-col gap-6">
           <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4 text-black ">
+            <h2 className="text-xl font-semibold mb-2 text-black ">
               Raspored rada restorana
             </h2>
+            <p className="text-lg text-black mb-4">
+              Unesite kada ste otvoreni tokom nedelje – informacije će biti
+              prikazane posetiocima.
+            </p>
 
             <form onSubmit={handleTimeFormSubmit} className="space-y-4">
               <div className="grid grid-cols-4   font-semibold text-sm text-gray-700 mb-2">
