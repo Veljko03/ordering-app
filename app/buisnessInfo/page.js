@@ -138,7 +138,7 @@ export default function BusinessInfo() {
     }
   };
   const isChanged = JSON.stringify(formData) !== JSON.stringify(info);
-
+  //ubaciti isChanged u buttone za boje
   if (!info || !formData) return <div>Loading...</div>;
 
   return (
@@ -146,15 +146,15 @@ export default function BusinessInfo() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Side: Settings */}
         <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-bold mb-4 text-black">Personal Info</h2>
+          <h2 className="text-2xl font-bold mb-4 text-black">Informacije</h2>
           <div className="flex items-start gap-4 mb-6">
             <div className="relative">
               <img
-                src="https://randomuser.me/api/portraits/men/1.jpg"
+                src="https://img.freepik.com/free-vector/illustration-circle-stamp-banner_53876-28483.jpg?semt=ais_hybrid&w=740"
                 alt="Restaurant Owner"
                 className="w-20 h-20 rounded-md object-cover"
               />
-              <button className="absolute top-0 right-0 bg-white p-1 rounded-full shadow">
+              <button className="absolute top-0 right-0 text-black bg-amber-50 p-1 rounded-full shadow">
                 ✎
               </button>
             </div>
@@ -165,7 +165,7 @@ export default function BusinessInfo() {
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
-              Restaurant Name
+              Naziv restorana
             </label>
             <input
               type="text"
@@ -178,7 +178,7 @@ export default function BusinessInfo() {
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
-              Restaurant Phone Number
+              Broj telefona
             </label>
             <input
               type="text"
@@ -191,7 +191,7 @@ export default function BusinessInfo() {
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
-              Restaurant Email Address
+              Email
             </label>
             <input
               type="text"
@@ -204,7 +204,7 @@ export default function BusinessInfo() {
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
-              Restaurant Adress
+              Adresa restorana
             </label>
             <input
               type="text"
@@ -217,7 +217,7 @@ export default function BusinessInfo() {
 
           <hr className="my-4 border-black" />
           <h3 className="text-xl text-black font-semibold mb-4">
-            Social Networks
+            Socijalne mreže
           </h3>
 
           <div className="mb-4">
@@ -259,30 +259,33 @@ export default function BusinessInfo() {
               className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
             />
           </div>
-          {isChanged && (
-            <div className="flex justify-end gap-2 mt-6">
-              <>
-                <button
-                  onClick={handleSave}
-                  hidden={sendingData}
-                  disabled={sendingData}
-                  className="bg-[#7893c3] text-white border-[#7893c3] cursor-pointer px-4 py-2 rounded"
-                >
-                  Save
-                </button>
-                <button
-                  onClick={() => {
-                    setFormData(info);
-                  }}
-                  disabled={sendingData}
-                  hidden={sendingData}
-                  className="bg-red-600 px-4 py-2 rounded cursor-pointer"
-                >
-                  Cancel
-                </button>
-              </>
-            </div>
-          )}
+
+          <div className="flex justify-end gap-2 mt-6">
+            <>
+              <button
+                onClick={() => {
+                  setFormData(info);
+                }}
+                disabled={sendingData}
+                hidden={sendingData}
+                className={` text-black px-4 ${
+                  isChanged ? "bg-[#8559A5]" : "bg-transparent"
+                } py-2 rounded cursor-pointer w-24 `}
+              >
+                Otkaži
+              </button>
+              <button
+                onClick={handleSave}
+                hidden={sendingData}
+                disabled={sendingData}
+                className={` text-black w-24 px-4 ${
+                  isChanged ? "bg-[#7893c3]" : "bg-transparent"
+                } py-2 rounded cursor-pointer `}
+              >
+                Sačuvaj
+              </button>
+            </>
+          </div>
         </div>
 
         <div className="flex flex-col gap-3">

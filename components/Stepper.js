@@ -48,7 +48,7 @@ const Stepper = () => {
   };
 
   return (
-    <div className="flex items-center justify-center gap-4 sm:gap-8 md:gap-12 lg:gap-18 px-4 py-6 bg-[#101010] border border-gray-700 rounded-lg">
+    <div className="flex items-center justify-center gap-4 sm:gap-8 md:gap-12 lg:gap-18 px-4 py-6 bg-[#eee9da] border border-gray-700 rounded-lg">
       {steps.map((step, index) => (
         <div
           key={step.id}
@@ -56,10 +56,10 @@ const Stepper = () => {
           onClick={() => handleStepClick(index)}
         >
           <div
-            className={`w-16 h-16 flex flex-col items-center justify-center rounded-full border-2 text-sm font-medium ${
+            className={`w-16 h-16 flex flex-col items-center justify-center rounded-full border-2  text-sm font-medium ${
               index === currentStep
                 ? "bg-[#7893c3] text-white border-[#7893c3]"
-                : "bg-black border-gray-500 text-gray-300"
+                : "bg-transparent border-gray-500 text-black"
             }`}
           >
             <div className="text-lg">{step.icon}</div>
@@ -73,7 +73,7 @@ const Stepper = () => {
 
       <button
         onClick={handleNext}
-        className="ml-6   bg-custom-blue text-white rounded-lg cursor-pointer hidden sm:block "
+        className="ml-6   bg-custom-blue text-black text-xl rounded-lg cursor-pointer hidden sm:block "
         disabled={currentStep === steps.length - 1}
       >
         Next
