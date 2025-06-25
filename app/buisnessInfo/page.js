@@ -142,7 +142,7 @@ export default function BusinessInfo() {
   if (!info || !formData) return <div>Loading...</div>;
 
   return (
-    <div className="bg-gray-100 p-6">
+    <div className="bg-[#fefef4] p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Side: Settings */}
         <div className="bg-white p-6 rounded-lg shadow">

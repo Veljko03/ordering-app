@@ -48,7 +48,7 @@ const Stepper = () => {
   };
 
   return (
-    <div className="flex items-center justify-center gap-4 sm:gap-8 md:gap-12 lg:gap-18 px-4 py-6 bg-[#eee9da] border border-gray-700 rounded-lg">
+    <div className="flex items-center justify-center gap-4 sm:gap-8 md:gap-12 lg:gap-18 px-4 py-6 bg-[#fefef4] border border-gray-700 rounded-lg">
       {steps.map((step, index) => (
         <div
           key={step.id}
