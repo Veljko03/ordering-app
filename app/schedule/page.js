@@ -206,7 +206,7 @@ const WeekSchedule = () => {
       <div className="flex flex-col  gap-6">
         <div className="flex flex-col gap-6">
           <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-2 text-black ">
+            <h2 className="text-xl font-semibold mb-2 t uppercase text-[#172554] ">
               Raspored rada restorana
             </h2>
             <p className="text-lg text-black mb-4">

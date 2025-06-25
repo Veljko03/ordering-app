@@ -130,7 +130,7 @@ export default function ItemManager() {
 
   return (
     <div className="p-6 space-y-6">
-      <h2 className="text-2xl mb-2 font-semibold text-black">
+      <h2 className="text-2xl mb-2 font-semibold text-black uppercase">
         Informacije o jelu
       </h2>
       <p className="text-lg text-black">

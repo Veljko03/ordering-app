@@ -146,7 +146,7 @@ export default function BusinessInfo() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Side: Settings */}
         <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-bold mb-2 text-black">
+          <h2 className="text-2xl font-bold mb-2 text-[#172554] uppercase">
             Osnovni podaci o vašoj delatnosti
           </h2>
           <h2 className="text-xl  mb-6 text-black">

@@ -75,7 +75,9 @@ export default function CategoryManager({ onChange }) {
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-2 text-black">Sekcije menija</h2>
+      <h2 className="text-xl font-bold mb-2 text-black uppercase">
+        Sekcije menija
+      </h2>
       <p className="text-lg text-black mb-6">
         Odaberite kategoriju u kojoj se jelo nalazi (npr. doručak, predjelo,
         glavno jelo…).
