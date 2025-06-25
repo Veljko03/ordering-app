@@ -131,7 +131,7 @@ export default function ItemManager() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex flex-col items-center text-center">
-        <h2 className="text-2xl mb-2 font-semibold text-[#172554] uppercase">
+        <h2 className="text-xl mb-2 font-semibold text-[#172554] uppercase">
           Informacije o jelu
         </h2>
         <p className="text-lg mb-8 text-[#172554]">
