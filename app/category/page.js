@@ -1,6 +1,7 @@
 "use client";
 import { LucideClock2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { FaPlus } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
 export default function CategoryManager({ onChange }) {
@@ -86,9 +87,9 @@ export default function CategoryManager({ onChange }) {
         />
         <button
           onClick={addCategory}
-          className="bg-[#7893c3] text-black px-4 py-2 rounded uppercase"
+          className="bg-[#7893c3] text-white px-4 py-2 rounded uppercase"
         >
-          Dodaj
+          <FaPlus />
         </button>
       </div>
 

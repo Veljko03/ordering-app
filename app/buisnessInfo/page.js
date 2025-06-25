@@ -142,11 +142,18 @@ export default function BusinessInfo() {
   if (!info || !formData) return <div>Loading...</div>;
 
   return (
-    <div className="bg-[#fefef4] p-6">
+    <div className="bg-[#f3f3f4] p-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Side: Settings */}
         <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-bold mb-4 text-black">Informacije</h2>
+          <h2 className="text-2xl font-bold mb-4 text-black">
+            Osnovni podaci o vašoj delatnosti
+          </h2>
+          <h2 className="text-xl  mb-4 text-black">
+            Ovi podaci biće prikazani gostima zato vas molimo da budu tačni i
+            ažurni
+          </h2>
+
           <div className="flex items-start gap-4 mb-6">
             <div className="relative">
               <img
@@ -268,8 +275,10 @@ export default function BusinessInfo() {
                 }}
                 disabled={sendingData}
                 hidden={sendingData}
-                className={` text-black px-4 ${
-                  isChanged ? "bg-[#8559A5]" : "bg-transparent"
+                className={`  px-4 ${
+                  isChanged
+                    ? "bg-[#8559A5] text-white"
+                    : "bg-transparent text-black"
                 } py-2 rounded cursor-pointer w-24 uppercase `}
               >
                 Otkaži
@@ -278,8 +287,10 @@ export default function BusinessInfo() {
                 onClick={handleSave}
                 hidden={sendingData}
                 disabled={sendingData}
-                className={` text-black w-24 px-4 uppercase ${
-                  isChanged ? "bg-[#7893c3]" : "bg-transparent"
+                className={`  w-24 px-4 uppercase ${
+                  isChanged
+                    ? "bg-[#7893c3] text-white"
+                    : "bg-transparent text-black"
                 } py-2 rounded cursor-pointer `}
               >
                 Sačuvaj

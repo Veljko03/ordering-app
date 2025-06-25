@@ -144,7 +144,7 @@ export default function ItemManager() {
               value={formData.imageUrl}
               onChange={handleChange}
               placeholder="URL"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-black w-full"
+              className="mb-4 p-2  rounded-2xl text-black w-full"
             />
 
             <label className="mb-2 ">Item name</label>
@@ -153,7 +153,7 @@ export default function ItemManager() {
               value={formData.name}
               onChange={handleChange}
               placeholder="Pizza"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-black w-full"
+              className="mb-4 p-2  rounded-2xl text-black w-full"
             />
 
             <label className="mb-2">Item description</label>
@@ -162,7 +162,7 @@ export default function ItemManager() {
               value={formData.description}
               onChange={handleChange}
               placeholder="Best pizza ever"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-black w-full"
+              className="mb-4 p-2  rounded-2xl text-black w-full"
             />
 
             <label className="mb-2">Item pice</label>
@@ -172,14 +172,14 @@ export default function ItemManager() {
               value={formData.basePrice}
               onChange={handleChange}
               placeholder="300"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-black w-full"
+              className="mb-4 p-2 b rounded-2xl text-black w-full"
             />
 
             <select
               name="categoryId"
               value={formData.categoryId}
               onChange={handleChange}
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-black w-full"
+              className="mb-4 p-2  rounded-2xl text-black w-full"
             >
               <option value="">Select Category</option>
               {categories?.map((cat) => (
@@ -217,7 +217,7 @@ export default function ItemManager() {
               </div>
             ))}
             <button
-              className="rounded-2xl p-2 uppercase text-black bg-green-400 w-30"
+              className="rounded-2xl p-2 uppercase bg-[#7893c3] text-white  w-30"
               type="button"
               onClick={addSize}
             >
@@ -273,7 +273,7 @@ export default function ItemManager() {
             ))}
             <button
               type="button"
-              className="rounded-2xl p-2 text-black uppercase bg-green-400 w-30"
+              className="rounded-2xl p-2 bg-[#7893c3] text-white uppercase  w-30"
               onClick={addAddon}
             >
               Dodaj
@@ -290,7 +290,7 @@ export default function ItemManager() {
             </button>
           )}
           <button
-            className=" rounded-2xl w-30 text-black uppercase bg-green-500 p-1.5 cursor-pointer"
+            className=" rounded-2xl w-30 bg-[#7893c3] text-white uppercase  p-1.5 cursor-pointer"
             type="submit"
           >
             {isEditing ? "Update" : "Add"} Item
