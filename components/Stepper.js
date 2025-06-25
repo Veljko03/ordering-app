@@ -71,13 +71,13 @@ const Stepper = () => {
         </div>
       ))}
 
-      <button
+      {/* <button
         onClick={handleNext}
         className="ml-6   bg-custom-blue text-black text-xl rounded-lg cursor-pointer hidden sm:block "
         disabled={currentStep === steps.length - 1}
       >
         Next
-      </button>
+      </button> */}
     </div>
   );
 };

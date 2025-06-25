@@ -133,9 +133,9 @@ export default function ItemManager() {
       <h2 className="text-2xl mb-2 font-semibold text-[#172554] uppercase">
         Informacije o jelu
       </h2>
-      <p className="text-lg text-black">
-        Unesite podatke o jelu. Svako jelo se unosi pojedinačno. Po želji
-        dodajte dodatne napomene (npr. vegetarijansko, ljuto, bez glutena…).
+      <p className="text-lg text-[#172554]">
+        Svako jelo se unosi pojedinačno. <br /> Po želji dodajte dodatne
+        napomene (npr. vegetarijansko, ljuto, bez glutena…).
       </p>
 
       <form
