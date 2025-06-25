@@ -142,7 +142,7 @@ export default function BusinessInfo() {
   if (!info || !formData) return <div>Loading...</div>;
 
   return (
-    <div className="bg-[#f3f3f4] p-6">
+    <div className="bg-[#f3f3f4] p-4">
       <div className="flex flex-col items-center text-center">
         <h2 className="text-xl font-bold mb-2 tracking-tight text-[#172554] uppercase ">
           Podaci o vašoj delatnosti

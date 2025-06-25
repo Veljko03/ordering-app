@@ -202,12 +202,12 @@ const WeekSchedule = () => {
     }));
   };
   return (
-    <div className="w-full">
+    <div className="w-full p-4">
       <div className="flex flex-col items-center text-center">
         <h2 className="text-xl font-semibold mb-2 t uppercase text-[#172554] ">
           Raspored rada restorana
         </h2>
-        <p className="text-lg text-black mb-4">
+        <p className="text-lg text-black mb-8">
           Unesite kada ste otvoreni tokom nedelje – informacije će biti
           prikazane posetiocima.
         </p>
