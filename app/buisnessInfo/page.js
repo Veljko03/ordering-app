@@ -143,17 +143,19 @@ export default function BusinessInfo() {
 
   return (
     <div className="bg-[#f3f3f4] p-6">
+      <div className="flex flex-col items-center text-center">
+        <h2 className="text-2xl font-bold mb-2 text-[#172554] uppercase ">
+          Osnovni podaci o vašoj delatnosti
+        </h2>
+        <h2 className="text-xl  mb-6 text-black">
+          Ovi podaci biće prikazani gostima, zato vas molimo da budu tačni i
+          ažurni.
+        </h2>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Side: Settings */}
         <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-bold mb-2 text-[#172554] uppercase">
-            Osnovni podaci o vašoj delatnosti
-          </h2>
-          <h2 className="text-xl  mb-6 text-black">
-            Ovi podaci biće prikazani gostima, zato vas molimo da budu tačni i
-            ažurni.
-          </h2>
-
           <div className="flex items-start gap-4 mb-6">
             <div className="relative">
               <img

@@ -203,17 +203,18 @@ const WeekSchedule = () => {
   };
   return (
     <div className="w-full">
+      <div className="flex flex-col items-center text-center">
+        <h2 className="text-xl font-semibold mb-2 t uppercase text-[#172554] ">
+          Raspored rada restorana
+        </h2>
+        <p className="text-lg text-black mb-4">
+          Unesite kada ste otvoreni tokom nedelje – informacije će biti
+          prikazane posetiocima.
+        </p>
+      </div>
       <div className="flex flex-col  gap-6">
         <div className="flex flex-col gap-6">
           <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-2 t uppercase text-[#172554] ">
-              Raspored rada restorana
-            </h2>
-            <p className="text-lg text-black mb-4">
-              Unesite kada ste otvoreni tokom nedelje – informacije će biti
-              prikazane posetiocima.
-            </p>
-
             <form onSubmit={handleTimeFormSubmit} className="space-y-4">
               <div className="grid grid-cols-4   font-semibold text-sm text-gray-700 mb-2">
                 <div>Dan</div>
