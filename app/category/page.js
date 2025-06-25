@@ -75,7 +75,7 @@ export default function CategoryManager({ onChange }) {
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-2 text-black uppercase">
+      <h2 className="text-xl font-bold mb-2 text-[#172554] uppercase">
         Sekcije menija
       </h2>
       <p className="text-lg text-black mb-6">

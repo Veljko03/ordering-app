@@ -62,7 +62,7 @@ const Stepper = () => {
                 : "bg-transparent border-[#7893c3] text-[#7893c3]"
             }`}
           >
-            <div className="text-lg">{step.icon}</div>
+            <div className="text-xl">{step.icon}</div>
             <span className="text-xs mt-1">{step.name}</span>
           </div>
           {/* {index < steps.length - 1 && (

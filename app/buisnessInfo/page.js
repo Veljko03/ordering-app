@@ -150,8 +150,8 @@ export default function BusinessInfo() {
             Osnovni podaci o vašoj delatnosti
           </h2>
           <h2 className="text-xl  mb-6 text-black">
-            Ovi podaci biće prikazani gostima zato vas molimo da budu tačni i
-            ažurni
+            Ovi podaci biće prikazani gostima, zato vas molimo da budu tačni i
+            ažurni.
           </h2>
 
           <div className="flex items-start gap-4 mb-6">
