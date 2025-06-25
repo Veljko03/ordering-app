@@ -270,7 +270,7 @@ export default function BusinessInfo() {
                 hidden={sendingData}
                 className={` text-black px-4 ${
                   isChanged ? "bg-[#8559A5]" : "bg-transparent"
-                } py-2 rounded cursor-pointer w-24 `}
+                } py-2 rounded cursor-pointer w-24 uppercase `}
               >
                 Otkaži
               </button>
@@ -278,7 +278,7 @@ export default function BusinessInfo() {
                 onClick={handleSave}
                 hidden={sendingData}
                 disabled={sendingData}
-                className={` text-black w-24 px-4 ${
+                className={` text-black w-24 px-4 uppercase ${
                   isChanged ? "bg-[#7893c3]" : "bg-transparent"
                 } py-2 rounded cursor-pointer `}
               >

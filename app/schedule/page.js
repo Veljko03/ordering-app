@@ -186,7 +186,7 @@ const WeekSchedule = () => {
     if (day == "Monday") return "Ponedeljak";
     if (day == "Tuesday") return "Utorak";
     if (day == "Wenesday") return "Sreda";
-    if (day == "Thursday") return "Cetvrtak";
+    if (day == "Thursday") return "Četvrtak";
     if (day == "Friday") return "Petak";
     if (day == "Saturday") return "Subota";
     if (day == "Sunday") return "Nedelja";
@@ -214,8 +214,8 @@ const WeekSchedule = () => {
               <div className="grid grid-cols-4   font-semibold text-sm text-gray-700 mb-2">
                 <div>Dan</div>
                 <div>Zatvoreno</div>
-                <div>Početno vreme</div>
-                <div>Krajnje vreme</div>
+                <div>Od</div>
+                <div>Do</div>
               </div>
               {[
                 "Monday",
@@ -254,7 +254,7 @@ const WeekSchedule = () => {
                       name={`${key}Start`}
                       value={timesForEachDay[`${key}Start`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded w-full text-black"
+                      className="p-2 border rounded sm:w-36 w-24  text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                     <input
@@ -262,7 +262,7 @@ const WeekSchedule = () => {
                       name={`${key}End`}
                       value={timesForEachDay[`${key}End`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded w-full text-black"
+                      className="p-2 border rounded sm:w-36 w-24 ml-2  text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                   </div>
@@ -270,9 +270,9 @@ const WeekSchedule = () => {
               })}
               <button
                 type="submit"
-                className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                className="mt-4 bg-[#7893c3] text-white px-4 py-2 rounded uppercase "
               >
-                Sacuvaj
+                Sačuvaj
               </button>
             </form>
           </div>

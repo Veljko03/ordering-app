@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaPlus, FaPlusCircle, FaTrash } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
 
@@ -130,30 +130,30 @@ export default function ItemManager() {
 
   return (
     <div className="p-6 space-y-6">
-      <h2 className="text-2xl font-semibold">Items</h2>
+      <h2 className="text-2xl font-semibold text-black">Items</h2>
 
       <form
         onSubmit={handleSubmit}
         className=" border p-4 rounded  flex flex-col gap-5 overflow-x-auto"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col ">
+          <div className="flex flex-col text-black">
             <label className="mb-2">Upload picture here</label>
             <input
               name="imageUrl"
               value={formData.imageUrl}
               onChange={handleChange}
               placeholder="URL"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white w-full"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-black w-full"
             />
 
-            <label className="mb-2">Item name</label>
+            <label className="mb-2 ">Item name</label>
             <input
               name="name"
               value={formData.name}
               onChange={handleChange}
               placeholder="Pizza"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white w-full"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-black w-full"
             />
 
             <label className="mb-2">Item description</label>
@@ -162,7 +162,7 @@ export default function ItemManager() {
               value={formData.description}
               onChange={handleChange}
               placeholder="Best pizza ever"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white w-full"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-black w-full"
             />
 
             <label className="mb-2">Item pice</label>
@@ -172,82 +172,86 @@ export default function ItemManager() {
               value={formData.basePrice}
               onChange={handleChange}
               placeholder="300"
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white w-full"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-black w-full"
             />
 
             <select
               name="categoryId"
               value={formData.categoryId}
               onChange={handleChange}
-              className="mb-4 p-2 bg-blue-600 rounded-2xl text-white w-full"
+              className="mb-4 p-2 bg-blue-600 rounded-2xl text-black w-full"
             >
               <option value="">Select Category</option>
               {categories?.map((cat) => (
-                <option className="text-white" key={cat._id} value={cat._id}>
+                <option className="text-black" key={cat._id} value={cat._id}>
                   {cat.name}
                 </option>
               ))}
             </select>
           </div>
 
-          <div className="flex flex-col gap-5  ">
-            <h4>Sizes</h4>
+          <div className="flex flex-col gap-5  text-black">
+            <h4>Veličine</h4>
             {formData.sizes.map((s, i) => (
               <div
                 key={i}
-                className="flex gap-3 p-2 border-1 border-white rounded-2xl"
+                className="flex gap-3 p-2 border-1 border-black text-black rounded-2xl "
               >
                 <input
                   placeholder="Size"
                   value={s.size}
+                  className="text-black rounded-xl p-1"
                   onChange={(e) => handleSizeChange(i, "size", e.target.value)}
                 />
                 <input
                   placeholder="Price"
                   type="number"
                   value={s.price}
+                  className="rounded-xl p-1"
                   onChange={(e) => handleSizeChange(i, "price", e.target.value)}
                 />
                 <FaTrash
                   onClick={() => removeSize(i)}
-                  className="text-red-500 ml-auto text-xl cursor-pointer"
+                  className="text-red-500 ml-auto   text-xl cursor-pointer self-center"
                 />
               </div>
             ))}
             <button
-              className="rounded-2xl p-2 bg-green-400 w-30"
+              className="rounded-2xl p-2 uppercase text-black bg-green-400 w-30"
               type="button"
               onClick={addSize}
             >
-              + Add Size
+              Dodaj
             </button>
           </div>
 
-          <div className="flex flex-col gap-5">
-            <h4>Addons</h4>
+          <div className="flex flex-col gap-5 text-black">
+            <h4>Prilozi</h4>
             {formData.addons.map((a, i) => (
               <div
                 key={i}
-                className="flex w-full p-2 border-1 border-white rounded-2xl"
+                className="flex flex-wrap w-full p-2 border-1 text-black border-black rounded-2xl"
               >
                 <input
                   placeholder="Name"
                   value={a.name}
+                  className="rounded-xl p-1"
                   onChange={(e) => handleAddonChange(i, "name", e.target.value)}
                 />
                 <input
                   placeholder="Price"
                   type="number"
                   value={a.price}
+                  className="rounded-xl p-1"
                   onChange={(e) =>
                     handleAddonChange(i, "price", e.target.value)
                   }
                 />
                 <select
-                  className={` rounded  mx-1 ${
+                  className={` rounded  ml-4 ${
                     a.active === true || a.active === "true"
-                      ? "bg-green-600 text-white"
-                      : "bg-red-600 text-white"
+                      ? "bg-green-600 text-black"
+                      : "bg-red-600 text-black"
                   }`}
                   value={a.active.toString()}
                   onChange={(e) =>
@@ -255,38 +259,38 @@ export default function ItemManager() {
                   }
                 >
                   <option className="text-white bg-black" value="true">
-                    Active
+                    Dostupan
                   </option>
                   <option className="text-white bg-black" value="false">
-                    Inactive
+                    Nedostupan
                   </option>
                 </select>
                 <FaTrash
                   onClick={() => removeAddon(i)}
-                  className="text-red-500 ml-auto text-xl cursor-pointer"
+                  className="text-red-500 ml-auto text-xl cursor-pointer self-center"
                 />
               </div>
             ))}
             <button
               type="button"
-              className="rounded-2xl p-2 bg-green-400 w-30"
+              className="rounded-2xl p-2 text-black uppercase bg-green-400 w-30"
               onClick={addAddon}
             >
-              + Add Addon
+              Dodaj
             </button>
           </div>
         </div>
-        <div className="flex gap-5 ml-auto">
+        <div className="flex gap-5 ml-auto text-black">
           {isChanged && (
             <button
               onClick={() => setFormData(emptyFormData)}
-              className=" rounded-2xl w-30 bg-red-500 p-1.5 cursor-pointer"
+              className=" rounded-2xl w-30 text-black uppercase bg-red-500 p-1.5 cursor-pointer"
             >
               Otkazi
             </button>
           )}
           <button
-            className=" rounded-2xl w-30 bg-green-500 p-1.5 cursor-pointer"
+            className=" rounded-2xl w-30 text-black uppercase bg-green-500 p-1.5 cursor-pointer"
             type="submit"
           >
             {isEditing ? "Update" : "Add"} Item
@@ -295,15 +299,15 @@ export default function ItemManager() {
       </form>
 
       <div>
-        <h3 className="text-xl">All Items</h3>
+        <h3 className="text-xl text-black">All Items</h3>
         <ul className="space-y-2">
           {items.map((item) => (
             <li
               key={item._id}
-              className="border p-2 flex justify-between items-center"
+              className="border p-2 flex rounded-xl p-3 justify-between items-center text-black"
             >
-              <span>{item.name}</span>
-              <span>Base price is {item.basePrice}</span>
+              <span className="text-black">{item.name}</span>
+              <span className="text-black">Base price is {item.basePrice}</span>
               <div className="space-x-2 flex gap-5 text-3xl">
                 <HiPencilAlt
                   className="cursor-pointer"

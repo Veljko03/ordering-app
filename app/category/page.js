@@ -74,7 +74,7 @@ export default function CategoryManager({ onChange }) {
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Kategorije</h2>
+      <h2 className="text-xl font-bold mb-4 text-black">Kategorije</h2>
 
       <div className="flex gap-2 mb-4">
         <input
@@ -82,11 +82,11 @@ export default function CategoryManager({ onChange }) {
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
           placeholder="Nova kategorija"
-          className="border p-2 rounded"
+          className="border p-2 rounded text-black"
         />
         <button
           onClick={addCategory}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-[#7893c3] text-black px-4 py-2 rounded uppercase"
         >
           Dodaj
         </button>
@@ -102,42 +102,42 @@ export default function CategoryManager({ onChange }) {
                     type="text"
                     value={editingName}
                     onChange={(e) => setEditingName(e.target.value)}
-                    className="border p-1 rounded"
+                    className="border p-1 rounded text-black"
                   />
                   <button
-                    onClick={updateCategory}
-                    className="bg-green-500 text-white px-2 rounded"
+                    onClick={() => setEditingId(null)}
+                    className="bg-[#8559A5] rounded text-black w-24 p-2 uppercase"
                   >
-                    Save
+                    Otkaži
                   </button>
                   <button
-                    onClick={() => setEditingId(null)}
-                    className="text-red-500"
+                    onClick={updateCategory}
+                    className="bg-[#7893c3] text-black p-2 w-24 rounded uppercase"
                   >
-                    Cancel
+                    Sačuvaj
                   </button>
                 </>
               ) : (
-                <>
+                <div className="flex w-full border-1 border-black rounded-xl p-2">
                   <span
-                    className="cursor-pointer font-medium"
+                    className="cursor-pointer font-medium text-black"
                     onClick={() => toggleCategoryItems(cat._id)}
                   >
                     {cat.name}
                   </span>
-                  <LucideClock2 className="ml-5 cursor-pointer" />
+                  <LucideClock2 className="ml-auto mr-3 cursor-pointer text-black" />
                   <HiPencilAlt
                     onClick={() => {
                       setEditingId(cat._id);
                       setEditingName(cat.name);
                     }}
-                    className="text-blue-500 text-2xl ml-auto mr-3 cursor-pointer"
+                    className="text-blue-500 text-2xl  mr-3 cursor-pointer"
                   />
                   <MdDeleteForever
                     onClick={() => deleteCategory(cat._id)}
                     className="text-red-500 text-2xl mr-5 cursor-pointer"
                   />
-                </>
+                </div>
               )}
             </div>
 
@@ -145,14 +145,17 @@ export default function CategoryManager({ onChange }) {
               <ul className="ml-4 mt-2 text-sm text-white-700">
                 {itemsByCategory[cat._id]?.length > 0 ? (
                   itemsByCategory[cat._id].map((item) => (
-                    <li key={item._id} className="border p-2 rounded mb-1">
+                    <li
+                      key={item._id}
+                      className="border p-2 rounded mb-1 text-black"
+                    >
                       <div className="font-semibold">{item.name}</div>
                       <div>{item.description}</div>
                     </li>
                   ))
                 ) : (
-                  <li className="text-gray-500 italic">
-                    No items in this category
+                  <li className="text-gray-500 italic text-black">
+                    Ova kategorija je prazna
                   </li>
                 )}
               </ul>
