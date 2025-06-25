@@ -115,13 +115,13 @@ export default function CategoryManager({ onChange }) {
                   />
                   <button
                     onClick={() => setEditingId(null)}
-                    className="bg-[#8559A5] rounded text-black w-24 p-2 uppercase"
+                    className="bg-[#8559A5] rounded text-black w-23 p-2 uppercase"
                   >
                     Otkaži
                   </button>
                   <button
                     onClick={updateCategory}
-                    className="bg-[#7893c3] text-black p-2 w-24 rounded uppercase"
+                    className="bg-[#7893c3] text-black p-2 w-23 rounded uppercase"
                   >
                     Sačuvaj
                   </button>
