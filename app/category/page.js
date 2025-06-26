@@ -90,8 +90,8 @@ export default function CategoryManager({ onChange }) {
             type="text"
             value={newCategory}
             onChange={(e) => setNewCategory(e.target.value)}
-            placeholder="Nova kategorija"
-            className="border p-2 rounded text-black"
+            placeholder="Nova sekcija"
+            className="border  p-2 rounded text-black"
           />
           <button
             onClick={addCategory}
@@ -103,15 +103,15 @@ export default function CategoryManager({ onChange }) {
 
         <ul>
           {categories.map((cat) => (
-            <li key={cat._id} className="mb-4 border-b pb-2">
-              <div className="flex flex-wrap items-center gap-2">
+            <li key={cat._id} className="mb-4   pb-2">
+              <div className="flex flex-wrap items-center  gap-2">
                 {editingId === cat._id ? (
-                  <>
+                  <div>
                     <input
                       type="text"
                       value={editingName}
                       onChange={(e) => setEditingName(e.target.value)}
-                      className="border p-1 rounded text-black"
+                      className=" p-1  text-black font-semibold"
                     />
                     <button
                       onClick={() => setEditingId(null)}
@@ -125,11 +125,11 @@ export default function CategoryManager({ onChange }) {
                     >
                       Sačuvaj
                     </button>
-                  </>
+                  </div>
                 ) : (
-                  <div className="flex w-full border-1 border-black rounded-xl p-2">
+                  <div className="flex w-full border-b-1 border-b-black  p-2">
                     <span
-                      className="cursor-pointer font-medium text-black"
+                      className="cursor-pointer font-semibold  text-black"
                       onClick={() => toggleCategoryItems(cat._id)}
                     >
                       {cat.name}

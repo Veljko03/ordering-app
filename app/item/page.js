@@ -187,9 +187,9 @@ export default function ItemManager() {
                 name="categoryId"
                 value={formData.categoryId}
                 onChange={handleChange}
-                className="mb-4 p-2  rounded-2xl text-black w-full bg-gray-100"
+                className="mb-4 p-2 h-10 mt-4  rounded-2xl text-black w-full bg-gray-100"
               >
-                <option value="">Izaberiti kategoriju</option>
+                <option value="">Izaberiti sekciju</option>
                 {categories?.map((cat) => (
                   <option className="text-black" key={cat._id} value={cat._id}>
                     {cat.name}
@@ -203,7 +203,7 @@ export default function ItemManager() {
               {formData.sizes.map((s, i) => (
                 <div
                   key={i}
-                  className="flex flex-wrap gap-3 p-2 border-1 border-black text-black rounded-2xl "
+                  className="flex gap-3 p-2 border-1 border-black text-black rounded-2xl "
                 >
                   <input
                     placeholder="Veličina"
@@ -294,17 +294,17 @@ export default function ItemManager() {
               </button>
             </div>
           </div>
-          <div className="flex gap-5 ml-auto text-black mt-10">
+          <div className="flex gap-5 ml-auto text-white mt-10">
             {isChanged && (
               <button
                 onClick={() => setFormData(emptyFormData)}
-                className=" rounded-2xl w-30 text-black uppercase bg-red-500 p-1.5 cursor-pointer"
+                className=" rounded-2xl w-30  uppercase bg-red-500 p-1.5 cursor-pointer"
               >
                 Otkaži
               </button>
             )}
             <button
-              className=" rounded-2xl w-30 bg-[#7893c3] text-white uppercase  p-1.5 cursor-pointer"
+              className=" rounded-2xl w-30 bg-[#7893c3] uppercase  p-1.5 cursor-pointer"
               type="submit"
             >
               {isEditing ? "Izmeni" : "Dodaj"} jelo
