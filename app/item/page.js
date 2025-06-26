@@ -208,7 +208,7 @@ export default function ItemManager() {
                   <input
                     placeholder="Veličina"
                     value={s.size}
-                    className="text-black rounded-xl p-1 w-38 sm:w-60 bg-gray-100"
+                    className="text-black rounded-xl p-1 w-30 sm:w-60 bg-gray-100"
                     onChange={(e) =>
                       handleSizeChange(i, "size", e.target.value)
                     }
@@ -217,7 +217,7 @@ export default function ItemManager() {
                     placeholder="Cena"
                     type="number"
                     value={s.price}
-                    className="rounded-xl p-1 w-38 sm:w-60  bg-gray-100"
+                    className="rounded-xl p-1 w-30 sm:w-60  bg-gray-100"
                     onChange={(e) =>
                       handleSizeChange(i, "price", e.target.value)
                     }

@@ -84,7 +84,7 @@ export default function CategoryManager({ onChange }) {
           glavno jelo…).
         </p>
       </div>
-      <div className="bg-white p-6 rounded-lg shadow flex flex-col gap-5">
+      <div className="bg-white p-2 rounded-lg shadow flex flex-col gap-5">
         <div className="flex gap-2 mb-4 ">
           <input
             type="text"
@@ -104,7 +104,7 @@ export default function CategoryManager({ onChange }) {
         <ul>
           {categories.map((cat) => (
             <li key={cat._id} className="mb-4 border-b pb-2">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {editingId === cat._id ? (
                   <>
                     <input
