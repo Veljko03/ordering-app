@@ -203,7 +203,7 @@ export default function ItemManager() {
               {formData.sizes.map((s, i) => (
                 <div
                   key={i}
-                  className="flex gap-3 p-2 border-1 border-black text-black rounded-2xl "
+                  className="flex flex-wrap gap-3 p-2 border-1 border-black text-black rounded-2xl "
                 >
                   <input
                     placeholder="Veličina"

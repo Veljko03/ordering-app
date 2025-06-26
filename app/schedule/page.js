@@ -259,7 +259,7 @@ const WeekSchedule = () => {
                       name={`${key}Start`}
                       value={timesForEachDay[`${key}Start`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded w-26 sm:ml-40 ml-10  text-black"
+                      className="p-2 border rounded w-22 sm:ml-40 ml-10  text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                     <input
@@ -267,7 +267,7 @@ const WeekSchedule = () => {
                       name={`${key}End`}
                       value={timesForEachDay[`${key}End`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded w-26 sm:ml-6 ml-2  text-black"
+                      className="p-2 border rounded w-22 sm:ml-6 ml-2  text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                   </div>
