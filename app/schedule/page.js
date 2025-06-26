@@ -214,7 +214,7 @@ const WeekSchedule = () => {
       </div>
       <div className="flex flex-col  gap-6">
         <div className="flex flex-col gap-6">
-          <div className="bg-white p-6 rounded-lg shadow">
+          <div className="bg-white p-3 rounded-lg shadow">
             <form onSubmit={handleTimeFormSubmit} className="space-y-4">
               {/* <div className="grid grid-cols-4   font-semibold text-sm text-gray-700 mb-2">
                 <div>Dan</div>
@@ -241,7 +241,7 @@ const WeekSchedule = () => {
                         : "bg-white"
                     }`}
                   >
-                    <div className="flex justify-start w-8">
+                    <div className="flex justify-start ">
                       <input
                         type="checkbox"
                         name={`${key}Closed`}
@@ -259,7 +259,7 @@ const WeekSchedule = () => {
                       name={`${key}Start`}
                       value={timesForEachDay[`${key}Start`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded w-25 sm:ml-40 ml-5  text-black"
+                      className="p-2 border rounded w-26 sm:ml-40 ml-2  text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                     <input
@@ -267,7 +267,7 @@ const WeekSchedule = () => {
                       name={`${key}End`}
                       value={timesForEachDay[`${key}End`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded w-25 sm:ml-6 ml-2  text-black"
+                      className="p-2 border rounded w-26 sm:ml-6 ml-1  text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                   </div>
