@@ -280,8 +280,8 @@ export default function BusinessInfo() {
                 className={`  px-4 ${
                   isChanged
                     ? "bg-[#8559A5] text-white"
-                    : "bg-transparent text-black"
-                } py-2 rounded cursor-pointer w-24 uppercase `}
+                    : "bg-transparent text-[#8559A5]"
+                } py-2 rounded cursor-pointer border-2 border-solid border-[#8559A5] w-24 uppercase `}
               >
                 Otkaži
               </button>
@@ -292,8 +292,8 @@ export default function BusinessInfo() {
                 className={`  w-24 px-4 uppercase ${
                   isChanged
                     ? "bg-[#7893c3] text-white"
-                    : "bg-transparent text-black"
-                } py-2 rounded cursor-pointer `}
+                    : "bg-transparent text-[#8559A5]"
+                } py-2 rounded border-[#8559A5] border-2 border-solid text-center cursor-pointer `}
               >
                 Sačuvaj
               </button>
