@@ -241,7 +241,7 @@ const WeekSchedule = () => {
                         : "bg-white"
                     }`}
                   >
-                    <div className="flex justify-start w-10">
+                    <div className="flex justify-start w-8">
                       <input
                         type="checkbox"
                         name={`${key}Closed`}
@@ -259,7 +259,7 @@ const WeekSchedule = () => {
                       name={`${key}Start`}
                       value={timesForEachDay[`${key}Start`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded w-22 sm:ml-40 ml-10  text-black"
+                      className="p-2 border rounded w-25 sm:ml-40 ml-5  text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                     <input
@@ -267,7 +267,7 @@ const WeekSchedule = () => {
                       name={`${key}End`}
                       value={timesForEachDay[`${key}End`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded w-22 sm:ml-6 ml-2  text-black"
+                      className="p-2 border rounded w-25 sm:ml-6 ml-2  text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                   </div>
