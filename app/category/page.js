@@ -84,94 +84,95 @@ export default function CategoryManager({ onChange }) {
           glavno jelo…).
         </p>
       </div>
+      <div className="bg-white p-6 rounded-lg shadow flex flex-col gap-5">
+        <div className="flex gap-2 mb-4 ">
+          <input
+            type="text"
+            value={newCategory}
+            onChange={(e) => setNewCategory(e.target.value)}
+            placeholder="Nova kategorija"
+            className="border p-2 rounded text-black"
+          />
+          <button
+            onClick={addCategory}
+            className="bg-[#7893c3] text-white px-4 py-2 rounded uppercase"
+          >
+            <FaPlus />
+          </button>
+        </div>
 
-      <div className="flex gap-2 mb-4">
-        <input
-          type="text"
-          value={newCategory}
-          onChange={(e) => setNewCategory(e.target.value)}
-          placeholder="Nova kategorija"
-          className="border p-2 rounded text-black"
-        />
-        <button
-          onClick={addCategory}
-          className="bg-[#7893c3] text-white px-4 py-2 rounded uppercase"
-        >
-          <FaPlus />
-        </button>
-      </div>
-
-      <ul>
-        {categories.map((cat) => (
-          <li key={cat._id} className="mb-4 border-b pb-2">
-            <div className="flex items-center gap-2">
-              {editingId === cat._id ? (
-                <>
-                  <input
-                    type="text"
-                    value={editingName}
-                    onChange={(e) => setEditingName(e.target.value)}
-                    className="border p-1 rounded text-black"
-                  />
-                  <button
-                    onClick={() => setEditingId(null)}
-                    className="bg-[#8559A5] rounded text-black w-23 p-2 uppercase"
-                  >
-                    Otkaži
-                  </button>
-                  <button
-                    onClick={updateCategory}
-                    className="bg-[#7893c3] text-black p-2 w-23 rounded uppercase"
-                  >
-                    Sačuvaj
-                  </button>
-                </>
-              ) : (
-                <div className="flex w-full border-1 border-black rounded-xl p-2">
-                  <span
-                    className="cursor-pointer font-medium text-black"
-                    onClick={() => toggleCategoryItems(cat._id)}
-                  >
-                    {cat.name}
-                  </span>
-                  <LucideClock2 className="ml-auto mr-3 cursor-pointer text-black" />
-                  <HiPencilAlt
-                    onClick={() => {
-                      setEditingId(cat._id);
-                      setEditingName(cat.name);
-                    }}
-                    className="text-blue-500 text-2xl  mr-3 cursor-pointer"
-                  />
-                  <MdDeleteForever
-                    onClick={() => deleteCategory(cat._id)}
-                    className="text-red-500 text-2xl mr-5 cursor-pointer"
-                  />
-                </div>
-              )}
-            </div>
-
-            {expandedCategoryId === cat._id && (
-              <ul className="ml-4 mt-2 text-sm text-white-700">
-                {itemsByCategory[cat._id]?.length > 0 ? (
-                  itemsByCategory[cat._id].map((item) => (
-                    <li
-                      key={item._id}
-                      className="border p-2 rounded mb-1 text-black"
+        <ul>
+          {categories.map((cat) => (
+            <li key={cat._id} className="mb-4 border-b pb-2">
+              <div className="flex items-center gap-2">
+                {editingId === cat._id ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editingName}
+                      onChange={(e) => setEditingName(e.target.value)}
+                      className="border p-1 rounded text-black"
+                    />
+                    <button
+                      onClick={() => setEditingId(null)}
+                      className="bg-[#8559A5] rounded text-black w-23 p-2 uppercase"
                     >
-                      <div className="font-semibold">{item.name}</div>
-                      <div>{item.description}</div>
-                    </li>
-                  ))
+                      Otkaži
+                    </button>
+                    <button
+                      onClick={updateCategory}
+                      className="bg-[#7893c3] text-black p-2 w-23 rounded uppercase"
+                    >
+                      Sačuvaj
+                    </button>
+                  </>
                 ) : (
-                  <li className="text-gray-500 italic text-black">
-                    Ova kategorija je prazna
-                  </li>
+                  <div className="flex w-full border-1 border-black rounded-xl p-2">
+                    <span
+                      className="cursor-pointer font-medium text-black"
+                      onClick={() => toggleCategoryItems(cat._id)}
+                    >
+                      {cat.name}
+                    </span>
+                    <LucideClock2 className="ml-auto mr-3 cursor-pointer text-black" />
+                    <HiPencilAlt
+                      onClick={() => {
+                        setEditingId(cat._id);
+                        setEditingName(cat.name);
+                      }}
+                      className="text-blue-500 text-2xl  mr-3 cursor-pointer"
+                    />
+                    <MdDeleteForever
+                      onClick={() => deleteCategory(cat._id)}
+                      className="text-red-500 text-2xl mr-5 cursor-pointer"
+                    />
+                  </div>
                 )}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ul>
+              </div>
+
+              {expandedCategoryId === cat._id && (
+                <ul className="ml-4 mt-2 text-sm text-white-700">
+                  {itemsByCategory[cat._id]?.length > 0 ? (
+                    itemsByCategory[cat._id].map((item) => (
+                      <li
+                        key={item._id}
+                        className="border p-2 rounded mb-1 text-black"
+                      >
+                        <div className="font-semibold">{item.name}</div>
+                        <div>{item.description}</div>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="text-gray-500 italic text-black">
+                      Ova kategorija je prazna
+                    </li>
+                  )}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

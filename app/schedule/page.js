@@ -216,12 +216,12 @@ const WeekSchedule = () => {
         <div className="flex flex-col gap-6">
           <div className="bg-white p-6 rounded-lg shadow">
             <form onSubmit={handleTimeFormSubmit} className="space-y-4">
-              <div className="grid grid-cols-4   font-semibold text-sm text-gray-700 mb-2">
+              {/* <div className="grid grid-cols-4   font-semibold text-sm text-gray-700 mb-2">
                 <div>Dan</div>
                 <div>Zatvoreno</div>
                 <div>Od</div>
                 <div>Do</div>
-              </div>
+              </div> */}
               {[
                 "Monday",
                 "Tuesday",
@@ -235,16 +235,13 @@ const WeekSchedule = () => {
                 return (
                   <div
                     key={day}
-                    className={`grid grid-cols-4 gap-2 sm:gap-0  items-center  rounded-sm p-2  ${
+                    className={`flex   items-center  rounded-sm p-2  ${
                       timesForEachDay[`${key}Closed`]
                         ? "bg-gray-400"
                         : "bg-white"
                     }`}
                   >
-                    <span className="w-20 font-medium text-black">
-                      {translateToSerbian(day)}
-                    </span>
-                    <div className="flex justify-start">
+                    <div className="flex justify-start w-10">
                       <input
                         type="checkbox"
                         name={`${key}Closed`}
@@ -253,13 +250,16 @@ const WeekSchedule = () => {
                         onChange={handleTimeChange}
                       />
                     </div>
+                    <span className="w-30 font-medium ml-2 text-black">
+                      {translateToSerbian(day)}
+                    </span>
 
                     <input
                       type="time"
                       name={`${key}Start`}
                       value={timesForEachDay[`${key}Start`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded sm:w-36 w-24  text-black"
+                      className="p-2 border rounded w-30 sm:ml-40 ml-10  text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                     <input
@@ -267,7 +267,7 @@ const WeekSchedule = () => {
                       name={`${key}End`}
                       value={timesForEachDay[`${key}End`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded sm:w-36 w-24 ml-2  text-black"
+                      className="p-2 border rounded w-30 sm:ml-6 ml-2  text-black"
                       disabled={timesForEachDay[`${key}Closed`]}
                     />
                   </div>

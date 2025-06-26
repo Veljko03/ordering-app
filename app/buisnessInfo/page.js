@@ -225,7 +225,7 @@ export default function BusinessInfo() {
           </div>
 
           <hr className="my-4 border-black" />
-          <h3 className="text-xl text-black font-semibold mb-4">
+          <h3 className="text-xl text-black font-semibold mb-4 uppercase">
             Socijalne mreže
           </h3>
 
