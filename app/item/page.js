@@ -146,48 +146,58 @@ export default function ItemManager() {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col text-black">
-              <label className="mb-2">Unesite fotografiju</label>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                Unesite fotografiju
+              </label>
               <input
                 name="imageUrl"
                 value={formData.imageUrl}
                 onChange={handleChange}
                 placeholder="URL"
-                className="mb-4 p-2  rounded-2xl text-black w-full bg-gray-100"
+                className="mb-4 p-2  rounded text-black w-full bg-gray-100"
               />
 
-              <label className="mb-2 ">Naziv jela</label>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                Naziv jela
+              </label>
               <input
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Karađorđeva šnicla"
-                className="mb-4 p-2  rounded-2xl text-black w-full bg-gray-100"
+                className="mb-4 p-2  rounded text-black w-full bg-gray-100"
               />
 
-              <label className="mb-2">Opis </label>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                Opis{" "}
+              </label>
               <textarea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
                 placeholder="Piliće meso, kajmak, pomfrit.."
-                className="mb-4 p-2  rounded-2xl text-black w-full bg-gray-100"
+                className="mb-4 p-2  rounded text-black w-full bg-gray-100"
               />
 
-              <label className="mb-2">Cena </label>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                Cena{" "}
+              </label>
               <input
                 name="basePrice"
                 type="number"
                 value={formData.basePrice}
                 onChange={handleChange}
                 placeholder="1100"
-                className="mb-4 p-2 b rounded-2xl text-black w-full bg-gray-100"
+                className="mb-4 p-2 b rounded text-black w-full bg-gray-100"
               />
-
+              <label className="block text-sm font-medium text-gray-700">
+                Sekcija
+              </label>
               <select
                 name="categoryId"
                 value={formData.categoryId}
                 onChange={handleChange}
-                className="mb-4 p-2 h-10 mt-4  rounded-2xl text-black w-full bg-gray-100"
+                className="mb-4 p-2 h-10 mt-2  rounded text-black w-full bg-gray-100"
               >
                 <option value="">Izaberiti sekciju</option>
                 {categories?.map((cat) => (
@@ -203,12 +213,12 @@ export default function ItemManager() {
               {formData.sizes.map((s, i) => (
                 <div
                   key={i}
-                  className="flex gap-3 p-2 border-1 border-black text-black rounded-2xl "
+                  className="flex gap-3 p-2 border-1 border-black text-black rounded "
                 >
                   <input
                     placeholder="Veličina"
                     value={s.size}
-                    className="text-black rounded-xl p-1 w-30 sm:w-60 bg-gray-100"
+                    className="text-black rounded p-1 w-30 sm:w-60 bg-gray-100"
                     onChange={(e) =>
                       handleSizeChange(i, "size", e.target.value)
                     }
@@ -217,7 +227,7 @@ export default function ItemManager() {
                     placeholder="Cena"
                     type="number"
                     value={s.price}
-                    className="rounded-xl p-1 w-30 sm:w-60  bg-gray-100"
+                    className="rounded p-1 w-30 sm:w-60  bg-gray-100"
                     onChange={(e) =>
                       handleSizeChange(i, "price", e.target.value)
                     }
@@ -229,7 +239,7 @@ export default function ItemManager() {
                 </div>
               ))}
               <button
-                className="rounded-2xl p-2 uppercase bg-[#7893c3] text-white  w-30"
+                className="rounded p-2 uppercase bg-[#7893c3] text-white  w-30"
                 type="button"
                 onClick={addSize}
               >
@@ -242,12 +252,12 @@ export default function ItemManager() {
               {formData.addons.map((a, i) => (
                 <div
                   key={i}
-                  className="flex flex-wrap gap-2 w-full p-2 border-1 text-black border-black rounded-2xl"
+                  className="flex flex-wrap gap-2 w-full p-2 border-1 text-black border-black rounded"
                 >
                   <input
                     placeholder="Tartar"
                     value={a.name}
-                    className="rounded-xl p-1 bg-gray-100"
+                    className="rounded p-1 bg-gray-100"
                     onChange={(e) =>
                       handleAddonChange(i, "name", e.target.value)
                     }
@@ -256,7 +266,7 @@ export default function ItemManager() {
                     placeholder="50"
                     type="number"
                     value={a.price}
-                    className="rounded-xl p-1 bg-gray-100"
+                    className="rounded p-1 bg-gray-100"
                     onChange={(e) =>
                       handleAddonChange(i, "price", e.target.value)
                     }
@@ -287,7 +297,7 @@ export default function ItemManager() {
               ))}
               <button
                 type="button"
-                className="rounded-2xl p-2 bg-[#7893c3] text-white uppercase  w-30"
+                className="rounded p-2 bg-[#7893c3] text-white uppercase  w-30"
                 onClick={addAddon}
               >
                 Dodaj
@@ -298,13 +308,13 @@ export default function ItemManager() {
             {isChanged && (
               <button
                 onClick={() => setFormData(emptyFormData)}
-                className=" rounded-2xl w-30  uppercase bg-red-500 p-1.5 cursor-pointer"
+                className=" rounded w-30  uppercase bg-red-500 p-1.5 cursor-pointer"
               >
                 Otkaži
               </button>
             )}
             <button
-              className=" rounded-2xl w-30 bg-[#7893c3] uppercase  p-1.5 cursor-pointer"
+              className=" rounded w-30 bg-[#7893c3] uppercase  p-1.5 cursor-pointer"
               type="submit"
             >
               {isEditing ? "Izmeni" : "Dodaj"} jelo
