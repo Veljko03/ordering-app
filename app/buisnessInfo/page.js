@@ -156,22 +156,9 @@ export default function BusinessInfo() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Side: Settings */}
         <div className="bg-white p-6 rounded-lg shadow">
-          <div className="flex items-start gap-4 mb-6">
-            <div className="relative">
-              <img
-                src="https://img.freepik.com/free-vector/illustration-circle-stamp-banner_53876-28483.jpg?semt=ais_hybrid&w=740"
-                alt="Restaurant Owner"
-                className="w-20 h-20 rounded-md object-cover"
-              />
-              <button className="absolute top-0 right-0 text-black bg-amber-50 p-1 rounded-full shadow">
-                ✎
-              </button>
-            </div>
-            <p className="text-xs text-gray-500">
-              Logo should have in 1:1 ratio for better viewing experience.
-            </p>
-          </div>
-
+          <h2 className="text-xl text-black font-semibold mb-4 uppercase">
+            Informacije o restoranu
+          </h2>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               Naziv restorana
@@ -368,11 +355,26 @@ export default function BusinessInfo() {
           </div> */}
 
           {/* Colors */}
-          {/* <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4 text-black">
-              Order Color Setting
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl text-black font-semibold mb-4 uppercase">
+              Brendiranje{" "}
             </h2>
             <div className="space-y-4">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="relative">
+                  <img
+                    src="https://img.freepik.com/free-vector/illustration-circle-stamp-banner_53876-28483.jpg?semt=ais_hybrid&w=740"
+                    alt="Restaurant Owner"
+                    className="w-20 h-20 rounded-md object-cover"
+                  />
+                  <button className="absolute top-0 right-0 text-black bg-amber-50 p-1 rounded-full shadow">
+                    ✎
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500">
+                  Logo should have in 1:1 ratio for better viewing experience.
+                </p>
+              </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">
                   Navbar Color
@@ -425,7 +427,6 @@ export default function BusinessInfo() {
               </div>
             </div>
           </div>
-          */}
         </div>
       </div>
     </div>
