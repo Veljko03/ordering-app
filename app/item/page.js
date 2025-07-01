@@ -131,10 +131,10 @@ export default function ItemManager() {
   return (
     <div className="p-4 space-y-6 bg-[#f3f3f4]">
       <div className="flex flex-col items-center text-center">
-        <h2 className="text-xl mb-2 font-semibold text-[#172554] uppercase">
+        <h2 className="text-xl font-bold mb-2 tracking-tight text-[#172554] uppercase">
           Informacije o jelu
         </h2>
-        <p className="text-lg mb-8 text-[#172554]">
+        <p className="text-lg  mb-8 text-black">
           Svako jelo se unosi pojedinačno. <br /> Po želji dodajte dodatne
           napomene (npr. vegetarijansko, ljuto, bez glutena…).
         </p>
@@ -142,7 +142,7 @@ export default function ItemManager() {
       <div className="bg-white p-6 rounded-lg shadow flex  flex-col gap-5">
         <form
           onSubmit={handleSubmit}
-          className="  p-4 rounded  flex flex-col gap-5 overflow-x-auto"
+          className="  p-4 rounded  flex flex-col gap-5 overflow-x-auto mb-5"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col text-black">
@@ -209,7 +209,9 @@ export default function ItemManager() {
             </div>
 
             <div className="flex flex-col gap-5  text-black">
-              <h4>Veličine</h4>
+              <h4 className="text-xl text-black font-semibold mb-4 uppercase">
+                Veličine
+              </h4>
               {formData.sizes.map((s, i) => (
                 <div
                   key={i}
@@ -248,7 +250,10 @@ export default function ItemManager() {
             </div>
 
             <div className="flex flex-col gap-5 text-black">
-              <h4>Prilozi</h4>
+              <hr className="my-4 border-black" />
+              <h3 className="text-xl text-black font-semibold mb-4 uppercase">
+                Prilozi
+              </h3>
               {formData.addons.map((a, i) => (
                 <div
                   key={i}
@@ -323,7 +328,9 @@ export default function ItemManager() {
         </form>
 
         <div>
-          <h3 className="text-xl text-black">Sva jela</h3>
+          <h3 className="text-xl text-black font-semibold mb-4 uppercase">
+            Sva jela
+          </h3>
           <ul className="space-y-2">
             {items.map((item) => (
               <li
