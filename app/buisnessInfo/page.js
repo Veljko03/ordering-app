@@ -276,11 +276,11 @@ export default function BusinessInfo() {
                 onClick={handleSave}
                 hidden={sendingData}
                 disabled={sendingData}
-                className={`  w-24 px-4 uppercase ${
+                className={`  w-24 px-4 uppercase  ${
                   isChanged
                     ? "bg-[#7893c3] text-white"
                     : "bg-transparent text-[#7893c3]"
-                } py-2 rounded border-[#8559A5] border-2 border-solid text-center cursor-pointer `}
+                } py-2 rounded border-[#7893c3] border-2 border-solid flex justify-center items-center text-center   cursor-pointer `}
               >
                 Sačuvaj
               </button>

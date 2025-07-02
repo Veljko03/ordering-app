@@ -91,11 +91,11 @@ export default function CategoryManager({ onChange }) {
             value={newCategory}
             onChange={(e) => setNewCategory(e.target.value)}
             placeholder="Nova sekcija"
-            className="border  p-2 rounded text-black"
+            className="border  p-2 rounded text-black  grow lg:grow-0 w-66"
           />
           <button
             onClick={addCategory}
-            className="bg-[#7893c3] text-white px-4 py-2 rounded uppercase"
+            className="bg-[#7893c3] text-white px-4 py-2 rounded uppercase cursor-pointer"
           >
             <FaPlus />
           </button>
@@ -125,27 +125,47 @@ export default function CategoryManager({ onChange }) {
                     >
                       Sačuvaj
                     </button>
+                    {/* <HiPencilAlt
+                      onClick={() => {
+                        setEditingId(cat._id);
+                        setEditingName(cat.name);
+                      }}
+                      className="text-blue-500 text-2xl  mr-3 cursor-pointer"
+                    /> */}
+                    {/* <MdDeleteForever
+                      onClick={() => deleteCategory(cat._id)}
+                      className="text-red-500 text-2xl mr-5 cursor-pointer"
+                    /> */}
                   </div>
                 ) : (
-                  <div className="flex w-full border-b-1 border-b-black  p-2">
+                  <div className="flex w-full border-b-1 border-b-black  ">
                     <span
                       className="cursor-pointer font-semibold  text-black"
                       onClick={() => toggleCategoryItems(cat._id)}
                     >
                       {cat.name}
                     </span>
-                    <LucideClock2 className="ml-auto mr-3 cursor-pointer text-black" />
-                    <HiPencilAlt
+                    {/* <LucideClock2 className="ml-auto mr-3 cursor-pointer text-black" /> */}
+                    <button
+                      onClick={() => {
+                        setEditingId(cat._id);
+                        setEditingName(cat.name);
+                      }}
+                      className="bg-[#7893c3] font-bold text-white mb-2  flex items-center justify-center  rounded uppercase cursor-pointer ml-auto  w-12 h-10 "
+                    >
+                      <HiPencilAlt />
+                    </button>
+                    {/* <HiPencilAlt
                       onClick={() => {
                         setEditingId(cat._id);
                         setEditingName(cat.name);
                       }}
                       className="text-blue-500 text-2xl  mr-3 cursor-pointer"
-                    />
-                    <MdDeleteForever
+                    /> */}
+                    {/* <MdDeleteForever
                       onClick={() => deleteCategory(cat._id)}
                       className="text-red-500 text-2xl mr-5 cursor-pointer"
-                    />
+                    /> */}
                   </div>
                 )}
               </div>
