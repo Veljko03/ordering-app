@@ -102,95 +102,141 @@ export default function CategoryManager({ onChange }) {
         </div>
 
         <ul>
-          {categories.map((cat) => (
-            <li key={cat._id} className="mb-4   pb-2">
-              <div className="flex flex-wrap items-center  gap-2">
-                {editingId === cat._id ? (
-                  <div>
-                    <input
-                      type="text"
-                      value={editingName}
-                      onChange={(e) => setEditingName(e.target.value)}
-                      className=" p-1  text-black font-semibold"
-                    />
-                    <button
-                      onClick={() => setEditingId(null)}
-                      className="bg-[#8559A5] rounded text-black w-23 p-2 uppercase"
-                    >
-                      Otkaži
-                    </button>
-                    <button
-                      onClick={updateCategory}
-                      className="bg-[#7893c3] text-black p-2 w-23 rounded uppercase"
-                    >
-                      Sačuvaj
-                    </button>
-                    {/* <HiPencilAlt
-                      onClick={() => {
-                        setEditingId(cat._id);
-                        setEditingName(cat.name);
-                      }}
-                      className="text-blue-500 text-2xl  mr-3 cursor-pointer"
-                    /> */}
-                    {/* <MdDeleteForever
-                      onClick={() => deleteCategory(cat._id)}
-                      className="text-red-500 text-2xl mr-5 cursor-pointer"
-                    /> */}
-                  </div>
-                ) : (
-                  <div className="flex w-full border-b-1 border-b-black  ">
-                    <span
-                      className="cursor-pointer font-semibold  text-black"
-                      onClick={() => toggleCategoryItems(cat._id)}
-                    >
-                      {cat.name}
-                    </span>
-                    {/* <LucideClock2 className="ml-auto mr-3 cursor-pointer text-black" /> */}
-                    <button
-                      onClick={() => {
-                        setEditingId(cat._id);
-                        setEditingName(cat.name);
-                      }}
-                      className="bg-[#7893c3] font-bold text-white mb-2  flex items-center justify-center  rounded uppercase cursor-pointer ml-auto  w-12 h-10 "
-                    >
-                      <HiPencilAlt />
-                    </button>
-                    {/* <HiPencilAlt
-                      onClick={() => {
-                        setEditingId(cat._id);
-                        setEditingName(cat.name);
-                      }}
-                      className="text-blue-500 text-2xl  mr-3 cursor-pointer"
-                    /> */}
-                    {/* <MdDeleteForever
-                      onClick={() => deleteCategory(cat._id)}
-                      className="text-red-500 text-2xl mr-5 cursor-pointer"
-                    /> */}
-                  </div>
-                )}
-              </div>
+          {categories.map((cat) => {
+            const isChanged = editingName.trim() !== cat.name.trim();
 
-              {expandedCategoryId === cat._id && (
-                <ul className="ml-4 mt-2 text-sm text-white-700">
-                  {itemsByCategory[cat._id]?.length > 0 ? (
-                    itemsByCategory[cat._id].map((item) => (
-                      <li
-                        key={item._id}
-                        className="border p-2 rounded mb-1 text-black"
-                      >
-                        <div className="font-semibold">{item.name}</div>
-                        <div>{item.description}</div>
-                      </li>
-                    ))
+            return (
+              <li key={cat._id} className="mb-4   pb-2">
+                <div className="flex flex-wrap items-center  gap-2">
+                  {editingId === cat._id ? (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                      <div className="bg-white p-6 rounded-lg w-[90%] max-w-md">
+                        <h2 className="text-xl font-semibold text-center mb-4 text-black">
+                          Izmeni kategoriju
+                        </h2>
+                        <input
+                          type="text"
+                          value={editingName}
+                          onChange={(e) => setEditingName(e.target.value)}
+                          className="w-full mb-4 p-2 border rounded text-black"
+                        />
+                        <div className="flex justify-end gap-2">
+                          <button
+                            onClick={() => setEditingId(null)}
+                            className={`  px-4 ${
+                              isChanged
+                                ? "bg-[#8559A5] text-white"
+                                : "bg-transparent text-[#8559A5]"
+                            } py-2 rounded cursor-pointer border-2 border-solid border-[#8559A5] w-24 uppercase `}
+                          >
+                            Otkaži
+                          </button>
+                          <button
+                            onClick={() => {
+                              updateCategory();
+                              setEditingId(null);
+                            }}
+                            className={`  w-24 px-4 uppercase  ${
+                              isChanged
+                                ? "bg-[#7893c3] text-white"
+                                : "bg-transparent text-[#7893c3]"
+                            } py-2 rounded border-[#7893c3] border-2 border-solid flex justify-center items-center text-center   cursor-pointer `}
+                          >
+                            Sačuvaj
+                          </button>{" "}
+                          <MdDeleteForever
+                            onClick={() => deleteCategory(cat._id)}
+                            className="text-red-500 text-2xl mr-5 cursor-pointer"
+                          />
+                        </div>
+                      </div>
+                    </div>
                   ) : (
-                    <li className="text-gray-500 italic text-black">
-                      Ova kategorija je prazna
-                    </li>
+                    //   <div>
+                    //     <input
+                    //       type="text"
+                    //       value={editingName}
+                    //       onChange={(e) => setEditingName(e.target.value)}
+                    //       className=" p-1  text-black font-semibold"
+                    //     />
+                    //     <button
+                    //       onClick={() => setEditingId(null)}
+                    //       className="bg-[#8559A5] rounded text-black w-23 p-2 uppercase"
+                    //     >
+                    //       Otkaži
+                    //     </button>
+                    //     <button
+                    //       onClick={updateCategory}
+                    //       className="bg-[#7893c3] text-black p-2 w-23 rounded uppercase"
+                    //     >
+                    //       Sačuvaj
+                    //     </button>
+                    //      <HiPencilAlt
+                    //       onClick={() => {
+                    //         setEditingId(cat._id);
+                    //         setEditingName(cat.name);
+                    //       }}
+                    //       className="text-blue-500 text-2xl  mr-3 cursor-pointer"
+                    //     />
+                    //      <MdDeleteForever
+                    //       onClick={() => deleteCategory(cat._id)}
+                    //       className="text-red-500 text-2xl mr-5 cursor-pointer"
+                    //     />
+                    //   </div>
+                    <div className="flex w-full border-b-1 border-b-black  ">
+                      <span
+                        className="cursor-pointer font-semibold  text-black"
+                        onClick={() => toggleCategoryItems(cat._id)}
+                      >
+                        {cat.name}
+                      </span>
+                      {/* <LucideClock2 className="ml-auto mr-3 cursor-pointer text-black" /> */}
+                      <button
+                        onClick={() => {
+                          setEditingId(cat._id);
+                          setEditingName(cat.name);
+                        }}
+                        className="bg-[#7893c3] font-bold text-white mb-2  flex items-center justify-center  rounded uppercase cursor-pointer ml-auto  w-12 h-10 "
+                      >
+                        <HiPencilAlt />
+                      </button>
+                      {/* <HiPencilAlt
+                      onClick={() => {
+                        setEditingId(cat._id);
+                        setEditingName(cat.name);
+                      }}
+                      className="text-blue-500 text-2xl  mr-3 cursor-pointer"
+                    /> */}
+                      {/* <MdDeleteForever
+                      onClick={() => deleteCategory(cat._id)}
+                      className="text-red-500 text-2xl mr-5 cursor-pointer"
+                    /> */}
+                    </div>
                   )}
-                </ul>
-              )}
-            </li>
-          ))}
+                </div>
+
+                {expandedCategoryId === cat._id && (
+                  <ul className="ml-4 mt-2 text-sm text-white-700">
+                    {itemsByCategory[cat._id]?.length > 0 ? (
+                      itemsByCategory[cat._id].map((item) => (
+                        <li
+                          key={item._id}
+                          className="border p-2 rounded mb-1 text-black"
+                        >
+                          <div className="font-semibold">{item.name}</div>
+                          <div>{item.description}</div>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-gray-500 italic text-black">
+                        Ova kategorija je prazna
+                      </li>
+                    )}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
