@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { FaPlus, FaPlusCircle, FaTrash } from "react-icons/fa";
-import { HiPencilAlt } from "react-icons/hi";
+import { HiPencilAlt, HiThumbDown } from "react-icons/hi";
+import { HiArrowDown, HiBarsArrowDown } from "react-icons/hi2";
 import { MdDeleteForever } from "react-icons/md";
 
 //za cene dodati sa klijentske strane sa admin strane nije potrebno jer admin ne dodaje u korpu i ne obracunava
@@ -20,6 +21,8 @@ export default function ItemManager() {
   const [formData, setFormData] = useState(emptyFormData);
 
   const [isEditing, setIsEditing] = useState(null);
+  const [itemsByCategory, setItemsByCategory] = useState({});
+  const [expandedCategoryId, setExpandedCategoryId] = useState(null);
 
   useEffect(() => {
     fetchItems();
@@ -30,6 +33,7 @@ export default function ItemManager() {
     const res = await fetch("/api/items");
     const data = await res.json();
     setItems(data);
+    console.log("TTTTTTTTTTTTTTT");
   }
 
   async function fetchCategories() {
@@ -126,6 +130,23 @@ export default function ItemManager() {
     setIsEditing(item._id);
   }
 
+  async function toggleCategoryItems(categoryId) {
+    //dostavljam id od kategorije koju sam kliknuo
+    if (expandedCategoryId === categoryId) {
+      setExpandedCategoryId(null); // zatvoram ako je otvorena
+      return;
+    }
+    console.log("items by category ", itemsByCategory);
+
+    if (!itemsByCategory[categoryId]) {
+      const res = await fetch(`/api/items?categoryId=${categoryId}`);
+      const data = await res.json();
+      setItemsByCategory((prev) => ({ ...prev, [categoryId]: data }));
+    }
+
+    setExpandedCategoryId(categoryId);
+  }
+
   const isChanged = JSON.stringify(formData) !== JSON.stringify(emptyFormData);
 
   return (
@@ -138,6 +159,74 @@ export default function ItemManager() {
           Svako jelo se unosi pojedinačno. <br /> Po želji dodajte dodatne
           napomene (npr. vegetarijansko, ljuto, bez glutena…).
         </p>
+      </div>
+      <div>
+        <h3 className="text-xl text-black font-semibold mb-4 uppercase">
+          Sva jela
+        </h3>
+        <ul className="space-y-2">
+          {categories.map((cat) => (
+            <div key={cat._id}>
+              <div
+                key={cat.id}
+                className="border p-2 flex rounded-xl p-3 justify-between items-center text-black cursor-pointer"
+                onClick={() => toggleCategoryItems(cat._id)}
+              >
+                <span>{cat.name}</span>
+
+                <HiBarsArrowDown />
+              </div>
+              {expandedCategoryId === cat._id && (
+                <ul className="ml-4 mt-2 text-sm text-white-700">
+                  {itemsByCategory[cat._id]?.length > 0 ? (
+                    itemsByCategory[cat._id].map((item) => (
+                      <li
+                        key={item._id}
+                        className="border p-2 flex rounded-xl p-3 justify-between items-center text-black"
+                      >
+                        <span className="text-black">{item.name}</span>
+                        <span className="text-black">{item.basePrice} rsd</span>
+                        <div className="space-x-2 flex gap-5 text-3xl">
+                          <HiPencilAlt
+                            className="cursor-pointer"
+                            onClick={() => handleEdit(item)}
+                          />
+                          <MdDeleteForever
+                            className="text-red-500 cursor-pointer"
+                            onClick={() => handleDelete(item._id)}
+                          />
+                        </div>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="text-gray-500 italic text-black">
+                      Ova kategorija je prazna
+                    </li>
+                  )}
+                </ul>
+              )}
+            </div>
+          ))}
+          {/* {items.map((item) => (
+            <li
+              key={item._id}
+              className="border p-2 flex rounded-xl p-3 justify-between items-center text-black"
+            >
+              <span className="text-black">{item.name}</span>
+              <span className="text-black">{item.basePrice} rsd</span>
+              <div className="space-x-2 flex gap-5 text-3xl">
+                <HiPencilAlt
+                  className="cursor-pointer"
+                  onClick={() => handleEdit(item)}
+                />
+                <MdDeleteForever
+                  className="text-red-500 cursor-pointer"
+                  onClick={() => handleDelete(item._id)}
+                />
+              </div>
+            </li>
+          ))} */}
+        </ul>
       </div>
       <div className="bg-white p-6 rounded-lg shadow flex  flex-col gap-5">
         <form
@@ -326,33 +415,6 @@ export default function ItemManager() {
             </button>
           </div>
         </form>
-
-        <div>
-          <h3 className="text-xl text-black font-semibold mb-4 uppercase">
-            Sva jela
-          </h3>
-          <ul className="space-y-2">
-            {items.map((item) => (
-              <li
-                key={item._id}
-                className="border p-2 flex rounded-xl p-3 justify-between items-center text-black"
-              >
-                <span className="text-black">{item.name}</span>
-                <span className="text-black">Cena je {item.basePrice} rsd</span>
-                <div className="space-x-2 flex gap-5 text-3xl">
-                  <HiPencilAlt
-                    className="cursor-pointer"
-                    onClick={() => handleEdit(item)}
-                  />
-                  <MdDeleteForever
-                    className="text-red-500 cursor-pointer"
-                    onClick={() => handleDelete(item._id)}
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </div>
   );
