@@ -50,8 +50,15 @@ export async function DELETE(req) {
 export async function PUT(req) {
   try {
     await mongoose.connect(process.env.NEXT_MONGO_URL);
-    const { _id, name } = await req.json();
-    await Category.updateOne({ _id }, { name });
+    const { _id, name, startTime, endTime } = await req.json();
+    await Category.updateOne(
+      { _id },
+      {
+        name,
+        ...(startTime !== undefined && { startTime }),
+        ...(endTime !== undefined && { endTime }),
+      }
+    );
     return Response.json(true);
   } catch (error) {
     return new Response(

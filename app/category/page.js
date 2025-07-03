@@ -9,6 +9,8 @@ export default function CategoryManager({ onChange }) {
   const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editingName, setEditingName] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
 
   const [itemsByCategory, setItemsByCategory] = useState({});
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
@@ -32,6 +34,7 @@ export default function CategoryManager({ onChange }) {
       body: JSON.stringify({ name: newCategory }),
     });
     setNewCategory("");
+
     fetchCategories();
     onChange?.(); //javlja da se promenilo nesto admin panelu
   }
@@ -48,9 +51,16 @@ export default function CategoryManager({ onChange }) {
     await fetch("/api/categories", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ _id: editingId, name: editingName }),
+      body: JSON.stringify({
+        _id: editingId,
+        name: editingName,
+        startTime,
+        endTime,
+      }),
     });
     setEditingId(null);
+    setStartTime("");
+    setEndTime("");
     setEditingName("");
     fetchCategories();
     onChange?.(); //javlja da se promenilo nesto admin panelu
@@ -72,6 +82,7 @@ export default function CategoryManager({ onChange }) {
 
     setExpandedCategoryId(categoryId);
   }
+  console.log("AAAAAAAAAAAAA ", categories);
 
   return (
     <div className="p-4">
@@ -93,6 +104,7 @@ export default function CategoryManager({ onChange }) {
             placeholder="Nova sekcija"
             className="border  p-2 rounded text-black  grow lg:grow-0 w-66"
           />
+
           <button
             onClick={addCategory}
             className="bg-[#7893c3] text-white px-4 py-2 rounded uppercase cursor-pointer"
@@ -120,7 +132,26 @@ export default function CategoryManager({ onChange }) {
                           onChange={(e) => setEditingName(e.target.value)}
                           className="w-full mb-4 p-2 border rounded text-black"
                         />
-                        <div className="flex justify-end gap-2">
+                        <div className="flex gap-6 justify-center items-center text-black">
+                          <label>Od</label>
+                          <input
+                            type="time"
+                            value={startTime}
+                            onChange={(e) => setStartTime(e.target.value)}
+                            className="border p-2 rounded text-black"
+                            placeholder="Start vreme"
+                          />
+                          <label>Do</label>
+                          <input
+                            type="time"
+                            value={endTime}
+                            onChange={(e) => setEndTime(e.target.value)}
+                            className="border p-2 rounded text-black"
+                            placeholder="Kraj vreme"
+                          />
+                        </div>
+
+                        <div className="flex justify-end mt-4 gap-2">
                           <button
                             onClick={() => setEditingId(null)}
                             className={`  px-4 ${
@@ -144,11 +175,11 @@ export default function CategoryManager({ onChange }) {
                           >
                             Sačuvaj
                           </button>{" "}
-                          <MdDeleteForever
-                            onClick={() => deleteCategory(cat._id)}
-                            className="text-red-500 text-2xl mr-5 cursor-pointer"
-                          />
                         </div>
+                        <MdDeleteForever
+                          onClick={() => deleteCategory(cat._id)}
+                          className="text-red-500 text-2xl mr-5 cursor-pointer"
+                        />
                       </div>
                     </div>
                   ) : (
@@ -190,6 +221,16 @@ export default function CategoryManager({ onChange }) {
                       >
                         {cat.name}
                       </span>
+                      {cat.startTime && (
+                        <div>
+                          <span className="ml-5   text-black">
+                            Od: {cat.startTime}
+                          </span>
+                          <span className="ml-5   text-black">
+                            Do: {cat.endTime}
+                          </span>
+                        </div>
+                      )}
                       {/* <LucideClock2 className="ml-auto mr-3 cursor-pointer text-black" /> */}
                       <button
                         onClick={() => {
