@@ -146,8 +146,18 @@ export default function ItemManager() {
 
     setExpandedCategoryId(categoryId);
   }
-
-  const isChanged = JSON.stringify(formData) !== JSON.stringify(emptyFormData);
+  function isFormDataEmpty(formData) {
+    return (
+      formData.name === "" &&
+      formData.description === "" &&
+      formData.imageUrl === "" &&
+      formData.basePrice === "" &&
+      formData.categoryId === "" &&
+      formData.sizes.length === 0 &&
+      formData.addons.length === 0
+    );
+  }
+  const isChanged = !isFormDataEmpty(formData);
 
   return (
     <div className="p-4 space-y-6 bg-[#f3f3f4]">
@@ -182,7 +192,7 @@ export default function ItemManager() {
                     itemsByCategory[cat._id].map((item) => (
                       <li
                         key={item._id}
-                        className="border p-2 flex rounded-xl p-3 justify-between items-center text-black"
+                        className="border mt-2 p-2 flex rounded-xl p-3 justify-between items-center text-black"
                       >
                         <span className="text-black">{item.name}</span>
                         <span className="text-black">{item.basePrice} rsd</span>
