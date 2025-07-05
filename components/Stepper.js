@@ -1,6 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import {
   FaRocket,
   FaTools,
@@ -31,6 +31,17 @@ const steps = [
 const Stepper = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const router = useRouter();
+  const currentPath = usePathname();
+  console.log(router);
+
+  useEffect(() => {
+    console.log("RRRRRRRRRR ", currentPath);
+
+    const stepIndex = steps.findIndex((step) => step.path === currentPath);
+    if (stepIndex !== -1) {
+      setCurrentStep(stepIndex);
+    }
+  }, [router.pathname]);
 
   const handleStepClick = (index) => {
     setCurrentStep(index);

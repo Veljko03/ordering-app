@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 // namestiti kada restoran radi do posle ponoci jer imam gresku ako stavim recimo da radi od 10 do 1 u ponoc
 // on ce obracunati 1  u ponoc kao 60 min i porediti to sa vremenom ovim
 //tako da mora nekako
@@ -43,7 +44,6 @@ const WeekSchedule = () => {
         return response.json();
       })
       .then((dataa) => {
-        console.log("dataaaaaa ", dataa);
         setBackendData(dataa);
         const data = dataa[0].schedule;
         const transformedData = {
@@ -167,19 +167,27 @@ const WeekSchedule = () => {
     }));
   };
 
-  const handleTimeFormSubmit = (e) => {
+  const handleTimeFormSubmit = async (e) => {
     e.preventDefault();
     const formmatedData = formatForBackend(timesForEachDay);
-    console.log(formmatedData, "formmated");
+    async function postSchedule() {
+      const res = await fetch("/api/schedule", {
+        method: "POST",
+        body: JSON.stringify(formmatedData),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(errMsg || "Greška pri čuvanju");
+      }
 
-    fetch("/api/schedule", {
-      method: "POST",
-      body: JSON.stringify(formmatedData),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log("Saved:", data))
-      .catch((err) => console.error("Error:", err));
+      return res.json();
+    }
+    await toast.promise(postSchedule(), {
+      loading: "Čuvanje...",
+      success: <b>Raspored je uspešno sačuvan!</b>,
+      error: <b>Došlo je do greške.</b>,
+    });
   };
 
   const translateToSerbian = (day) => {
@@ -203,6 +211,8 @@ const WeekSchedule = () => {
   };
   return (
     <div className="w-full p-4">
+      <Toaster position="top-center" reverseOrder={true} />
+
       <div className="flex flex-col items-center text-center">
         <h2 className="text-xl font-semibold mb-2 t uppercase text-[#172554] ">
           Raspored rada restorana
