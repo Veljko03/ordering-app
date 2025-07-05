@@ -1,6 +1,7 @@
 "use client";
 import { LucideClock2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
@@ -28,42 +29,85 @@ export default function CategoryManager({ onChange }) {
 
   async function addCategory() {
     if (!newCategory) return;
-    await fetch("/api/categories", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: newCategory }),
+    async function addCat() {
+      const res = await fetch("/api/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCategory }),
+      });
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(errMsg || "Greška pri čuvanju");
+      }
+
+      return res.json();
+    }
+    await toast.promise(addCat(), {
+      loading: "Čuvanje...",
+      success: <b>Sekcija je uspešno sačuvana!</b>,
+      error: <b>Došlo je do greške.</b>,
     });
+
     setNewCategory("");
 
     fetchCategories();
-    onChange?.(); //javlja da se promenilo nesto admin panelu
   }
 
   async function deleteCategory(_id) {
-    await fetch(`/api/categories?_id=${_id}`, {
-      method: "DELETE",
+    async function deleteCat() {
+      const res = await fetch(`/api/categories?_id=${_id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(errMsg || "Greška pri čuvanju");
+      }
+
+      return res.json();
+    }
+
+    await toast.promise(deleteCat(), {
+      loading: "Brisanje...",
+      success: <b>Sekcija je uspešno obrisana!</b>,
+      error: <b>Došlo je do greške.</b>,
     });
+
     fetchCategories();
-    onChange?.(); //javlja da se promenilo nesto admin panelu
   }
 
   async function updateCategory() {
-    await fetch("/api/categories", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        _id: editingId,
-        name: editingName,
-        startTime,
-        endTime,
-      }),
+    async function update() {
+      const res = await fetch("/api/categories", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          _id: editingId,
+          name: editingName,
+          startTime,
+          endTime,
+        }),
+      });
+
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(errMsg || "Greška pri čuvanju");
+      }
+
+      return res.json();
+    }
+    console.log("RRRRRAAAAAAAAA");
+
+    await toast.promise(update(), {
+      loading: "Čuvanje...",
+      success: <b>Sekcija je uspešno sačuvana!</b>,
+      error: <b>Došlo je do greške.</b>,
     });
+
     setEditingId(null);
     setStartTime("");
     setEndTime("");
     setEditingName("");
     fetchCategories();
-    onChange?.(); //javlja da se promenilo nesto admin panelu
   }
 
   async function toggleCategoryItems(categoryId) {
@@ -86,6 +130,7 @@ export default function CategoryManager({ onChange }) {
 
   return (
     <div className="p-4">
+      <Toaster position="top-center" reverseOrder={true} />
       <div className="flex flex-col items-center text-center">
         <h2 className="text-xl font-bold mb-2 tracking-tight text-[#172554] uppercase">
           Sekcije menija

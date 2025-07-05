@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
+import toast, { Toaster } from "react-hot-toast";
 
 const lib = ["places"];
 
@@ -120,22 +121,28 @@ export default function BusinessInfo() {
 
   const handleSave = async () => {
     setSendingData(true);
-
-    const newData = await fetch("/api/buisnessInfo", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-    console.log("NEWWWWWW", newData);
-    console.log("infoooooo", info);
-    console.log(formData, "FFFFFFFFFFFF");
-
-    if (newData) {
+    async function saveInfo() {
+      const res = await fetch("/api/buisnessInfo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(errMsg || "Greška pri čuvanju");
+      }
       setInfo(formData);
       setSendingData(false);
+      return res.json();
     }
+
+    await toast.promise(saveInfo(), {
+      loading: "Čuvanje...",
+      success: <b>Informacije uspešno sačuvane!</b>,
+      error: <b>Došlo je do greške.</b>,
+    });
   };
   const isChanged = JSON.stringify(formData) !== JSON.stringify(info);
   //ubaciti isChanged u buttone za boje
@@ -143,6 +150,8 @@ export default function BusinessInfo() {
 
   return (
     <div className="bg-[#f3f3f4] p-4">
+      <Toaster position="top-center" reverseOrder={true} />
+
       <div className="flex flex-col items-center text-center">
         <h2 className="text-xl font-bold mb-2 tracking-tight text-[#172554] uppercase ">
           Podaci o vašoj delatnosti

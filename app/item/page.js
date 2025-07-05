@@ -31,7 +31,6 @@ export default function ItemManager() {
   useEffect(() => {
     fetchItems();
     fetchCategories();
-    toast.success("Test poruka");
   }, []);
 
   async function fetchItems() {
