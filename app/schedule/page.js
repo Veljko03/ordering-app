@@ -55,31 +55,31 @@ const WeekSchedule = () => {
         const transformedData = {
           monStart: data.find((day) => day.day === "mon")?.startTime || "",
           monEnd: data.find((day) => day.day === "mon")?.endTime || "",
-          monOpend: data.find((day) => day.day === "mon")?.isOpend || true,
+          monOpend: data.find((day) => day.day === "mon")?.isOpend || false,
 
           tueStart: data.find((day) => day.day === "tue")?.startTime || "",
           tueEnd: data.find((day) => day.day === "tue")?.endTime || "",
-          tueOpend: data.find((day) => day.day === "tue")?.isOpend || true,
+          tueOpend: data.find((day) => day.day === "tue")?.isOpend || false,
 
           wenStart: data.find((day) => day.day === "wen")?.startTime || "",
           wenEnd: data.find((day) => day.day === "wen")?.endTime || "",
-          wenOpend: data.find((day) => day.day === "wen")?.isOpend || true,
+          wenOpend: data.find((day) => day.day === "wen")?.isOpend || false,
 
           thuStart: data.find((day) => day.day === "thu")?.startTime || "",
           thuEnd: data.find((day) => day.day === "thu")?.endTime || "",
-          thuOpend: data.find((day) => day.day === "thu")?.isOpend || true,
+          thuOpend: data.find((day) => day.day === "thu")?.isOpend || false,
 
           friStart: data.find((day) => day.day === "fri")?.startTime || "",
           friEnd: data.find((day) => day.day === "fri")?.endTime || "",
-          friOpend: data.find((day) => day.day === "fri")?.isOpend || true,
+          friOpend: data.find((day) => day.day === "fri")?.isOpend || false,
 
           satStart: data.find((day) => day.day === "sat")?.startTime || "",
-          satOpend: data.find((day) => day.day === "sat")?.isOpend || true,
+          satOpend: data.find((day) => day.day === "sat")?.isOpend || false,
 
           satEnd: data.find((day) => day.day === "sat")?.endTime || "",
           sunStart: data.find((day) => day.day === "sun")?.startTime || "",
           sunEnd: data.find((day) => day.day === "sun")?.endTime || "",
-          sunOpend: data.find((day) => day.day === "sun")?.isOpend || true,
+          sunOpend: data.find((day) => day.day === "sun")?.isOpend || false,
         };
 
         setTimesForEachDay(transformedData);
@@ -177,6 +177,8 @@ const WeekSchedule = () => {
   const handleTimeFormSubmit = async (e) => {
     e.preventDefault();
     const formmatedData = formatForBackend(timesForEachDay);
+    console.log(formmatedData, " RRRRRRRRRRRRRRRRRRRRRRRRR");
+
     async function postSchedule() {
       const res = await fetch("/api/schedule", {
         method: "POST",
@@ -213,7 +215,7 @@ const WeekSchedule = () => {
       day,
       startTime: currSchedule[`${day}Start`] || null,
       endTime: currSchedule[`${day}End`] || null,
-      isOpend: currSchedule[`${day}Opend`] || true,
+      isOpend: currSchedule[`${day}Opend`] || false,
     }));
   };
   return (
