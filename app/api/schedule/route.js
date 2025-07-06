@@ -23,6 +23,30 @@ export async function POST(req) {
 
 export async function GET() {
   await mongoose.connect(process.env.NEXT_MONGO_URL);
-  const schedules = await Schedule.find();
-  return new Response(JSON.stringify(schedules), { status: 201 });
+
+  let schedules = await Schedule.find();
+
+  if (schedules.length === 0) {
+    const defaultSchedule = {
+      schedule: [
+        { day: "mon", startTime: "", endTime: "", isOpend: true },
+        { day: "tue", startTime: "", endTime: "", isOpend: true },
+        { day: "wen", startTime: "", endTime: "", isOpend: true },
+        { day: "thu", startTime: "", endTime: "", isOpend: true },
+        { day: "fri", startTime: "", endTime: "", isOpend: true },
+        { day: "sat", startTime: "", endTime: "", isOpend: true },
+        { day: "sun", startTime: "", endTime: "", isOpend: true },
+      ],
+    };
+
+    const createdSchedule = await Schedule.create(defaultSchedule);
+    schedules = [createdSchedule];
+  }
+
+  return new Response(JSON.stringify(schedules), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }

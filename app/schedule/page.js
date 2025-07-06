@@ -10,25 +10,25 @@ const WeekSchedule = () => {
   const [timesForEachDay, setTimesForEachDay] = useState({
     monStart: "",
     monEnd: "",
-    monClosed: false,
+    monOpend: true,
     tueStart: "",
     tueEnd: "",
-    tueClosed: false,
+    tueOpend: true,
     wenStart: "",
     wenEnd: "",
-    wenClosed: false,
+    wenOpend: true,
     thuStart: "",
     thuEnd: "",
-    thuClosed: false,
+    thuOpend: true,
     friStart: "",
     friEnd: "",
-    friClosed: false,
+    friOpend: true,
     satStart: "",
     satEnd: "",
-    satClosed: false,
+    satOpend: true,
     sunStart: "",
     sunEnd: "",
-    sunClosed: false,
+    sunOpend: true,
   });
   const [backendData, setBackendData] = useState(null);
   const [restaurantWorks, setRestaurantWorks] = useState(null);
@@ -44,35 +44,42 @@ const WeekSchedule = () => {
         return response.json();
       })
       .then((dataa) => {
+        if (!dataa || dataa.length === 0 || !dataa[0].schedule) {
+          console.warn("Nema podataka u bazi. Inicijalizuj prazne vrednosti.");
+          return; // ili možeš da setuješ neki default
+        }
         setBackendData(dataa);
         const data = dataa[0].schedule;
+        console.log("DDDDDDDDDDDD ", data);
+
         const transformedData = {
           monStart: data.find((day) => day.day === "mon")?.startTime || "",
           monEnd: data.find((day) => day.day === "mon")?.endTime || "",
-          monClosed: data.find((day) => day.day === "mon")?.isClosed || false,
+          monOpend: data.find((day) => day.day === "mon")?.isOpend || true,
+
           tueStart: data.find((day) => day.day === "tue")?.startTime || "",
           tueEnd: data.find((day) => day.day === "tue")?.endTime || "",
-          tueClosed: data.find((day) => day.day === "tue")?.isClosed || false,
+          tueOpend: data.find((day) => day.day === "tue")?.isOpend || true,
 
           wenStart: data.find((day) => day.day === "wen")?.startTime || "",
           wenEnd: data.find((day) => day.day === "wen")?.endTime || "",
-          wenClosed: data.find((day) => day.day === "wen")?.isClosed || false,
+          wenOpend: data.find((day) => day.day === "wen")?.isOpend || true,
 
           thuStart: data.find((day) => day.day === "thu")?.startTime || "",
           thuEnd: data.find((day) => day.day === "thu")?.endTime || "",
-          thuClosed: data.find((day) => day.day === "thu")?.isClosed || false,
+          thuOpend: data.find((day) => day.day === "thu")?.isOpend || true,
 
           friStart: data.find((day) => day.day === "fri")?.startTime || "",
           friEnd: data.find((day) => day.day === "fri")?.endTime || "",
-          friClosed: data.find((day) => day.day === "fri")?.isClosed || false,
+          friOpend: data.find((day) => day.day === "fri")?.isOpend || true,
 
           satStart: data.find((day) => day.day === "sat")?.startTime || "",
-          satClosed: data.find((day) => day.day === "sat")?.isClosed || false,
+          satOpend: data.find((day) => day.day === "sat")?.isOpend || true,
 
           satEnd: data.find((day) => day.day === "sat")?.endTime || "",
           sunStart: data.find((day) => day.day === "sun")?.startTime || "",
           sunEnd: data.find((day) => day.day === "sun")?.endTime || "",
-          sunClosed: data.find((day) => day.day === "sun")?.isClosed || false,
+          sunOpend: data.find((day) => day.day === "sun")?.isOpend || true,
         };
 
         setTimesForEachDay(transformedData);
@@ -130,7 +137,7 @@ const WeekSchedule = () => {
 
     console.log("curr day ", currentDaySchedule);
 
-    if (currentDaySchedule?.isClosed) {
+    if (!currentDaySchedule?.isOpend) {
       console.log("Restoran je zatvoren danas.");
       setRestaurantWorks("Restoran trenutno ne radi.");
       return;
@@ -206,7 +213,7 @@ const WeekSchedule = () => {
       day,
       startTime: currSchedule[`${day}Start`] || null,
       endTime: currSchedule[`${day}End`] || null,
-      isClosed: currSchedule[`${day}Closed`] || false,
+      isOpend: currSchedule[`${day}Opend`] || true,
     }));
   };
   return (
@@ -246,7 +253,7 @@ const WeekSchedule = () => {
                   <div
                     key={day}
                     className={`flex   items-center  rounded-sm p-2  ${
-                      timesForEachDay[`${key}Closed`]
+                      !timesForEachDay[`${key}Opend`]
                         ? "bg-gray-400"
                         : "bg-white"
                     }`}
@@ -254,9 +261,9 @@ const WeekSchedule = () => {
                     <div className="flex justify-start ">
                       <input
                         type="checkbox"
-                        name={`${key}Closed`}
+                        name={`${key}Opend`}
                         className=" h-3 w-3"
-                        checked={timesForEachDay[`${key}Closed`] || false}
+                        checked={timesForEachDay[`${key}Opend`] || false}
                         onChange={handleTimeChange}
                       />
                     </div>
@@ -270,7 +277,7 @@ const WeekSchedule = () => {
                       value={timesForEachDay[`${key}Start`] || ""}
                       onChange={handleTimeChange}
                       className="p-2 border rounded w-26 sm:ml-40 sm:w-40 ml-2  text-black"
-                      disabled={timesForEachDay[`${key}Closed`]}
+                      disabled={!timesForEachDay[`${key}Opend`]}
                     />
                     <input
                       type="time"
@@ -278,7 +285,7 @@ const WeekSchedule = () => {
                       value={timesForEachDay[`${key}End`] || ""}
                       onChange={handleTimeChange}
                       className="p-2 border rounded w-26 sm:ml-6 sm:w-40 ml-1  text-black"
-                      disabled={timesForEachDay[`${key}Closed`]}
+                      disabled={!timesForEachDay[`${key}Opend`]}
                     />
                   </div>
                 );

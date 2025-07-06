@@ -365,43 +365,63 @@ export default function ItemManager() {
                     {formData.addons.map((a, i) => (
                       <div
                         key={i}
-                        className="flex flex-wrap gap-2 w-full p-2 border-1 text-black border-black rounded"
+                        className="flex flex-col flex-wrap gap-2 w-full p-2 border-1 text-black border-black rounded"
                       >
-                        <input
-                          placeholder="Tartar"
-                          value={a.name}
-                          className="rounded p-1 bg-gray-100"
-                          onChange={(e) =>
-                            handleAddonChange(i, "name", e.target.value)
-                          }
-                        />
-                        <input
-                          placeholder="50"
-                          type="number"
-                          value={a.price}
-                          className="rounded p-1 bg-gray-100"
-                          onChange={(e) =>
-                            handleAddonChange(i, "price", e.target.value)
-                          }
-                        />
-                        <select
-                          className={` rounded   ${
-                            a.active === true || a.active === "true"
-                              ? "bg-green-600 text-white"
-                              : "bg-red-600 text-white"
-                          }`}
-                          value={a.active.toString()}
-                          onChange={(e) =>
-                            handleAddonChange(i, "active", e.target.value)
-                          }
-                        >
-                          <option className="text-white bg-black" value="true">
-                            Dostupan
-                          </option>
-                          <option className="text-white bg-black" value="false">
-                            Nedostupan
-                          </option>
-                        </select>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">
+                            Naziv priloga
+                          </label>
+                          <input
+                            placeholder="Tartar"
+                            value={a.name}
+                            className="rounded p-1 bg-gray-100"
+                            onChange={(e) =>
+                              handleAddonChange(i, "name", e.target.value)
+                            }
+                          />
+                        </div>
+                        <div className="mt-2">
+                          <label className="block text-sm font-medium text-gray-700">
+                            Cena priloga(rsd){" "}
+                          </label>
+                          <input
+                            placeholder="50"
+                            type="number"
+                            value={a.price}
+                            className="rounded p-1 bg-gray-100"
+                            onChange={(e) =>
+                              handleAddonChange(i, "price", e.target.value)
+                            }
+                          />
+                          <label className=" mt-2 block text-sm font-medium text-gray-700">
+                            Dostupnost priloga
+                          </label>
+                          <select
+                            className={` rounded   ${
+                              a.active === true || a.active === "true"
+                                ? "bg-green-600 text-white"
+                                : "bg-red-600 text-white"
+                            }`}
+                            value={a.active.toString()}
+                            onChange={(e) =>
+                              handleAddonChange(i, "active", e.target.value)
+                            }
+                          >
+                            <option
+                              className="text-white bg-black"
+                              value="true"
+                            >
+                              Dostupan
+                            </option>
+                            <option
+                              className="text-white bg-black"
+                              value="false"
+                            >
+                              Nedostupan
+                            </option>
+                          </select>
+                        </div>
+
                         <FaTrash
                           onClick={() => removeAddon(i)}
                           className="text-red-500 ml-auto text-xl cursor-pointer self-center"

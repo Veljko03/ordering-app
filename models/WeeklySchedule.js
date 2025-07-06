@@ -11,9 +11,9 @@ const DaySchema = new Schema({
   endTime: {
     type: String,
   },
-  isClosed: {
+  isOpend: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 });
 const ScheduleSchema = new Schema({

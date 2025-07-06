@@ -25,7 +25,7 @@ const steps = [
   { id: 2, name: "", icon: <FaCalendarDays />, path: "/schedule" },
   { id: 3, name: "", icon: <MdMenuBook />, path: "/category" },
   { id: 4, name: "", icon: <MdRestaurantMenu />, path: "/item" },
-  { id: 5, name: "", icon: <BiSolidCategoryAlt />, path: "/review" },
+  { id: 5, name: "", icon: <BiSolidCategoryAlt />, path: "/delivery" },
 ];
 
 const Stepper = () => {
