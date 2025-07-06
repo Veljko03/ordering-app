@@ -254,7 +254,7 @@ const WeekSchedule = () => {
                     key={day}
                     className={`flex   items-center  rounded-sm p-2  ${
                       !timesForEachDay[`${key}Opend`]
-                        ? "bg-gray-400"
+                        ? "bg-gray-400 text-gray-600"
                         : "bg-white"
                     }`}
                   >
@@ -298,90 +298,6 @@ const WeekSchedule = () => {
               </button>
             </form>
           </div>
-
-          {/* <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4">
-              Non-working Dates (e.g. Holidays)
-            </h2>
-            <div className="space-y-2">
-              {holidays.map((date, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => handleTimeChange(e, index, "holiday")}
-                    className="p-2 border rounded"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveHoliday(index)}
-                    className="bg-red-100 text-red-600 px-3 py-1 rounded hover:bg-red-200"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={handleAddHoliday}
-                className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-              >
-                + Add Date
-              </button>
-            </div>
-          </div> 
-
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4">
-              Advanced Schedule (Override Regular)
-            </h2>
-            <div className="space-y-2">
-              {specialSchedules?.map((schedule, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <input
-                    type="date"
-                    value={schedule.date}
-                    onChange={(e) =>
-                      handleTimeChange(e, index, "special", "date")
-                    }
-                    className="p-2 border rounded"
-                  />
-                  <input
-                    type="time"
-                    value={schedule.start}
-                    onChange={(e) =>
-                      handleTimeChange(e, index, "special", "start")
-                    }
-                    className="p-2 border rounded"
-                  />
-                  <span>to</span>
-                  <input
-                    type="time"
-                    value={schedule.end}
-                    onChange={(e) =>
-                      handleTimeChange(e, index, "special", "end")
-                    }
-                    className="p-2 border rounded"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveSpecialSchedule(index)}
-                    className="bg-red-100 text-red-600 px-3 py-1 rounded hover:bg-red-200"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={handleAddSpecialSchedule}
-                className="mt-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-              >
-                + Add Special Schedule
-              </button>
-            </div>
-          </div>
-          */}
         </div>
       </div>
     </div>
