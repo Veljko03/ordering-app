@@ -129,7 +129,7 @@ export default function CategoryManager({ onChange }) {
   console.log("AAAAAAAAAAAAA ", categories);
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-[#f3f3f4]">
       <Toaster position="top-center" reverseOrder={true} />
       <div className="flex flex-col items-center text-center">
         <h2 className="text-xl font-bold mb-2 tracking-tight text-[#172554] uppercase">
@@ -198,6 +198,12 @@ export default function CategoryManager({ onChange }) {
 
                         <div className="flex justify-end mt-4 gap-2">
                           <button
+                            onClick={() => deleteCategory(cat._id)}
+                            className={` py-2 text-white rounded cursor-pointer border-2 border-solid border-red-500 bg-red-500  w-24 uppercase `}
+                          >
+                            Obriši
+                          </button>
+                          <button
                             onClick={() => setEditingId(null)}
                             className={`  px-4 ${
                               isChanged
@@ -212,7 +218,7 @@ export default function CategoryManager({ onChange }) {
                               updateCategory();
                               setEditingId(null);
                             }}
-                            className={`  w-24 px-4 uppercase  ${
+                            className={`w-24 px-4 uppercase  ${
                               isChanged
                                 ? "bg-[#7893c3] text-white"
                                 : "bg-transparent text-[#7893c3]"
@@ -221,10 +227,10 @@ export default function CategoryManager({ onChange }) {
                             Sačuvaj
                           </button>{" "}
                         </div>
-                        <MdDeleteForever
+                        {/* <MdDeleteForever
                           onClick={() => deleteCategory(cat._id)}
                           className="text-red-500 text-2xl mr-5 cursor-pointer"
-                        />
+                        /> */}
                       </div>
                     </div>
                   ) : (

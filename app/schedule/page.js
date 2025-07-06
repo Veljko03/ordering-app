@@ -210,7 +210,7 @@ const WeekSchedule = () => {
     }));
   };
   return (
-    <div className="w-full p-4">
+    <div className="w-full p-4 bg-[#f3f3f4]">
       <Toaster position="top-center" reverseOrder={true} />
 
       <div className="flex flex-col items-center text-center">

@@ -37,7 +37,7 @@ export default function ItemManager() {
     const res = await fetch("/api/items");
     const data = await res.json();
     setItems(data);
-    console.log("TTTTTTTTTTTTTTT");
+    console.log("data ", data);
   }
 
   async function fetchCategories() {
@@ -133,9 +133,13 @@ export default function ItemManager() {
       sizes: [],
       addons: [],
     });
+    await fetchItems();
+    await fetchCategories();
     setIsEditing(null);
-    fetchItems();
+    setItemsByCategory({});
+
     setShowAddNewItemForm(false);
+    setExpandedCategoryId(null);
   }
 
   async function handleDelete(id) {
@@ -155,8 +159,13 @@ export default function ItemManager() {
       success: <b>Jelo je uspešno obrisano!</b>,
       error: <b>Došlo je do greške.</b>,
     });
+    setIsEditing(null);
+    setShowAddNewItemForm(false);
 
-    fetchItems();
+    await fetchItems();
+    await fetchCategories();
+    setItemsByCategory({});
+    setExpandedCategoryId(null);
   }
 
   function handleEdit(item) {
@@ -180,6 +189,8 @@ export default function ItemManager() {
 
     setExpandedCategoryId(categoryId);
   }
+  console.log("EEEEEEE ", isEditing);
+
   function isFormDataEmpty(formData) {
     return (
       formData.name === "" &&
@@ -405,8 +416,18 @@ export default function ItemManager() {
                   </div>
                 </div>
                 <div className="flex gap-5 ml-auto text-white mt-10">
+                  {isEditing && (
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(isEditing)}
+                      className=" rounded w-30  uppercase bg-red-500 p-1.5 cursor-pointer"
+                    >
+                      Obriši
+                    </button>
+                  )}
                   {isChanged && (
                     <button
+                      type="button"
                       onClick={() => setFormData(emptyFormData)}
                       className=" rounded w-30  uppercase bg-red-500 p-1.5 cursor-pointer"
                     >
@@ -429,7 +450,7 @@ export default function ItemManager() {
             <div key={cat._id}>
               <div
                 key={cat.id}
-                className="border p-2 flex rounded-xl p-3 justify-between items-center text-black cursor-pointer"
+                className="border p-2 flex rounded-xl  justify-between items-center text-black cursor-pointer"
                 onClick={() => toggleCategoryItems(cat._id)}
               >
                 <span>{cat.name}</span>
@@ -437,16 +458,16 @@ export default function ItemManager() {
                 <HiBarsArrowDown />
               </div>
               {expandedCategoryId === cat._id && (
-                <ul className="ml-4 mt-2 text-sm text-white-700">
+                <div className=" mt-2 text-sm text-white-700">
                   {itemsByCategory[cat._id]?.length > 0 ? (
                     itemsByCategory[cat._id].map((item) => (
-                      <li
+                      <div
                         key={item._id}
-                        className="border mt-2 p-2 flex rounded-xl p-3 justify-between items-center text-black"
+                        className="border mt-2 p-2 flex rounded-xl  justify-between items-center text-black"
                       >
                         <span className="text-black">{item.name}</span>
                         <span className="text-black">{item.basePrice} rsd</span>
-                        <div className="space-x-2 flex gap-5 text-3xl">
+                        <div className=" flex gap-5 text-3xl">
                           <HiPencilAlt
                             className="cursor-pointer"
                             onClick={() => {
@@ -454,19 +475,19 @@ export default function ItemManager() {
                               handleEdit(item);
                             }}
                           />
-                          <MdDeleteForever
+                          {/* <MdDeleteForever
                             className="text-red-500 cursor-pointer"
                             onClick={() => handleDelete(item._id)}
-                          />
+                          /> */}
                         </div>
-                      </li>
+                      </div>
                     ))
                   ) : (
-                    <li className="text-gray-500 italic text-black">
+                    <p className="text-gray-500 italic text-black">
                       Ova kategorija je prazna
-                    </li>
+                    </p>
                   )}
-                </ul>
+                </div>
               )}
             </div>
           ))}
