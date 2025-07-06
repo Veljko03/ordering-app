@@ -39,6 +39,7 @@ export default function ItemManager() {
     setItems(data);
     console.log("data ", data);
   }
+  console.log("FFFFFFFFFFFFFF ", formData);
 
   async function fetchCategories() {
     const res = await fetch("/api/categories");
@@ -134,7 +135,6 @@ export default function ItemManager() {
       addons: [],
     });
     await fetchItems();
-    await fetchCategories();
     setIsEditing(null);
     setItemsByCategory({});
 
@@ -177,6 +177,7 @@ export default function ItemManager() {
     //dostavljam id od kategorije koju sam kliknuo
     if (expandedCategoryId === categoryId) {
       setExpandedCategoryId(null); // zatvoram ako je otvorena
+
       return;
     }
     console.log("items by category ", itemsByCategory);
@@ -239,6 +240,7 @@ export default function ItemManager() {
                 onClick={() => {
                   setShowAddNewItemForm(false);
                   setFormData(emptyFormData);
+                  setIsEditing(null);
                 }}
               />
 
