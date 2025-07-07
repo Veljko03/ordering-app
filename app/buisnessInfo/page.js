@@ -123,6 +123,7 @@ export default function BusinessInfo() {
 
   const handleSave = async () => {
     const validateData = infoSchemaZod.safeParse(formData);
+    console.log(validateData.success, " OOOOOOOOOOOOOOOOOOOO");
 
     if (!validateData.success) {
       const errors = validateData.error.flatten().fieldErrors;
@@ -131,6 +132,8 @@ export default function BusinessInfo() {
 
       return;
     }
+    console.log("PROSSSSSSAAAAAAAAAAA");
+
     setSendingData(true);
     async function saveInfo() {
       const res = await fetch("/api/buisnessInfo", {
@@ -229,7 +232,7 @@ export default function BusinessInfo() {
               onChange={handleChange}
               className="w-full mt-1 p-2 bg-gray-100 rounded  text-black"
             />
-              {validationErrors.email && (
+            {validationErrors.email && (
               <p className="text-red-500 text-sm mt-1">
                 {validationErrors.email[0]}
               </p>
@@ -248,7 +251,7 @@ export default function BusinessInfo() {
               onChange={handleChange}
               className="w-full mt-1 p-2 bg-gray-100 rounded  text-black"
             />
-              {validationErrors.adress && (
+            {validationErrors.adress && (
               <p className="text-red-500 text-sm mt-1">
                 {validationErrors.adress[0]}
               </p>
@@ -271,7 +274,6 @@ export default function BusinessInfo() {
               onChange={handleChange}
               className="w-full mt-1 p-2 bg-gray-100 text-black rounded"
             />
-            
           </div>
 
           <div className="mb-4">
