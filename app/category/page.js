@@ -287,6 +287,8 @@ export default function CategoryManager({ onChange }) {
                         onClick={() => {
                           setEditingId(cat._id);
                           setEditingName(cat.name);
+                          setStartTime(cat.startTime);
+                          setEndTime(cat.endTime);
                         }}
                         className="bg-[#7893c3] font-bold text-white mb-2  flex items-center justify-center  rounded uppercase cursor-pointer ml-auto  w-12 h-10 "
                       >
