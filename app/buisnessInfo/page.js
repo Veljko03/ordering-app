@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import toast, { Toaster } from "react-hot-toast";
+import { infoSchemaZod } from "../utils/zodSchemas";
 
 const lib = ["places"];
 
@@ -10,20 +11,21 @@ const lib = ["places"];
 // da se doda umesto stringa
 
 export default function BusinessInfo() {
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY,
-    libraries: lib,
-    language: "sr",
-  });
-  const [selectedPlace, setSelectedPlace] = useState(null);
-  const [someChange, setSomeChange] = useState(true);
+  //   const { isLoaded, loadError } = useLoadScript({
+  //     googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY,
+  //     libraries: lib,
+  //     language: "sr",
+  //   });
+  //   const [selectedPlace, setSelectedPlace] = useState(null);
+  //   const [someChange, setSomeChange] = useState(true);
 
   const inputRef = useRef(null);
   const [info, setInfo] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
+
   const [sendingData, setSendingData] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
-    description: "",
     logoUrl: "",
     contactPhone: "",
     adress: "",
@@ -40,47 +42,47 @@ export default function BusinessInfo() {
     },
   });
 
-  useEffect(() => {
-    if (selectedPlace) {
-      const value = selectedPlace.formatted_address;
-      setFormData((prev) => ({ ...prev, adress: value }));
-      console.log(formData);
-    }
-  }, [selectedPlace]);
-  useEffect(() => {
-    if (isLoaded && inputRef.current) {
-      const autocomplete = new google.maps.places.Autocomplete(
-        inputRef.current,
-        {
-          componentRestrictions: { country: "RS" },
-          fields: [
-            "place_id",
-            "geometry",
-            "name",
-            "formatted_address",
-            "address_components",
-          ],
-          types: ["address"],
-        }
-      );
-      console.log(autocomplete);
+  //   useEffect(() => {
+  //     if (selectedPlace) {
+  //       const value = selectedPlace.formatted_address;
+  //       setFormData((prev) => ({ ...prev, adress: value }));
+  //       console.log(formData);
+  //     }
+  //   }, [selectedPlace]);
+  //   useEffect(() => {
+  //     if (isLoaded && inputRef.current) {
+  //       const autocomplete = new google.maps.places.Autocomplete(
+  //         inputRef.current,
+  //         {
+  //           componentRestrictions: { country: "RS" },
+  //           fields: [
+  //             "place_id",
+  //             "geometry",
+  //             "name",
+  //             "formatted_address",
+  //             "address_components",
+  //           ],
+  //           types: ["address"],
+  //         }
+  //       );
+  //       console.log(autocomplete);
 
-      autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-        console.log(place);
-        if (!place.geometry || !place.formatted_address) {
-          setSelectedPlace(null);
-          alert("bad address");
-          if (inputRef.current) {
-            inputRef.current.value = "";
-          }
-          return;
-        }
-        setSelectedPlace(place);
-      });
-    }
-    console.log("FFFFFFFFFFFf ", inputRef.current);
-  }, [isLoaded, someChange]);
+  //       autocomplete.addListener("place_changed", () => {
+  //         const place = autocomplete.getPlace();
+  //         console.log(place);
+  //         if (!place.geometry || !place.formatted_address) {
+  //           setSelectedPlace(null);
+  //           alert("bad address");
+  //           if (inputRef.current) {
+  //             inputRef.current.value = "";
+  //           }
+  //           return;
+  //         }
+  //         setSelectedPlace(place);
+  //       });
+  //     }
+  //     console.log("FFFFFFFFFFFf ", inputRef.current);
+  //   }, [isLoaded, someChange]);
 
   useEffect(() => {
     // Fetchujemo podatke o biznisu
@@ -120,6 +122,15 @@ export default function BusinessInfo() {
   console.log(formData, " DATAAAAAAAA");
 
   const handleSave = async () => {
+    const validateData = infoSchemaZod.safeParse(formData);
+
+    if (!validateData.success) {
+      const errors = validateData.error.flatten().fieldErrors;
+      setValidationErrors(errors);
+      console.log(errors, " EEEEEEEEEEEEEEEEE");
+
+      return;
+    }
     setSendingData(true);
     async function saveInfo() {
       const res = await fetch("/api/buisnessInfo", {
@@ -175,10 +186,16 @@ export default function BusinessInfo() {
             <input
               type="text"
               name="name"
+              required
               value={formData.name || ""}
               onChange={handleChange}
               className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
             />
+            {validationErrors.name && (
+              <p className="text-red-500 text-sm mt-1">
+                {validationErrors.name[0]}
+              </p>
+            )}
           </div>
 
           <div className="mb-4">
@@ -187,11 +204,17 @@ export default function BusinessInfo() {
             </label>
             <input
               type="text"
+              required
               name="contactPhone"
               value={formData.contactPhone || ""}
               onChange={handleChange}
               className="w-full mt-1 p-2 bg-gray-100  text-black rounded "
             />
+            {validationErrors.contactPhone && (
+              <p className="text-red-500 text-sm mt-1">
+                {validationErrors.contactPhone[0]}
+              </p>
+            )}
           </div>
 
           <div className="mb-4">
@@ -201,10 +224,16 @@ export default function BusinessInfo() {
             <input
               type="text"
               name="email"
+              required
               value={formData.email || ""}
               onChange={handleChange}
               className="w-full mt-1 p-2 bg-gray-100 rounded  text-black"
             />
+              {validationErrors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {validationErrors.email[0]}
+              </p>
+            )}
           </div>
 
           <div className="mb-4">
@@ -214,10 +243,16 @@ export default function BusinessInfo() {
             <input
               type="text"
               name="adress"
+              required
               value={formData.adress || ""}
               onChange={handleChange}
               className="w-full mt-1 p-2 bg-gray-100 rounded  text-black"
             />
+              {validationErrors.adress && (
+              <p className="text-red-500 text-sm mt-1">
+                {validationErrors.adress[0]}
+              </p>
+            )}
           </div>
 
           <hr className="my-4 border-black" />
@@ -236,6 +271,7 @@ export default function BusinessInfo() {
               onChange={handleChange}
               className="w-full mt-1 p-2 bg-gray-100 text-black rounded"
             />
+            
           </div>
 
           <div className="mb-4">
