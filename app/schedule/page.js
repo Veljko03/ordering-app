@@ -256,7 +256,7 @@ const WeekSchedule = () => {
                     key={day}
                     className={`flex   items-center  rounded-sm p-2  ${
                       !timesForEachDay[`${key}Opend`]
-                        ? "bg-gray-400 text-gray-600"
+                        ? "bg-gray-400 "
                         : "bg-white"
                     }`}
                   >
@@ -269,7 +269,13 @@ const WeekSchedule = () => {
                         onChange={handleTimeChange}
                       />
                     </div>
-                    <span className="w-30 font-medium ml-2 text-black">
+                    <span
+                      className={`w-30  ${
+                        !timesForEachDay[`${key}Opend`]
+                          ? "font-extralight"
+                          : "font-semibold"
+                      } ml-2 text-black`}
+                    >
                       {translateToSerbian(day)}
                     </span>
 
