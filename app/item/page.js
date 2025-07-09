@@ -7,6 +7,7 @@ import { FaPlus, FaPlusCircle, FaTrash } from "react-icons/fa";
 import { HiPencilAlt, HiThumbDown } from "react-icons/hi";
 import { HiArrowDown, HiBarsArrowDown } from "react-icons/hi2";
 import { MdDeleteForever } from "react-icons/md";
+import { itemsSchemaZod } from "../utils/zodSchemas";
 
 //za cene dodati sa klijentske strane sa admin strane nije potrebno jer admin ne dodaje u korpu i ne obracunava
 export default function ItemManager() {
@@ -27,6 +28,7 @@ export default function ItemManager() {
   const [itemsByCategory, setItemsByCategory] = useState({});
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
   const [showAddNewItemForm, setShowAddNewItemForm] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
     fetchItems();
@@ -104,7 +106,13 @@ export default function ItemManager() {
     const method = isEditing ? "PUT" : "POST";
     const url = "/api/items";
     const payload = isEditing ? { ...formData, _id: isEditing } : formData;
+    const validateData = itemsSchemaZod.safeParse(payload);
+    if (!validateData.success) {
+      const errors = validateData.error.flatten().fieldErrors;
+      setValidationErrors(errors);
 
+      return;
+    }
     async function saveItem() {
       const res = await fetch(url, {
         method,
@@ -140,6 +148,7 @@ export default function ItemManager() {
 
     setShowAddNewItemForm(false);
     setExpandedCategoryId(null);
+    setValidationErrors({});
   }
 
   async function handleDelete(id) {
@@ -271,6 +280,11 @@ export default function ItemManager() {
                       placeholder="Karađorđeva šnicla"
                       className="mb-4 p-2  rounded text-black w-full bg-gray-100"
                     />
+                    {validationErrors.name && (
+                      <p className="text-red-500 text-sm ">
+                        {validationErrors.name[0]}
+                      </p>
+                    )}
 
                     <label className="mb-2 block text-sm font-medium text-gray-700">
                       Opis{" "}
@@ -282,6 +296,11 @@ export default function ItemManager() {
                       placeholder="Piliće meso, kajmak, pomfrit.."
                       className="mb-4 p-2  rounded text-black w-full bg-gray-100"
                     />
+                    {validationErrors.description && (
+                      <p className="text-red-500 text-sm ">
+                        {validationErrors.description[0]}
+                      </p>
+                    )}
 
                     <label className="mb-2 block text-sm font-medium text-gray-700">
                       Cena{" "}
@@ -294,6 +313,11 @@ export default function ItemManager() {
                       placeholder="1100"
                       className="mb-4 p-2 b rounded text-black w-full bg-gray-100"
                     />
+                    {validationErrors.basePrice && (
+                      <p className="text-red-500 text-sm ">
+                        {validationErrors.basePrice[0]}
+                      </p>
+                    )}
                     <label className="block text-sm font-medium text-gray-700">
                       Sekcija
                     </label>
@@ -314,6 +338,11 @@ export default function ItemManager() {
                         </option>
                       ))}
                     </select>
+                    {validationErrors.categoryId && (
+                      <p className="text-red-500 text-sm ">
+                        {validationErrors.categoryId[0]}
+                      </p>
+                    )}
                   </div>
 
                   <div className="flex flex-col gap-5  text-black">
@@ -333,6 +362,11 @@ export default function ItemManager() {
                             handleSizeChange(i, "size", e.target.value)
                           }
                         />
+                        {validationErrors?.sizes?.[i]?.size && (
+                          <p className="text-red-500 text-sm">
+                            {validationErrors.sizes[i].size[0]}
+                          </p>
+                        )}
                         <input
                           placeholder="Cena"
                           type="number"
@@ -342,6 +376,11 @@ export default function ItemManager() {
                             handleSizeChange(i, "price", e.target.value)
                           }
                         />
+                        {validationErrors?.sizes?.[i]?.price && (
+                          <p className="text-red-500 text-sm">
+                            {validationErrors.sizes[i].price[0]}
+                          </p>
+                        )}
                         <FaTrash
                           onClick={() => removeSize(i)}
                           className="text-red-500 ml-auto   text-xl cursor-pointer self-center"

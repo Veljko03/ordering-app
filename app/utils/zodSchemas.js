@@ -51,3 +51,57 @@ export const categorySchemaZod = z.object({
       "Naziv sadrži nedozvoljene karaktere"
     ),
 });
+
+export const itemsSchemaZod = z.object({
+  name: z
+    .string()
+    .min(2, "Naziv mora imati bar 2 karaktkera")
+    .max(50, "Naziv ima maksimalno 50 karatktera")
+    .regex(
+      /^[a-zA-Z0-9\s\-'&čćžšđČĆŽŠĐ]+$/,
+      "Naziv sadrži nedozvoljene karaktere"
+    ),
+  description: z
+    .string()
+    .min(10, "Opis mora imati najmanje 10 karaktera")
+    .max(300, "Opis može imati najviše 300 karaktera")
+    .regex(
+      /^[a-zA-Z0-9čćžšđČĆŽŠĐ\s.,\-()\/]+$/,
+      "Opis sadrži nedozvoljene karaktere"
+    ),
+  basePrice: z
+    .string()
+    .regex(/^(\d+([.,]\d{1,2})?)$/, "Cena mora biti validan broj")
+    .refine(
+      (val) => {
+        const parsed = parseFloat(val.replace(",", "."));
+        return parsed >= 0.5 && parsed <= 9999.99;
+      },
+      { message: "Cena mora biti između 0.5 i 9999.99 RSD" }
+    ),
+
+  categoryId: z.string().min(1, "Morate izabrati kategoriju"),
+  sizes: z
+    .array(
+      z.object({
+        size: z.string().min(1),
+        price: z
+          .string()
+          .regex(/^(\d+([.,]\d{1,2})?)$/)
+          .refine((val) => parseFloat(val.replace(",", ".")) >= 0.1),
+      })
+    )
+    .optional(),
+  addons: z
+    .array(
+      z.object({
+        name: z.string().min(1),
+        price: z
+          .string()
+          .regex(/^(\d+([.,]\d{1,2})?)$/)
+          .refine((val) => parseFloat(val.replace(",", ".")) >= 0),
+        active: z.boolean(),
+      })
+    )
+    .optional(),
+});
