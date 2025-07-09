@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
+import { categorySchemaZod } from "../utils/zodSchemas";
 export default function CategoryManager({ onChange }) {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
@@ -12,6 +13,7 @@ export default function CategoryManager({ onChange }) {
   const [editingName, setEditingName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [validationErrors, setValidationErrors] = useState({});
 
   const [itemsByCategory, setItemsByCategory] = useState({});
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
@@ -29,6 +31,13 @@ export default function CategoryManager({ onChange }) {
 
   async function addCategory() {
     if (!newCategory) return;
+    const validateData = categorySchemaZod.safeParse({ name: newCategory });
+    if (!validateData.success) {
+      const errors = validateData.error.flatten().fieldErrors;
+      setValidationErrors(errors);
+
+      return;
+    }
     async function addCat() {
       const res = await fetch("/api/categories", {
         method: "POST",
@@ -148,7 +157,7 @@ export default function CategoryManager({ onChange }) {
         </p>
       </div>
       <div className="bg-white p-2 rounded-lg shadow flex flex-col gap-5">
-        <div className="flex gap-2 mb-4 ">
+        <div className="flex gap-2  ">
           <input
             type="text"
             value={newCategory}
@@ -164,7 +173,9 @@ export default function CategoryManager({ onChange }) {
             <FaPlus />
           </button>
         </div>
-
+        {validationErrors.name && (
+          <p className="text-red-500 text-sm ">{validationErrors.name[0]}</p>
+        )}
         <ul>
           {categories.map((cat) => {
             const isChanged = editingName.trim() !== cat.name.trim();

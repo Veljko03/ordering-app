@@ -3,7 +3,7 @@ import { z } from "zod";
 export const infoSchemaZod = z.object({
   name: z
     .string()
-    .min(2, "Naziv mora imati bar 2 karatkera")
+    .min(2, "Naziv mora imati bar 2 karaktkera")
     .max(50, "Naziv ima maksimalno 50 karatktera")
     .regex(
       /^[a-zA-Z0-9\s\-'&čćžšđČĆŽŠĐ]+$/,
@@ -39,4 +39,15 @@ export const infoSchemaZod = z.object({
     textColor: z.string().optional(),
     font: z.string().optional(),
   }),
+});
+
+export const categorySchemaZod = z.object({
+  name: z
+    .string()
+    .min(2, "Naziv mora imati bar 2 karaktkera")
+    .max(50, "Naziv ima maksimalno 50 karatktera")
+    .regex(
+      /^[a-zA-Z0-9\s\-'&čćžšđČĆŽŠĐ]+$/,
+      "Naziv sadrži nedozvoljene karaktere"
+    ),
 });
