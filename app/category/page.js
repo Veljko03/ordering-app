@@ -195,7 +195,7 @@ export default function CategoryManager({ onChange }) {
                           onChange={(e) => setEditingName(e.target.value)}
                           className="w-full mb-4 p-2 border rounded text-black"
                         />
-                        <div className="flex gap-6 justify-center items-center text-black">
+                        <div className="flex gap-2 justify-center items-center text-black">
                           <label>Od</label>
                           <input
                             type="time"
