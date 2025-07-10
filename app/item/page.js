@@ -388,7 +388,7 @@ export default function ItemManager() {
                       </div>
                     ))}
                     <button
-                      className="rounded p-2 uppercase bg-[#7893c3] text-white  w-30"
+                      className="rounded p-2 uppercase bg-[#7893c3] text-white  w-26"
                       type="button"
                       onClick={addSize}
                     >
@@ -469,19 +469,19 @@ export default function ItemManager() {
                     ))}
                     <button
                       type="button"
-                      className="rounded p-2 bg-[#7893c3] text-white uppercase  w-30"
+                      className="rounded p-2 bg-[#7893c3] text-white uppercase  w-26"
                       onClick={addAddon}
                     >
                       Dodaj
                     </button>
                   </div>
                 </div>
-                <div className="flex gap-5 ml-auto text-white mt-10">
+                <div className="flex gap-2 ml-auto text-white mt-10">
                   {isEditing && (
                     <button
                       type="button"
                       onClick={() => handleDelete(isEditing)}
-                      className=" rounded w-30  uppercase bg-red-500 p-1.5 cursor-pointer"
+                      className=" rounded w-26  uppercase bg-red-500 p-1.5 cursor-pointer"
                     >
                       Obriši
                     </button>
@@ -490,16 +490,16 @@ export default function ItemManager() {
                     <button
                       type="button"
                       onClick={() => setFormData(emptyFormData)}
-                      className=" rounded w-30  uppercase bg-red-500 p-1.5 cursor-pointer"
+                      className=" rounded w-26  uppercase bg-red-500 p-1.5 cursor-pointer"
                     >
                       Otkaži
                     </button>
                   )}
                   <button
-                    className=" rounded w-30 bg-[#7893c3] uppercase  p-1.5 cursor-pointer"
+                    className=" rounded w-26 bg-[#7893c3] uppercase  p-1.5 cursor-pointer"
                     type="submit"
                   >
-                    {isEditing ? "Izmeni" : "Dodaj"} jelo
+                    {isEditing ? "Izmeni" : "Dodaj"}
                   </button>
                 </div>
               </form>

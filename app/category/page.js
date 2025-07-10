@@ -201,7 +201,7 @@ export default function CategoryManager({ onChange }) {
                             type="time"
                             value={startTime}
                             onChange={(e) => setStartTime(e.target.value)}
-                            className="border p-2 rounded w-32 text-black"
+                            className="border p-2 rounded w-30 text-black"
                             placeholder="Start vreme"
                           />
                           <label>Do</label>
@@ -209,7 +209,7 @@ export default function CategoryManager({ onChange }) {
                             type="time"
                             value={endTime}
                             onChange={(e) => setEndTime(e.target.value)}
-                            className="border p-2 rounded w-32  text-black"
+                            className="border p-2 rounded w-30  text-black"
                             placeholder="Kraj vreme"
                           />
                         </div>
@@ -217,7 +217,7 @@ export default function CategoryManager({ onChange }) {
                         <div className="flex justify-end mt-4 gap-2">
                           <button
                             onClick={() => deleteCategory(cat._id)}
-                            className={` py-2 text-white rounded cursor-pointer border-2 border-solid border-red-500 bg-red-500  w-24 uppercase `}
+                            className={` py-2 text-white rounded cursor-pointer border-2 border-solid border-red-500 bg-red-500  w-26 uppercase `}
                           >
                             Obriši
                           </button>
@@ -227,7 +227,7 @@ export default function CategoryManager({ onChange }) {
                               isChanged
                                 ? "bg-[#8559A5] text-white"
                                 : "bg-transparent text-[#8559A5]"
-                            } py-2 rounded cursor-pointer border-2 border-solid border-[#8559A5] w-24 uppercase `}
+                            } py-2 rounded cursor-pointer border-2 border-solid border-[#8559A5] w-26 uppercase `}
                           >
                             Otkaži
                           </button>
@@ -236,7 +236,7 @@ export default function CategoryManager({ onChange }) {
                               updateCategory();
                               setEditingId(null);
                             }}
-                            className={`w-24 px-4 uppercase  ${
+                            className={`w-26 px-4 uppercase  ${
                               isChanged
                                 ? "bg-[#7893c3] text-white"
                                 : "bg-transparent text-[#7893c3]"
