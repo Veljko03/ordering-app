@@ -6,7 +6,7 @@ import { useState } from "react";
 const cloudPresetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME;
 
 const CloudinaryUploader = () => {
-  const [selectedFile, setSelectedFile] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleManualUpload = async (e) => {
     if (!selectedFile) return;
@@ -21,7 +21,7 @@ const CloudinaryUploader = () => {
     <div>
       <CldUploadButton
         options={{
-          multiple: true,
+          multiple: false,
           sources: ["local"],
         }}
         uploadPreset={cloudPresetName}
@@ -34,7 +34,7 @@ const CloudinaryUploader = () => {
         <input
           type="file"
           accept="image/png, image/jpeg"
-          value={selectedFile}
+          value={selectedFile ? selectedFile : ""}
           onChange={(e) => setSelectedFile(e.target.files[0])}
         />
         {selectedFile && (

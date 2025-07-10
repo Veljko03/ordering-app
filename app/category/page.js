@@ -201,7 +201,7 @@ export default function CategoryManager({ onChange }) {
                             type="time"
                             value={startTime}
                             onChange={(e) => setStartTime(e.target.value)}
-                            className="border p-2 rounded text-black"
+                            className="border p-2 rounded w-32 text-black"
                             placeholder="Start vreme"
                           />
                           <label>Do</label>
@@ -209,7 +209,7 @@ export default function CategoryManager({ onChange }) {
                             type="time"
                             value={endTime}
                             onChange={(e) => setEndTime(e.target.value)}
-                            className="border p-2 rounded text-black"
+                            className="border p-2 rounded w-32  text-black"
                             placeholder="Kraj vreme"
                           />
                         </div>

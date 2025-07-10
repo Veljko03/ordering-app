@@ -4,6 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import toast, { Toaster } from "react-hot-toast";
 import { infoSchemaZod } from "../utils/zodSchemas";
+import CloudinaryUploader from "@/components/CloudinaryUploader";
+import ImageUploader from "@/components/ImageUploader";
 
 const lib = ["places"];
 
