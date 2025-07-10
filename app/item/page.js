@@ -243,7 +243,7 @@ export default function ItemManager() {
         </div>
         {showAddNewItemForm && (
           <div className="fixed  inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow flex flex-col gap-5 max-h-[90vh] overflow-y-auto w-[90vw] max-w-6xl">
+            <div className="bg-white  rounded-lg shadow flex flex-col gap-5 max-h-[90vh] overflow-y-auto w-[90vw] max-w-6xl">
               <XIcon
                 className="text-red-500 ml-auto cursor-pointer w-16 h-18 "
                 onClick={() => {
@@ -255,7 +255,7 @@ export default function ItemManager() {
 
               <form
                 onSubmit={handleSubmit}
-                className="  p-4 rounded  flex flex-col gap-5 overflow-x-auto mb-5"
+                className="  p-1 rounded  flex flex-col gap-5 overflow-x-auto mb-5"
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="flex flex-col text-black">
@@ -352,7 +352,7 @@ export default function ItemManager() {
                     {formData.sizes.map((s, i) => (
                       <div
                         key={i}
-                        className="flex gap-3 p-2 border-1 border-black text-black rounded "
+                        className="flex gap-3 p-1 border-1  text-black rounded "
                       >
                         <input
                           placeholder="Veličina"
@@ -404,7 +404,7 @@ export default function ItemManager() {
                     {formData.addons.map((a, i) => (
                       <div
                         key={i}
-                        className="flex flex-col flex-wrap gap-2 w-full p-2 border-1 text-black border-black rounded"
+                        className="flex flex-col flex-wrap gap-2 w-full p-1 border-1 text-black "
                       >
                         <div>
                           <label className="block text-sm font-medium text-gray-700">
@@ -476,7 +476,7 @@ export default function ItemManager() {
                     </button>
                   </div>
                 </div>
-                <div className="flex gap-2 ml-auto text-white mt-10">
+                <div className="flex gap-2 ml-auto text-white mt-2">
                   {isEditing && (
                     <button
                       type="button"
