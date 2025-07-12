@@ -84,22 +84,26 @@ export const itemsSchemaZod = z.object({
   sizes: z
     .array(
       z.object({
-        size: z.string().min(1),
+        size: z.string().min(1, "Veličina ne sme biti prazna"),
         price: z
           .string()
-          .regex(/^(\d+([.,]\d{1,2})?)$/)
-          .refine((val) => parseFloat(val.replace(",", ".")) >= 0.1),
+          .regex(/^\d+$/, "Cena mora biti ceo broj")
+          .refine((val) => parseInt(val, 10) >= 0, {
+            message: "Cena ne sme biti negativna",
+          }),
       })
     )
     .optional(),
   addons: z
     .array(
       z.object({
-        name: z.string().min(1),
+        name: z.string().min(1, "Naziv mora biti popunjen"),
         price: z
           .string()
-          .regex(/^(\d+([.,]\d{1,2})?)$/)
-          .refine((val) => parseFloat(val.replace(",", ".")) >= 0),
+          .regex(/^\d+$/, "Cena mora biti ceo broj")
+          .refine((val) => parseInt(val, 10) >= 0, {
+            message: "Cena ne sme biti negativna",
+          }),
         active: z.boolean(),
       })
     )

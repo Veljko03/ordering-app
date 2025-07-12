@@ -30,6 +30,11 @@ export default function ItemManager() {
   const [showAddNewItemForm, setShowAddNewItemForm] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
 
+  console.log(
+    JSON.stringify(validationErrors),
+    " EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
+  );
+
   useEffect(() => {
     fetchItems();
     fetchCategories();
@@ -108,8 +113,9 @@ export default function ItemManager() {
     const payload = isEditing ? { ...formData, _id: isEditing } : formData;
     const validateData = itemsSchemaZod.safeParse(payload);
     if (!validateData.success) {
-      const errors = validateData.error.flatten().fieldErrors;
-      setValidationErrors(errors);
+      const formatted = validateData.error.format(); // <- koristi format() zbog duboke validacije
+      setValidationErrors(formatted);
+      toast.error("Forma nije validna.");
 
       return;
     }
@@ -280,9 +286,9 @@ export default function ItemManager() {
                       placeholder="Karađorđeva šnicla"
                       className="mb-4 p-2  rounded text-black w-full bg-gray-100"
                     />
-                    {validationErrors.name && (
-                      <p className="text-red-500 text-sm ">
-                        {validationErrors.name[0]}
+                    {validationErrors.name?._errors?.length > 0 && (
+                      <p className="text-red-500 text-sm">
+                        {validationErrors.name._errors[0]}
                       </p>
                     )}
 
@@ -296,9 +302,9 @@ export default function ItemManager() {
                       placeholder="Piliće meso, kajmak, pomfrit.."
                       className="mb-4 p-2  rounded text-black w-full bg-gray-100"
                     />
-                    {validationErrors.description && (
-                      <p className="text-red-500 text-sm ">
-                        {validationErrors.description[0]}
+                    {validationErrors.description?._errors?.length > 0 && (
+                      <p className="text-red-500 text-sm">
+                        {validationErrors.description._errors[0]}
                       </p>
                     )}
 
@@ -313,9 +319,9 @@ export default function ItemManager() {
                       placeholder="1100"
                       className="mb-4 p-2 b rounded text-black w-full bg-gray-100"
                     />
-                    {validationErrors.basePrice && (
-                      <p className="text-red-500 text-sm ">
-                        {validationErrors.basePrice[0]}
+                    {validationErrors.basePrice?._errors?.length > 0 && (
+                      <p className="text-red-500 text-sm">
+                        {validationErrors.basePrice._errors[0]}
                       </p>
                     )}
                     <label className="block text-sm font-medium text-gray-700">
@@ -338,9 +344,9 @@ export default function ItemManager() {
                         </option>
                       ))}
                     </select>
-                    {validationErrors.categoryId && (
-                      <p className="text-red-500 text-sm ">
-                        {validationErrors.categoryId[0]}
+                    {validationErrors.categoryId?._errors?.length > 0 && (
+                      <p className="text-red-500 text-sm">
+                        {validationErrors.categoryId._errors[0]}
                       </p>
                     )}
                   </div>
@@ -354,33 +360,39 @@ export default function ItemManager() {
                         key={i}
                         className="flex gap-3 p-1 border-1  text-black rounded "
                       >
-                        <input
-                          placeholder="Veličina"
-                          value={s.size}
-                          className="text-black rounded p-1 w-30 sm:w-60 bg-gray-100"
-                          onChange={(e) =>
-                            handleSizeChange(i, "size", e.target.value)
-                          }
-                        />
-                        {validationErrors?.sizes?.[i]?.size && (
-                          <p className="text-red-500 text-sm">
-                            {validationErrors.sizes[i].size[0]}
-                          </p>
-                        )}
-                        <input
-                          placeholder="Cena"
-                          type="number"
-                          value={s.price}
-                          className="rounded p-1 w-30 sm:w-60  bg-gray-100"
-                          onChange={(e) =>
-                            handleSizeChange(i, "price", e.target.value)
-                          }
-                        />
-                        {validationErrors?.sizes?.[i]?.price && (
-                          <p className="text-red-500 text-sm">
-                            {validationErrors.sizes[i].price[0]}
-                          </p>
-                        )}
+                        <div>
+                          {" "}
+                          <input
+                            placeholder="Veličina"
+                            value={s.size}
+                            className="text-black rounded p-1 w-30 sm:w-36 bg-gray-100"
+                            onChange={(e) =>
+                              handleSizeChange(i, "size", e.target.value)
+                            }
+                          />
+                          {validationErrors?.sizes?.[i]?.size?._errors && (
+                            <p className="text-sm text-red-500">
+                              {validationErrors.sizes[i].size._errors[0]}
+                            </p>
+                          )}
+                        </div>
+                        <div>
+                          <input
+                            placeholder="Cena"
+                            type="number"
+                            value={s.price}
+                            className="rounded p-1 w-30 sm:w-36  bg-gray-100"
+                            onChange={(e) =>
+                              handleSizeChange(i, "price", e.target.value)
+                            }
+                          />
+                          {validationErrors?.sizes?.[i]?.price?._errors && (
+                            <p className="text-sm text-red-500">
+                              {validationErrors.sizes[i].price._errors[0]}
+                            </p>
+                          )}
+                        </div>
+
                         <FaTrash
                           onClick={() => removeSize(i)}
                           className="text-red-500 ml-auto   text-xl cursor-pointer self-center"
@@ -418,6 +430,11 @@ export default function ItemManager() {
                               handleAddonChange(i, "name", e.target.value)
                             }
                           />
+                          {validationErrors?.addons?.[i]?.name?._errors && (
+                            <p className="text-sm text-red-500">
+                              {validationErrors.addons[i].name._errors[0]}
+                            </p>
+                          )}
                         </div>
                         <div className="mt-2">
                           <label className="block text-sm font-medium text-gray-700">
@@ -432,6 +449,11 @@ export default function ItemManager() {
                               handleAddonChange(i, "price", e.target.value)
                             }
                           />
+                          {validationErrors?.addons?.[i]?.price?._errors && (
+                            <p className="text-sm text-red-500">
+                              {validationErrors.addons[i].price._errors[0]}
+                            </p>
+                          )}
                           <label className=" mt-2 block text-sm font-medium text-gray-700">
                             Dostupnost priloga
                           </label>

@@ -30,7 +30,10 @@ export default function CategoryManager({ onChange }) {
   }
 
   async function addCategory() {
-    if (!newCategory) return;
+    if (!newCategory) {
+      toast.error("Unesite naziv sekcije");
+      return;
+    }
     const validateData = categorySchemaZod.safeParse({ name: newCategory });
     if (!validateData.success) {
       const errors = validateData.error.flatten().fieldErrors;
