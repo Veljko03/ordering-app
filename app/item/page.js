@@ -376,7 +376,7 @@ export default function ItemManager() {
                     {formData.sizes.map((s, i) => (
                       <div
                         key={i}
-                        className="flex gap-3 p-1 border-1  text-black rounded "
+                        className="flex gap-3 p-1   text-black rounded "
                       >
                         <div>
                           {" "}
@@ -434,7 +434,7 @@ export default function ItemManager() {
                     {formData.addons.map((a, i) => (
                       <div
                         key={i}
-                        className="flex flex-col flex-wrap gap-2 w-full p-1 border-1 text-black "
+                        className="flex flex-col flex-wrap gap-2 w-full p-1 text-black "
                       >
                         <div>
                           <label className="block text-sm font-medium text-gray-700">
