@@ -43,10 +43,24 @@ export default function ItemManager() {
   async function fetchItems() {
     const res = await fetch("/api/items");
     const data = await res.json();
-    setItems(data);
-    console.log("data ", data);
+    const sanitizedData = data.map((item) => ({
+      ...item,
+      basePrice: item.basePrice?.toString() ?? "",
+      sizes:
+        item.sizes?.map((s) => ({
+          ...s,
+          price: s.price?.toString() ?? "",
+        })) ?? [],
+      addons:
+        item.addons?.map((a) => ({
+          ...a,
+          price: a.price?.toString() ?? "",
+        })) ?? [],
+    }));
+    setItems(sanitizedData);
   }
   console.log("FFFFFFFFFFFFFF ", formData);
+  console.log("OOOOOOOOOO ", items);
 
   async function fetchCategories() {
     const res = await fetch("/api/categories");
@@ -198,9 +212,13 @@ export default function ItemManager() {
     console.log("items by category ", itemsByCategory);
 
     if (!itemsByCategory[categoryId]) {
-      const res = await fetch(`/api/items?categoryId=${categoryId}`);
-      const data = await res.json();
-      setItemsByCategory((prev) => ({ ...prev, [categoryId]: data }));
+      //const res = await fetch(`/api/items?categoryId=${categoryId}`);
+      //const data = await res.json();
+      //setItemsByCategory((prev) => ({ ...prev, [categoryId]: data }));
+
+      const filtered = items.filter((item) => item.categoryId == categoryId);
+
+      setItemsByCategory(filtered);
     }
 
     setExpandedCategoryId(categoryId);
@@ -542,8 +560,8 @@ export default function ItemManager() {
               </div>
               {expandedCategoryId === cat._id && (
                 <div className=" mt-2 text-sm text-white-700">
-                  {itemsByCategory[cat._id]?.length > 0 ? (
-                    itemsByCategory[cat._id].map((item) => (
+                  {itemsByCategory.length > 0 ? (
+                    itemsByCategory.map((item) => (
                       <div
                         key={item._id}
                         className="border mt-2 p-2 flex rounded-xl  justify-between items-center text-black"
