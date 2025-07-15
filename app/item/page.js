@@ -3,11 +3,12 @@ import { XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { BiExit } from "react-icons/bi";
-import { FaPlus, FaPlusCircle, FaTrash } from "react-icons/fa";
+import { FaImage, FaPlus, FaPlusCircle, FaTrash, FaUser } from "react-icons/fa";
 import { HiPencilAlt, HiThumbDown } from "react-icons/hi";
 import { HiArrowDown, HiBarsArrowDown } from "react-icons/hi2";
 import { MdDeleteForever } from "react-icons/md";
 import { itemsSchemaZod } from "../utils/zodSchemas";
+import { resolve } from "styled-jsx/css";
 
 //za cene dodati sa klijentske strane sa admin strane nije potrebno jer admin ne dodaje u korpu i ne obracunava
 export default function ItemManager() {
@@ -62,6 +63,29 @@ export default function ItemManager() {
   console.log("FFFFFFFFFFFFFF ", formData);
   console.log("OOOOOOOOOO ", items);
 
+  const MAX_IMAGE_SIZE = 5000 * 1024; // 5mb
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > MAX_IMAGE_SIZE) {
+      toast.error("Fotografija ne sme biti veca od 5mb");
+      return;
+    }
+    const base64 = await convertToBase64(file);
+    setFormData((prev) => ({ ...prev, imageUrl: base64 }));
+  };
   async function fetchCategories() {
     const res = await fetch("/api/categories");
     const data = await res.json();
@@ -286,12 +310,36 @@ export default function ItemManager() {
                     <label className="mb-2 block text-sm font-medium text-gray-700">
                       Unesite fotografiju
                     </label>
+                    <div className="flex items-start gap-4 mb-6">
+                      <div className="relative">
+                        <img
+                          src={
+                            formData.imageUrl == ""
+                              ? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+                              : formData.imageUrl
+                          }
+                          alt="Restaurant Owner"
+                          className="w-20 h-20 rounded-md object-cover"
+                        />
+                        <label
+                          htmlFor="image-upload"
+                          className="absolute top-0 right-0 cursor-pointer text-black bg-amber-50 p-1 rounded-full shadow"
+                        >
+                          ✎
+                        </label>
+                      </div>
+                      <p className="text-xs text-gray-500">
+                        Logo should have in 1:1 ratio for better viewing
+                        experience.
+                      </p>
+                    </div>
                     <input
+                      type="file"
                       name="imageUrl"
-                      value={formData.imageUrl}
-                      onChange={handleChange}
-                      placeholder="URL"
-                      className="mb-4 p-2  rounded text-black w-full bg-gray-100"
+                      id="image-upload"
+                      accept="'.jpeg, .png, .jpg"
+                      onChange={(e) => handleFileUpload(e)}
+                      className="hidden"
                     />
 
                     <label className="mb-2 block text-sm font-medium text-gray-700">
