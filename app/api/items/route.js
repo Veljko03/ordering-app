@@ -18,13 +18,10 @@ export async function POST(req) {
 export async function DELETE(req) {
   try {
     await mongoose.connect(process.env.NEXT_MONGO_URL);
-    console.log(req.json());
 
     const url = new URL(req.url);
-    console.log("oov je url ", url);
 
     const _id = url.searchParams.get("_id");
-    console.log("oov je id ", _id);
     await Item.deleteOne({ _id });
     return Response.json(true);
   } catch (error) {

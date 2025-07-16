@@ -100,6 +100,29 @@ export default function BusinessInfo() {
 
     fetchInfo();
   }, []);
+  const MAX_IMAGE_SIZE = 5000 * 1024; // 5mb
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > MAX_IMAGE_SIZE) {
+      toast.error("Fotografija ne sme biti veca od 5mb");
+      return;
+    }
+    const base64 = await convertToBase64(file);
+    setFormData((prev) => ({ ...prev, logoUrl: base64 }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -159,6 +182,7 @@ export default function BusinessInfo() {
       success: <b>Informacije uspešno sačuvane!</b>,
       error: <b>Došlo je do greške.</b>,
     });
+    setValidationErrors({});
   };
   const isChanged = JSON.stringify(formData) !== JSON.stringify(info);
   //ubaciti isChanged u buttone za boje
@@ -381,17 +405,32 @@ export default function BusinessInfo() {
               <div className="flex items-start gap-4 mb-6">
                 <div className="relative">
                   <img
-                    src="https://img.freepik.com/free-vector/illustration-circle-stamp-banner_53876-28483.jpg?semt=ais_hybrid&w=740"
+                    src={
+                      formData.logoUrl == ""
+                        ? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+                        : formData.logoUrl
+                    }
                     alt="Restaurant Owner"
                     className="w-20 h-20 rounded-md object-cover"
                   />
-                  <button className="absolute top-0 right-0 text-black bg-amber-50 p-1 rounded-full shadow">
+                  <label
+                    htmlFor="image-upload"
+                    className="absolute top-0 right-0 cursor-pointer text-black bg-amber-50 p-1 rounded-full shadow"
+                  >
                     ✎
-                  </button>
+                  </label>
                 </div>
                 <p className="text-xs text-gray-500">
                   Logo should have in 1:1 ratio for better viewing experience.
                 </p>
+                <input
+                  type="file"
+                  name="imageUrl"
+                  id="image-upload"
+                  accept="'.jpeg, .png, .jpg"
+                  onChange={(e) => handleFileUpload(e)}
+                  className="hidden"
+                />
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">

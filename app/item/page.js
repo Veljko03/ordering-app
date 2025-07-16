@@ -324,10 +324,6 @@ export default function ItemManager() {
                           ✎
                         </label>
                       </div>
-                      <p className="text-xs text-gray-500">
-                        Logo should have in 1:1 ratio for better viewing
-                        experience.
-                      </p>
                     </div>
                     <input
                       type="file"

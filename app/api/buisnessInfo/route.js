@@ -5,8 +5,6 @@ export async function POST(req) {
   try {
     const body = await req.json();
 
-    console.log("this is body ", body);
-
     await mongoose.connect(process.env.NEXT_MONGO_URL);
 
     const existing = await GeneralInfo.findOne();
