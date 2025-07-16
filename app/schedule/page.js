@@ -46,7 +46,7 @@ const WeekSchedule = () => {
       .then((dataa) => {
         if (!dataa || dataa.length === 0 || !dataa[0].schedule) {
           console.warn("Nema podataka u bazi. Inicijalizuj prazne vrednosti.");
-          return; // ili možeš da setuješ neki default
+          return;
         }
         setBackendData(dataa);
         const data = dataa[0].schedule;
@@ -254,11 +254,7 @@ const WeekSchedule = () => {
                 return (
                   <div
                     key={day}
-                    className={`flex   items-center  rounded-sm p-2  ${
-                      !timesForEachDay[`${key}Opend`]
-                        ? "bg-gray-400 "
-                        : "bg-white"
-                    }`}
+                    className={`flex   items-center  rounded-sm p-2  `}
                   >
                     <div className="flex justify-start ">
                       <input
@@ -272,7 +268,7 @@ const WeekSchedule = () => {
                     <span
                       className={`w-30  ${
                         !timesForEachDay[`${key}Opend`]
-                          ? "font-extralight"
+                          ? "font-extraligh text-gray-500"
                           : "font-semibold"
                       } ml-2 text-black`}
                     >
@@ -284,7 +280,9 @@ const WeekSchedule = () => {
                       name={`${key}Start`}
                       value={timesForEachDay[`${key}Start`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded w-26  sm:w-40 ml-2  text-black"
+                      className={`${
+                        !timesForEachDay[`${key}Opend`] ? "invisible " : ""
+                      } p-2 border rounded w-26  sm:w-40 ml-2  text-black `}
                       disabled={!timesForEachDay[`${key}Opend`]}
                     />
                     <input
@@ -292,7 +290,9 @@ const WeekSchedule = () => {
                       name={`${key}End`}
                       value={timesForEachDay[`${key}End`] || ""}
                       onChange={handleTimeChange}
-                      className="p-2 border rounded w-26  sm:w-40 ml-1  text-black"
+                      className={`${
+                        !timesForEachDay[`${key}Opend`] ? "invisible " : ""
+                      } p-2 border rounded w-26  sm:w-40 ml-2  text-black `}
                       disabled={!timesForEachDay[`${key}Opend`]}
                     />
                   </div>

@@ -6,7 +6,7 @@ import { FaPlus } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
 import { categorySchemaZod } from "../utils/zodSchemas";
-export default function CategoryManager({ onChange }) {
+export default function CategoryManager() {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState(null);
@@ -26,7 +26,8 @@ export default function CategoryManager({ onChange }) {
   async function fetchCategories() {
     const res = await fetch("/api/categories");
     const data = await res.json();
-   
+
+    console.log("data ", data);
 
     setCategories(data);
   }

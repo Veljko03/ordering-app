@@ -31,11 +31,6 @@ export default function ItemManager() {
   const [showAddNewItemForm, setShowAddNewItemForm] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
 
-  console.log(
-    JSON.stringify(validationErrors),
-    " EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
-  );
-
   useEffect(() => {
     fetchItems();
     fetchCategories();
@@ -44,6 +39,7 @@ export default function ItemManager() {
   async function fetchItems() {
     const res = await fetch("/api/items");
     const data = await res.json();
+
     const sanitizedData = data.map((item) => ({
       ...item,
       basePrice: item.basePrice?.toString() ?? "",
