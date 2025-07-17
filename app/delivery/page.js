@@ -27,13 +27,13 @@ export default function DeliveryManager() {
           {deliveryPrices.map((place, index) => (
             <div key={index}>
               <label className="block text-sm font-medium text-gray-700">
-                {place.destination}
+                {index + 1}: {place.destination}
               </label>
               <input
                 type="text"
                 name="price"
                 //required
-                value={place?.price || "0"}
+                defaultValue={place?.price || "0"}
                 className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
               />
             </div>
