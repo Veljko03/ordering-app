@@ -16,12 +16,12 @@ export default function DeliveryManager() {
           Odaberite cenu dostave za svaku od regija prikazanih na slici
         </p>
       </div>
-      <div className="mt-10 flex gap-10">
+      <div className="mt-10 flex flex-col gap-10 md:flex-row">
         <Image
           src="/NoviSad.png"
           alt="slika novog sada"
-          width={1000}
-          height={500}
+          width={700}
+          height={400}
         />
         <div>
           {deliveryPrices.map((place, index) => (
@@ -33,8 +33,7 @@ export default function DeliveryManager() {
                 type="text"
                 name="price"
                 //required
-                value={place.price || "0"}
-                // onChange={handleChange}
+                value={place?.price || "0"}
                 className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
               />
             </div>
