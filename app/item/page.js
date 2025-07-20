@@ -3,7 +3,14 @@ import { XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { BiExit } from "react-icons/bi";
-import { FaImage, FaPlus, FaPlusCircle, FaTrash, FaUser } from "react-icons/fa";
+import {
+  FaGreaterThan,
+  FaImage,
+  FaPlus,
+  FaPlusCircle,
+  FaTrash,
+  FaUser,
+} from "react-icons/fa";
 import { HiPencilAlt, HiThumbDown } from "react-icons/hi";
 import { HiArrowDown, HiBarsArrowDown } from "react-icons/hi2";
 import { MdDeleteForever } from "react-icons/md";
@@ -144,7 +151,7 @@ export default function ItemManager() {
 
     const method = isEditing ? "PUT" : "POST";
     const url = "/api/items";
-    const payload = isEditing ? { ...formData, _id: isEditing } : formData;
+    const payload = isEditing ? { ...formData, _id: isEditing.id } : formData;
     const validateData = itemsSchemaZod.safeParse(payload);
     if (!validateData.success) {
       const formatted = validateData.error.format(); // <- koristi format() zbog duboke validacije
@@ -191,9 +198,11 @@ export default function ItemManager() {
     setValidationErrors({});
   }
 
-  async function handleDelete(id) {
+  async function handleDelete(item) {
     async function deleteItem() {
-      const res = await fetch(`/api/items?_id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/items?_id=${item.id}`, {
+        method: "DELETE",
+      });
 
       if (!res.ok) {
         const errMsg = await res.text();
@@ -219,7 +228,14 @@ export default function ItemManager() {
 
   function handleEdit(item) {
     setFormData(item);
-    setIsEditing(item._id);
+    const fullCategory = categories.filter((cat) => cat._id == item.categoryId);
+    console.log("AAAAAAAAAAAAAAAAA", fullCategory);
+
+    setIsEditing({
+      id: item._id,
+      name: item.name,
+      catName: fullCategory[0].name,
+    });
   }
 
   async function toggleCategoryItems(categoryId) {
@@ -257,6 +273,7 @@ export default function ItemManager() {
     );
   }
   const isChanged = !isFormDataEmpty(formData);
+  console.log("items by cat ", itemsByCategory);
 
   return (
     <div className="p-4 space-y-6 bg-[#f3f3f4]">
@@ -279,6 +296,7 @@ export default function ItemManager() {
             Dodaj novo jelo
           </h3>
           <button
+            type="button"
             onClick={() => setShowAddNewItemForm(true)}
             className="bg-[#7893c3] text-white px-4 py-2 rounded uppercase cursor-pointer"
           >
@@ -287,16 +305,55 @@ export default function ItemManager() {
         </div>
         {showAddNewItemForm && (
           <div className="fixed  inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white  rounded-lg shadow flex flex-col gap-5 max-h-[90vh] overflow-y-auto w-[90vw] max-w-6xl">
+            <div className="bg-white   w-full h-full overflow-y-auto">
               <XIcon
-                className="text-red-500 ml-auto cursor-pointer w-16 h-18 "
+                className="text-black font-extralight ml-auto cursor-pointer w-16 h-18 "
                 onClick={() => {
                   setShowAddNewItemForm(false);
                   setFormData(emptyFormData);
                   setIsEditing(null);
                 }}
               />
+              <div className="flex items-center text-sm text-gray-500 gap-2">
+                <FaGreaterThan className="w-4 h-4 text-gray-400" />
 
+                <button
+                  type="button"
+                  className="text-gray-700 hover:text-black transition cursor-pointer"
+                  onClick={() => {
+                    setShowAddNewItemForm(false);
+                    setFormData(emptyFormData);
+                    setIsEditing(null);
+                  }}
+                >
+                  Sva jela
+                </button>
+
+                {isEditing && (
+                  <>
+                    <FaGreaterThan className="w-4 h-4 text-gray-400" />
+                    <button
+                      type="button"
+                      className="text-gray-700 hover:text-black transition cursor-pointer"
+                      onClick={() => {
+                        setShowAddNewItemForm(false);
+                        setFormData(emptyFormData);
+                        setIsEditing(null);
+                      }}
+                    >
+                      {isEditing.catName}{" "}
+                    </button>
+                    <FaGreaterThan className="w-4 h-4 text-gray-400" />
+                    <span className="text-black font-medium">
+                      {isEditing.name}
+                    </span>
+                  </>
+                )}
+              </div>
+
+              <h1 className="mb-6 w-full text-center mt-6 text-2xl ml-2 font-bold text-black">
+                {isEditing ? "Izmenite jelo" : "Dodajte novo jelo"}
+              </h1>
               <form
                 onSubmit={handleSubmit}
                 className="  p-1 rounded  flex flex-col gap-5 overflow-x-auto mb-5"
@@ -566,7 +623,7 @@ export default function ItemManager() {
                       Obriši
                     </button>
                   )}
-                  {isChanged && (
+                  {/* {isChanged && (
                     <button
                       type="button"
                       onClick={() => setFormData(emptyFormData)}
@@ -574,7 +631,7 @@ export default function ItemManager() {
                     >
                       Otkaži
                     </button>
-                  )}
+                  )} */}
                   <button
                     className=" rounded w-26 bg-[#7893c3] uppercase  p-1.5 cursor-pointer"
                     type="submit"
