@@ -8,6 +8,8 @@ import {
   FaImage,
   FaPlus,
   FaPlusCircle,
+  FaToggleOff,
+  FaToggleOn,
   FaTrash,
   FaUser,
 } from "react-icons/fa";
@@ -292,7 +294,7 @@ export default function ItemManager() {
           Sva jela
         </h3>
         <div className="flex gap-4 mb-4 items-center">
-          <h3 className="text-l text-black font-semibold uppercase">
+          <h3 className="text-l text-black font-semibold  uppercase">
             Dodaj novo jelo
           </h3>
           <button
@@ -303,6 +305,7 @@ export default function ItemManager() {
             <FaPlus />
           </button>
         </div>
+
         {showAddNewItemForm && (
           <div className="fixed  inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white   w-full h-full overflow-y-auto">
@@ -467,9 +470,18 @@ export default function ItemManager() {
                   </div>
 
                   <div className="flex flex-col gap-5  text-black">
-                    <h4 className="text-xl text-black font-semibold mb-4 uppercase">
-                      Veličine
-                    </h4>
+                    <div className="flex gap-4 mb-4 items-center">
+                      <h3 className="text-xl text-black font-semibold uppercase">
+                        Veličine
+                      </h3>
+                      <button
+                        type="button"
+                        onClick={addSize}
+                        className="bg-[#7893c3] text-white px-4 py-2 rounded uppercase cursor-pointer"
+                      >
+                        <FaPlus />
+                      </button>
+                    </div>
                     {formData.sizes.map((s, i) => (
                       <div
                         key={i}
@@ -478,7 +490,7 @@ export default function ItemManager() {
                         <div>
                           {" "}
                           <input
-                            placeholder="Veličina"
+                            placeholder="Srednja"
                             value={s.size}
                             className="text-black rounded p-1 w-30 sm:w-36 bg-gray-100"
                             onChange={(e) =>
@@ -493,7 +505,7 @@ export default function ItemManager() {
                         </div>
                         <div>
                           <input
-                            placeholder="Cena"
+                            placeholder="499"
                             type="number"
                             value={s.price}
                             className="rounded p-1 w-30 sm:w-36  bg-gray-100"
@@ -510,37 +522,39 @@ export default function ItemManager() {
 
                         <FaTrash
                           onClick={() => removeSize(i)}
-                          className="text-red-500 ml-auto   text-xl cursor-pointer self-center"
+                          className="text-red-500 ml-auto   text-2xl cursor-pointer self-center"
                         />
                       </div>
                     ))}
-                    <button
-                      className="rounded p-2 uppercase bg-[#7893c3] text-white  w-26"
-                      type="button"
-                      onClick={addSize}
-                    >
-                      Dodaj
-                    </button>
                   </div>
 
                   <div className="flex flex-col gap-5 text-black">
                     <hr className="my-4 border-black" />
-                    <h3 className="text-xl text-black font-semibold mb-4 uppercase">
-                      Prilozi
-                    </h3>
+                    <div className="flex gap-4 mb-4 items-center">
+                      <h3 className="text-xl text-black font-semibold  uppercase">
+                        Prilozi
+                      </h3>
+                      <button
+                        type="button"
+                        onClick={addAddon}
+                        className="bg-[#7893c3] text-white px-4 py-2 rounded uppercase cursor-pointer"
+                      >
+                        <FaPlus />
+                      </button>
+                    </div>
                     {formData.addons.map((a, i) => (
                       <div
                         key={i}
-                        className="flex flex-col flex-wrap gap-2 w-full p-1 text-black "
+                        className="flex w-full items-center gap-4 justify-between flex-nowrap text-black "
                       >
                         <div>
                           <label className="block text-sm font-medium text-gray-700">
-                            Naziv priloga
+                            Naziv
                           </label>
                           <input
                             placeholder="Tartar"
                             value={a.name}
-                            className="rounded p-1 bg-gray-100"
+                            className="rounded w-30 p-1 bg-gray-100"
                             onChange={(e) =>
                               handleAddonChange(i, "name", e.target.value)
                             }
@@ -551,15 +565,15 @@ export default function ItemManager() {
                             </p>
                           )}
                         </div>
-                        <div className="mt-2">
+                        <div className="">
                           <label className="block text-sm font-medium text-gray-700">
-                            Cena priloga(rsd){" "}
+                            Cena (rsd){" "}
                           </label>
                           <input
                             placeholder="50"
                             type="number"
                             value={a.price}
-                            className="rounded p-1 bg-gray-100"
+                            className="rounded p-1 w-30 bg-gray-100"
                             onChange={(e) =>
                               handleAddonChange(i, "price", e.target.value)
                             }
@@ -569,48 +583,54 @@ export default function ItemManager() {
                               {validationErrors.addons[i].price._errors[0]}
                             </p>
                           )}
-                          <label className=" mt-2 block text-sm font-medium text-gray-700">
-                            Dostupnost priloga
-                          </label>
-                          <select
-                            className={` rounded   ${
-                              a.active === true || a.active === "true"
-                                ? "bg-green-600 text-white"
-                                : "bg-red-600 text-white"
-                            }`}
-                            value={a.active.toString()}
-                            onChange={(e) =>
-                              handleAddonChange(i, "active", e.target.value)
-                            }
-                          >
-                            <option
-                              className="text-white bg-black"
-                              value="true"
-                            >
-                              Dostupan
-                            </option>
-                            <option
-                              className="text-white bg-black"
-                              value="false"
-                            >
-                              Nedostupan
-                            </option>
-                          </select>
                         </div>
+                        <label className="relative ml-2 mt-4 inline-flex items-center self-center cursor-pointer scale-90">
+                          <input
+                            type="checkbox"
+                            checked={a.active === true || a.active === "true"}
+                            onChange={(e) =>
+                              handleAddonChange(
+                                i,
+                                "active",
+                                e.target.checked.toString()
+                              )
+                            }
+                            className="sr-only peer"
+                          />
+                          <div className="w-14 h-8 bg-gray-300 peer-checked:bg-green-500 rounded-full transition-colors duration-300 ease-in-out"></div>
+                          <div className="absolute left-[2px] top-[2px] bg-white w-7 h-7 rounded-full transition-transform duration-300 ease-in-out peer-checked:translate-x-6"></div>
+                        </label>
+
+                        {/* <div
+                            onClick={() =>
+                              handleAddonChange(
+                                i,
+                                "active",
+                                (!a.active).toString()
+                              )
+                            }
+                            className="cursor-pointer w-30 h-12 flex items-center justify-center"
+                          >
+                            {a.active === true || a.active === "true" ? (
+                              <FaToggleOn className="h-full w-full  text-green-500" />
+                            ) : (
+                              <FaToggleOff className="h-full w-full  text-red-500" />
+                            )}
+                          </div> */}
 
                         <FaTrash
                           onClick={() => removeAddon(i)}
-                          className="text-red-500 ml-auto text-xl cursor-pointer self-center"
+                          className="text-red-500 mt-2 ml-auto text-2xl cursor-pointer self-center"
                         />
                       </div>
                     ))}
-                    <button
+                    {/* <button
                       type="button"
                       className="rounded p-2 bg-[#7893c3] text-white uppercase  w-26"
                       onClick={addAddon}
                     >
                       Dodaj
-                    </button>
+                    </button> */}
                   </div>
                 </div>
                 <div className="flex gap-2 ml-auto text-white mt-2">
@@ -667,7 +687,7 @@ export default function ItemManager() {
                         <span className="text-black">{item.basePrice} rsd</span>
                         <div className=" flex gap-5 text-3xl">
                           <HiPencilAlt
-                            className="cursor-pointer"
+                            className="cursor-pointer text-[#7893c3] text-2xl "
                             onClick={() => {
                               setShowAddNewItemForm(true);
                               handleEdit(item);
