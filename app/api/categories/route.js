@@ -19,7 +19,6 @@ export async function POST(req) {
 export async function DELETE(req) {
   try {
     await mongoose.connect(process.env.NEXT_MONGO_URL);
-    console.log(req.json());
 
     const url = new URL(req.url);
     console.log("oov je url ", url);
@@ -37,7 +36,6 @@ export async function DELETE(req) {
     }
     console.log("oov je id ", _id);
     await Category.deleteOne({ _id });
-    await Item.updateMany({ categoryId: _id }, { $unset: { categoryId: "" } });
     return Response.json(true);
   } catch (error) {
     return new Response(

@@ -70,11 +70,6 @@ export default function CategoryManager() {
 
   async function deleteCategory(_id) {
     const catToDelete = categories.filter((cat) => cat._id == _id);
-    if (catToDelete.length > 0) {
-      toast.error("Sekcija nije prazna");
-      return;
-    }
-    console.log("MMMMMMMMMMEEEEEEEEEEEEEE");
 
     async function deleteCat() {
       const res = await fetch(`/api/categories?_id=${_id}`, {
@@ -91,7 +86,7 @@ export default function CategoryManager() {
     await toast.promise(deleteCat(), {
       loading: "Brisanje...",
       success: <b>Sekcija je uspešno obrisana!</b>,
-      error: <b>Sekcija nije prazna, nije moguce </b>,
+      error: <b>Sekcija nije prazna! </b>,
     });
 
     fetchCategories();

@@ -1,1 +1,6 @@
 GET http://localhost:3000/api/buisnessInfo
+
+###
+GET http://localhost:3000/api/categories
+
+###
