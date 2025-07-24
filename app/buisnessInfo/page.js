@@ -328,6 +328,36 @@ export default function BusinessInfo() {
               className="w-full mt-1 p-2 bg-gray-100  text-black rounded"
             />
           </div>
+          <div className="flex justify-end gap-2 mt-6">
+            <>
+              <button
+                onClick={() => {
+                  setFormData(info);
+                }}
+                disabled={sendingData}
+                hidden={sendingData}
+                className={`  px-4 ${
+                  isChanged
+                    ? "bg-[#8559A5] text-white"
+                    : "bg-transparent text-[#8559A5]"
+                } py-2 rounded cursor-pointer border-2 border-solid border-[#8559A5] w-24 uppercase `}
+              >
+                Otkaži
+              </button>
+              <button
+                onClick={handleSave}
+                hidden={sendingData}
+                disabled={sendingData}
+                className={`  w-24 px-4 uppercase  ${
+                  isChanged
+                    ? "bg-[#7893c3] text-white"
+                    : "bg-transparent text-[#7893c3]"
+                } py-2 rounded border-[#7893c3] border-2 border-solid flex justify-center items-center text-center   cursor-pointer `}
+              >
+                Sačuvaj
+              </button>
+            </>
+          </div>
         </div>
 
         <div className="flex flex-col gap-3">
@@ -397,7 +427,7 @@ export default function BusinessInfo() {
           </div> */}
 
           {/* Colors */}
-          <div className="bg-white p-6 rounded-lg shadow">
+          {/* <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl text-black font-semibold mb-4 uppercase">
               Brendiranje{" "}
             </h2>
@@ -513,7 +543,7 @@ export default function BusinessInfo() {
                 </button>
               </>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

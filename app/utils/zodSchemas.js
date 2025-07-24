@@ -5,10 +5,7 @@ export const infoSchemaZod = z.object({
     .string()
     .min(2, "Naziv mora imati bar 2 karaktkera")
     .max(50, "Naziv ima maksimalno 50 karatktera")
-    .regex(
-      /^[a-zA-Z0-9\s\-'&čćžšđČĆŽŠĐ]+$/,
-      "Naziv sadrži nedozvoljene karaktere"
-    ),
+    .regex(/^[\p{L}\p{N}\s.,\/-]+$/u, "Naziv sadrži nedozvoljene karaktere"),
   logoUrl: z.string().url("Logo mora biti validan URL").optional(),
 
   contactPhone: z
@@ -46,10 +43,7 @@ export const categorySchemaZod = z.object({
     .string()
     .min(2, "Naziv mora imati bar 2 karaktkera")
     .max(50, "Naziv ima maksimalno 50 karatktera")
-    .regex(
-      /^[a-zA-Z0-9\s\-'&čćžšđČĆŽŠĐ]+$/,
-      "Naziv sadrži nedozvoljene karaktere"
-    ),
+    .regex(/^[\p{L}\p{N}\s.,\/-]+$/u, "Naziv sadrži nedozvoljene karaktere"),
 });
 
 export const itemsSchemaZod = z.object({
@@ -57,18 +51,12 @@ export const itemsSchemaZod = z.object({
     .string()
     .min(2, "Naziv mora imati bar 2 karaktkera")
     .max(50, "Naziv ima maksimalno 50 karatktera")
-    .regex(
-      /^[a-zA-Z0-9\s\-'&čćžšđČĆŽŠĐ]+$/,
-      "Naziv sadrži nedozvoljene karaktere"
-    ),
+    .regex(/^[\p{L}\p{N}\s.,\/-]+$/u, "Naziv sadrži nedozvoljene karaktere"),
   description: z
     .string()
     .min(10, "Opis mora imati najmanje 10 karaktera")
     .max(300, "Opis može imati najviše 300 karaktera")
-    .regex(
-      /^[a-zA-Z0-9čćžšđČĆŽŠĐ\s.,\-()\/]+$/,
-      "Opis sadrži nedozvoljene karaktere"
-    ),
+    .regex(/^[\p{L}\p{N}\s.,\/-]+$/u, "Opis sadrži nedozvoljene karaktere"),
   basePrice: z
     .string()
     .regex(/^(\d+([.,]\d{1,2})?)$/, "Cena mora biti validan broj")
