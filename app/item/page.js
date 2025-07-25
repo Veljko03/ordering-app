@@ -64,9 +64,10 @@ export default function ItemManager() {
         })) ?? [],
     }));
     setItems(sanitizedData);
+   
+    console.log("UPDATEEEEEDDDDDDD");
   }
-  console.log("FFFFFFFFFFFFFF ", formData);
-  console.log("OOOOOOOOOO ", items);
+
 
   const MAX_IMAGE_SIZE = 5000 * 1024; // 5mb
   const convertToBase64 = (file) => {
@@ -182,22 +183,13 @@ export default function ItemManager() {
       error: <b>Došlo je do greške.</b>,
     });
 
-    setFormData({
-      name: "",
-      description: "",
-      basePrice: "",
-      imageUrl: "",
-      categoryId: "",
-      sizes: [],
-      addons: [],
-    });
-    await fetchItems();
     setIsEditing(null);
-    setItemsByCategory({});
-
     setShowAddNewItemForm(false);
+    setItemsByCategory({});
+    setFormData(emptyFormData);
     setExpandedCategoryId(null);
     setValidationErrors({});
+    await fetchItems();
   }
 
   async function handleDelete(item) {
@@ -315,6 +307,7 @@ export default function ItemManager() {
                   setShowAddNewItemForm(false);
                   setFormData(emptyFormData);
                   setIsEditing(null);
+                  setValidationErrors({});
                 }}
               />
               <div className="flex items-center text-sm text-gray-500 gap-2">

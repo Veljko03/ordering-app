@@ -56,7 +56,10 @@ export const itemsSchemaZod = z.object({
     .string()
     .min(10, "Opis mora imati najmanje 10 karaktera")
     .max(300, "Opis može imati najviše 300 karaktera")
-    .regex(/^[\p{L}\p{N}\s.,\/-]+$/u, "Opis sadrži nedozvoljene karaktere"),
+    .regex(/^[\p{L}\p{N}\s.,\/-]+$/u, "Opis sadrži nedozvoljene karaktere")
+    .optional()
+    .or(z.literal("")),
+
   basePrice: z
     .string()
     .regex(/^(\d+([.,]\d{1,2})?)$/, "Cena mora biti validan broj")
