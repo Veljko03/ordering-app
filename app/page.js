@@ -13,7 +13,7 @@ async function Home() {
   return (
     <div style={{ padding: "50px" }}>
       <Places />
-      <h1>HOOOOOOOMRRRRRRRRRR</h1>
+      <h1 className="text-black">HOMEEE PAGEEE</h1>
 
       {/* <div className="mt-6">
         <h1>Here you can add some photo</h1>

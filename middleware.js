@@ -22,3 +22,7 @@ export async function middleware(req) {
 
   return NextResponse.next();
 }
+
+export const config = {
+  matcher: ["/admin/:path*", "/login"], //ovde stavljam da se middlware pokrece samo na ove rute 
+};

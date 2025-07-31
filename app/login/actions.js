@@ -2,7 +2,7 @@
 
 import { logInSchemaZod } from "../utils/zodSchemas";
 import { errors } from "jose";
-import { createSession } from "@/lib/session";
+import { createSession, deleteSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 const testUser = {
@@ -30,7 +30,10 @@ export async function login(prevState, formData) {
 
   await createSession(testUser.id);
 
-  redirect("/");
+  redirect("/admin/buisnessInfo");
 }
 
-export async function logout(params) {}
+export async function logout() {
+  await deleteSession();
+  redirect("/");
+}
