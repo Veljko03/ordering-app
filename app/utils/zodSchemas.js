@@ -1,5 +1,15 @@
 import { z } from "zod";
 
+export const logInSchemaZod = z.object({
+  username: z
+    .string()
+    .min(6, { message: "Ime mora imati bar 6 karaktera" })
+    .trim(),
+  password: z
+    .string()
+    .min(8, { message: "Lozinka mora imati bar 8 karaktera" })
+    .trim(),
+});
 export const infoSchemaZod = z.object({
   name: z
     .string()
