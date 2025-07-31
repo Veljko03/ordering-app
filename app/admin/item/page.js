@@ -16,7 +16,7 @@ import {
 import { HiPencilAlt, HiThumbDown } from "react-icons/hi";
 import { HiArrowDown, HiBarsArrowDown } from "react-icons/hi2";
 import { MdDeleteForever } from "react-icons/md";
-import { itemsSchemaZod } from "../utils/zodSchemas";
+import { itemsSchemaZod } from "../../utils/zodSchemas";
 import { resolve } from "styled-jsx/css";
 
 //za cene dodati sa klijentske strane sa admin strane nije potrebno jer admin ne dodaje u korpu i ne obracunava

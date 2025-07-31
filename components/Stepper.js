@@ -20,12 +20,12 @@ const steps = [
     id: 1,
     name: "",
     icon: <HiBuildingStorefront />,
-    path: "/buisnessInfo",
+    path: "/admin/buisnessInfo",
   },
-  { id: 2, name: "", icon: <FaCalendarDays />, path: "/schedule" },
-  { id: 3, name: "", icon: <MdMenuBook />, path: "/category" },
-  { id: 4, name: "", icon: <MdRestaurantMenu />, path: "/item" },
-  { id: 5, name: "", icon: <BiSolidCategoryAlt />, path: "/delivery" },
+  { id: 2, name: "", icon: <FaCalendarDays />, path: "/admin/schedule" },
+  { id: 3, name: "", icon: <MdMenuBook />, path: "/admin/category" },
+  { id: 4, name: "", icon: <MdRestaurantMenu />, path: "/admin/item" },
+  { id: 5, name: "", icon: <BiSolidCategoryAlt />, path: "/admin/delivery" },
 ];
 
 const Stepper = () => {

@@ -1,7 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
-import Stepper from "@/components/Stepper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,15 +22,6 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* <div className="p-4 gap-6">
-          <Link href={"/"} className="text-white p-6 text-2xl">Home</Link>
-          <Link href={"/schedule"} className="text-white p-6 text-2xl">Week Schedule</Link>
-          <Link href={"/buisnessInfo"} className="text-white p-6 text-2xl">Buisness Info</Link>
-        </div> */}
-        <Stepper/>
-        
-
-
         {children}
       </body>
     </html>

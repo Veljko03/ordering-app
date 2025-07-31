@@ -5,7 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
-import { categorySchemaZod } from "../utils/zodSchemas";
+import { categorySchemaZod } from "../../utils/zodSchemas";
 export default function CategoryManager() {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
