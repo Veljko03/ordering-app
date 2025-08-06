@@ -2,11 +2,9 @@ import Stepper from "@/components/Stepper";
 
 export default function AdminLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
-        <Stepper />
-        {children}
-      </body>
-    </html>
+    <div className="min-h-screen bg-gray-50">
+      <Stepper />
+      <main>{children}</main>
+    </div>
   );
 }

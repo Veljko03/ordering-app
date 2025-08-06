@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { decrypt } from "@/lib/session";
 
 export async function middleware(req) {
+  //later i need to add that user into db and to hash password
   const path = req.nextUrl.pathname;
 
   const cookie = req.cookies.get("session")?.value;
@@ -24,5 +25,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/login"], //ovde stavljam da se middlware pokrece samo na ove rute 
+  matcher: ["/admin/:path*", "/login"], //ovde stavljam da se middlware pokrece samo na ove rute
 };
