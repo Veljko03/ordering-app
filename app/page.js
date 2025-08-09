@@ -1,8 +1,7 @@
-import Places from "../components/PlacePicker";
-
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import Header from "@/components/Header";
+import Hero from "@/components/Hero";
 
 async function Home() {
   return (
@@ -10,6 +9,7 @@ async function Home() {
       <Header />
       {/* <Places /> */}
       <h1 className="text-black">HOMEEE PAGEEE</h1>
+      <Hero />
     </div>
   );
 }

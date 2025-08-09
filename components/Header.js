@@ -10,7 +10,7 @@ const Header = () => {
   //onst { toggleCart, itemCount } = useCart();
   const [itemCount, setItemCount] = useState(1);
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur 0 border-b-1 border-orange-400">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center space-x-2">
