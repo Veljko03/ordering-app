@@ -7,6 +7,7 @@ import CategoryFilter from "@/components/CategoryFilter";
 // import { MenuItem } from '@/types/food';
 // import { menuItems } from '@/data/mockData';
 import Header from "@/components/Header";
+import MenuGrid from "@/components/MenuGrid";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -15,24 +16,25 @@ const Menu = () => {
   const [categories, setCategories] = useState(null);
   const [items, setItems] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("all");
-  //   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
-  //   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //   const filteredItems = selectedCategory === 'all'
-  //     ? menuItems
-  //     : menuItems.filter(item => item.category === selectedCategory);
+  const filteredItems =
+    selectedCategory === "all"
+      ? items
+      : items.filter((item) => item.categoryId === selectedCategory);
 
-  //   const handleItemClick = (item: MenuItem) => {
-  //     setSelectedItem(item);
-  //     setIsModalOpen(true);
-  //   };
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
 
-  //   const handleModalClose = () => {
-  //     setIsModalOpen(false);
-  //     setSelectedItem(null);
-  //   };
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null);
+  };
 
-  console.log("selectedCategory ", selectedCategory);
+  console.log("folterd ", filteredItems);
 
   useEffect(() => {
     fetchCategories();
@@ -88,9 +90,9 @@ const Menu = () => {
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}
       />
-      {/*
-      <MenuGrid items={filteredItems} onItemClick={handleItemClick} />
 
+      <MenuGrid items={filteredItems} onItemClick={handleItemClick} />
+      {/*
       <ItemModal
         item={selectedItem}
         isOpen={isModalOpen}
