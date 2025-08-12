@@ -1,13 +1,12 @@
 import { FaPlus } from "react-icons/fa";
-//import { Card, CardContent } from '@/components/ui/card';
-//import { Badge } from '@/components/ui/badge';
 
 const MenuItemCard = ({ item, onClick }) => {
   //   const { addItem } = useCart();
+  console.log("item ", item);
 
   return (
     <div
-      className="group cursor-pointer bg-card shadow-soft hover:shadow-card transition-smooth hover:scale-105 border-border"
+      className="group cursor-pointer bg-card shadow-md shadow-gray-400 hover:shadow-card  hover:scale-105 border-border"
       onClick={onClick}
     >
       <div className="relative overflow-hidden rounded-t-lg">
@@ -15,7 +14,7 @@ const MenuItemCard = ({ item, onClick }) => {
           <img
             src={item.imageUrl}
             alt={item.name}
-            className="w-full h-48 object-cover group-hover:scale-110 transition-smooth"
+            className="w-full h-48 object-cover group-hover:scale-110 "
           />
         )}
 
@@ -36,10 +35,10 @@ const MenuItemCard = ({ item, onClick }) => {
           </span>
           <button
             // onClick={handleAddToCart}
-            className="transition-smooth hover:bg-primary text-black flex items-center gap-2 "
+            className="transition-smooth hover:bg-primary text-black flex items-center gap-2 cursor-pointer"
           >
             Add
-            <FaPlus className="w-4 h-4 text-green-400" />
+            <FaPlus className="w-4 h-4 text-green-400 " />
           </button>
         </div>
       </div>

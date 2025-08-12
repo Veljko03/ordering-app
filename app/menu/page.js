@@ -8,6 +8,7 @@ import CategoryFilter from "@/components/CategoryFilter";
 // import { menuItems } from '@/data/mockData';
 import Header from "@/components/Header";
 import MenuGrid from "@/components/MenuGrid";
+import Places from "@/components/PlacePicker";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -74,7 +75,7 @@ const Menu = () => {
           Back to Home
         </Link>
       </div>
-
+      <Places />
       {/* Page Header */}
       <div className="container mx-auto px-4 pb-4">
         <div className="space-y-2">

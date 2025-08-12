@@ -9,6 +9,7 @@ async function Home() {
       <Header />
       {/* <Places /> */}
       <h1 className="text-black">HOMEEE PAGEEE</h1>
+
       <Hero />
     </div>
   );

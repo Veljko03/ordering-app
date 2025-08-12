@@ -3,6 +3,8 @@ import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
 import { point, polygon, booleanPointInPolygon } from "@turf/turf";
 import { deliveryPrices } from "../app/admin/placesData/deliveryPrices";
+import { FaLocationArrow } from "react-icons/fa";
+import { FaLocationPin, FaX } from "react-icons/fa6";
 
 const lib = ["places"];
 
@@ -94,26 +96,47 @@ const Places = () => {
   console.log("Selected place name ", selectedPlace);
 
   return (
-    <div>
-      <button
-        className="bg-white text-black w-200 h-8 rounded-sm "
-        onClick={() => setShowPopup(true)}
-      >
-        Enter your adrress
-      </button>
+    <div className="mb-2">
+      {!selectedPlace && (
+        <div className="rounded-2xl bg-white p-4 flex gap-2 justify-center">
+          <button
+            className="text-black items-center flex gap-2 "
+            onClick={() => setShowPopup(true)}
+          >
+            <input
+              className="text-l text-black"
+              placeholder="Na kojoj si adresi?"
+            />
+          </button>
+          <button className="rounded-2xl bg-orange-300 flex gap-2 p-2 items-center">
+            <FaLocationArrow className="w-4 h-4 text-gray-800" />{" "}
+            <h1 className="text-black">Koristi trenutnu lokaciju</h1>
+          </button>
+        </div>
+      )}
+
       {selectedPlace && (
-        <h1 className="mt-5 text-2xl font-bold">
-          Vasa adresa je: {selectedPlace.formatted_address}
-        </h1>
+        <div className="rounded-2xl bg-white p-4 flex gap-2 justify-center">
+          <button
+            className="text-black items-center flex gap-2 "
+            onClick={() => setShowPopup(true)}
+          >
+            <h1 className="text-black">{selectedPlace.formatted_address}</h1>
+          </button>
+          <button className="rounded-2xl bg-orange-300 flex gap-2 p-2 items-center">
+            <FaLocationArrow className="w-4 h-4 text-gray-800" />{" "}
+            <h1 className="text-black">Koristi trenutnu lokaciju</h1>
+          </button>
+        </div>
       )}
       {deliveryPrice && (
-        <h1 className="mt-5 text-2xl font-bold">
+        <h1 className="mt-5 text-2xl font-bold z-50">
           Cena vase dostave je: {deliveryPrice} rsd
         </h1>
       )}
       {showPopup && (
         <div
-          className="fixed inset-0 bg-black/55 flex  items-center justify-center"
+          className="fixed inset-0 bg-black/55 flex  items-center justify-center z-50"
           onClick={() => setShowPopup(false)}
         >
           <div
@@ -121,17 +144,21 @@ const Places = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="bg-red-600 cursor-pointer rounded  w-20 ml-auto"
+              className=" cursor-pointer  ml-auto"
               onClick={() => {
                 setShowPopup(false);
+                if (!selectedPlace) {
+                  setSelectedPlace(null);
+                  setDeliveryPrice(null);
+                }
               }}
             >
-              Close
+              <FaX className="w-6 h-6 text-red-600" />
             </button>
 
             <input
               type="text"
-              placeholder="Search for a place"
+              placeholder="Unesite naziv ulice"
               ref={inputRef}
               className="rounded-md border-white border-black p-4 w-full"
             />
@@ -163,17 +190,18 @@ const Places = () => {
                 className="bg-red-600 cursor-pointer rounded  w-20 "
                 onClick={() => {
                   setShowPopup(false);
-                  if (!selectedPlace) setSelectedPlace(null);
-                  if (!deliveryPrice) setDeliveryPrice(null);
+
+                  setSelectedPlace(null);
+                  setDeliveryPrice(null);
                 }}
               >
-                Cancle
+                Ponisti
               </button>
               <button
                 className="bg-green-500 cursor-pointer rounded  w-20 "
                 onClick={() => setShowPopup(false)}
               >
-                Confirm
+                Sacuvaj
               </button>
             </div>
           </div>
