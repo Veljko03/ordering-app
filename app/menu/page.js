@@ -93,13 +93,13 @@ const Menu = () => {
       />
 
       <MenuGrid items={filteredItems} onItemClick={handleItemClick} />
-      {/*
+
       <ItemModal
         item={selectedItem}
         isOpen={isModalOpen}
         onClose={handleModalClose}
       />
-
+      {/*
       <Cart /> */}
     </div>
   );
