@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { FaMinus, FaPlus, FaX } from "react-icons/fa6";
 
@@ -6,28 +6,29 @@ const ItemModal = ({ item, isOpen, onClose }) => {
   const [quantity, setQuantity] = useState(1);
   //const { addItem } = useCart();
 
-  if (!isOpen || !item) return null;
   const [selectedSize, setSelectedSize] = useState(
-    item.sizes?.[0]?._id || null
+    item?.sizes?.[0]?._id || null
   );
   const [selectedAddons, setSelectedAddons] = useState([]);
 
   // Izračunavanje cene
   const totalPrice = useMemo(() => {
-    let price = item.basePrice;
+    let price = item?.basePrice;
 
     // Dodaj cenu odabrane veličine
-    const size = item.sizes?.find((s) => s._id === selectedSize);
+    const size = item?.sizes?.find((s) => s._id === selectedSize);
     if (size) price += size.price;
 
     // Dodaj cenu svih izabranih dodataka
     selectedAddons.forEach((addonId) => {
-      const addon = item.addons?.find((a) => a._id === addonId);
+      const addon = item?.addons?.find((a) => a._id === addonId);
       if (addon) price += addon.price;
     });
 
     return price * quantity;
   }, [item, selectedSize, selectedAddons, quantity]);
+
+  const costPerItem = totalPrice / quantity;
 
   // Dodavanje/uklanjanje dodataka
   const toggleAddon = (addonId) => {
@@ -42,21 +43,28 @@ const ItemModal = ({ item, isOpen, onClose }) => {
   //     onClose();
   //     setQuantity(1);
   //   };
+  const handleClose = () => {
+    setQuantity(1);
+    setSelectedSize(item.sizes?.[0]?._id || null);
+    setSelectedAddons([]);
+    onClose();
+  };
 
+  if (!isOpen || !item) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
+        onClick={handleClose}
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-lg text-black bg-white shadow-white border-border  rounded-2xl animate-fade-in">
+      <div className="relative w-full max-w-lg text-black bg-white shadow-white border-border  rounded-2xl  max-h-[90vh] overflow-y-scroll">
         {/* Close Button */}
         <button
           className="absolute top-4 right-4 z-10 rounded-full cursor-pointer hover:text-red-600"
-          onClick={onClose}
+          onClick={handleClose}
         >
           <FaX className="w-4 h-4" />
         </button>
@@ -78,6 +86,58 @@ const ItemModal = ({ item, isOpen, onClose }) => {
             </h2>
             <p className="text-gray-600">{item.description}</p>
           </div>
+          {item.sizes?.length > 0 && (
+            <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
+              <h3 className="font-semibold text-lg">Veličina</h3>
+              {item.sizes.map((size) => (
+                <label
+                  key={size._id}
+                  className="flex items-center justify-between p-2 border rounded-lg cursor-pointer hover:bg-gray-50"
+                >
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      name="size"
+                      checked={selectedSize === size._id}
+                      onChange={() => setSelectedSize(size._id)}
+                    />
+                    <span>{size.size}</span>
+                  </div>
+                  {size.price > 0 && (
+                    <span className="text-gray-500">+${size.price}</span>
+                  )}
+                </label>
+              ))}
+            </div>
+          )}
+
+          {/* Dodaci */}
+          {item.addons?.length > 0 && (
+            <div className="bg-white p-4 rounded-xl shadow-sm space-y-3">
+              <h3 className="font-semibold text-lg">Dodaci</h3>
+              {item.addons.map((addon) => (
+                <label
+                  key={addon._id}
+                  className="flex items-center justify-between p-2 border rounded-lg cursor-pointer hover:bg-gray-50"
+                >
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedAddons.includes(addon._id)}
+                      onChange={() => toggleAddon(addon._id)}
+                      disabled={!addon.active}
+                    />
+                    <span className={!addon.active ? "text-gray-400" : ""}>
+                      {addon.name}
+                    </span>
+                  </div>
+                  {addon.price > 0 && (
+                    <span className="text-gray-500">+${addon.price}</span>
+                  )}
+                </label>
+              ))}
+            </div>
+          )}
 
           {/* Ingredients */}
           {/* <div className="space-y-2">
@@ -93,7 +153,7 @@ const ItemModal = ({ item, isOpen, onClose }) => {
 
           <div className="flex items-center justify-between   ">
             <span className="font-bold text-2xl text-green-500">
-              ${item.basePrice}
+              ${costPerItem}
             </span>
 
             <div className="flex items-center gap-3">

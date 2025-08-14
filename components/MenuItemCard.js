@@ -2,7 +2,6 @@ import { FaPlus } from "react-icons/fa";
 
 const MenuItemCard = ({ item, onClick }) => {
   //   const { addItem } = useCart();
-  console.log("item ", item);
 
   return (
     <div
