@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { FaMinus, FaPlus, FaX } from "react-icons/fa6";
 
@@ -6,10 +6,16 @@ const ItemModal = ({ item, isOpen, onClose }) => {
   const [quantity, setQuantity] = useState(1);
   //const { addItem } = useCart();
 
-  const [selectedSize, setSelectedSize] = useState(
-    item?.sizes?.[0]?._id || null
-  );
   const [selectedAddons, setSelectedAddons] = useState([]);
+  const [selectedSize, setSelectedSize] = useState(null);
+
+  useEffect(() => {
+    if (item?.sizes?.length > 0) {
+      setSelectedSize(item.sizes[0]._id);
+    } else {
+      setSelectedSize(null);
+    }
+  }, [item]);
 
   // Izračunavanje cene
   const totalPrice = useMemo(() => {
@@ -40,8 +46,7 @@ const ItemModal = ({ item, isOpen, onClose }) => {
   };
   //   const handleAddToCart = () => {
   //     addItem(item, quantity);
-  //     onClose();
-  //     setQuantity(1);
+  //          handleClose();
   //   };
   const handleClose = () => {
     setQuantity(1);
@@ -49,6 +54,8 @@ const ItemModal = ({ item, isOpen, onClose }) => {
     setSelectedAddons([]);
     onClose();
   };
+  console.log("aaaaaaaaaaaa", item);
+  console.log(selectedSize, " sssssss");
 
   if (!isOpen || !item) return null;
   return (
