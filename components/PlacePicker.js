@@ -118,10 +118,13 @@ const Places = () => {
       {selectedPlace && (
         <div className="rounded-2xl bg-white p-4 flex gap-2 justify-center">
           <button
-            className="text-black items-center flex gap-2 "
+            className="text-black items-center flex flex-col gap-1 "
             onClick={() => setShowPopup(true)}
           >
             <h1 className="text-black">{selectedPlace.formatted_address}</h1>
+            <h1 className="text-black">
+              Cena vase dostave je {deliveryPrice} rsd
+            </h1>
           </button>
           <button className="rounded-2xl bg-orange-300 flex gap-2 p-2 items-center">
             <FaLocationArrow className="w-4 h-4 text-gray-800" />{" "}
