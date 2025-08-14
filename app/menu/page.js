@@ -7,6 +7,7 @@ import CategoryFilter from "@/components/CategoryFilter";
 // import { MenuItem } from '@/types/food';
 // import { menuItems } from '@/data/mockData';
 import Header from "@/components/Header";
+import ItemModal from "@/components/ItemModal";
 import MenuGrid from "@/components/MenuGrid";
 import Places from "@/components/PlacePicker";
 import Link from "next/link";
