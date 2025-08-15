@@ -18,6 +18,20 @@ const Places = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [deliveryPrice, setDeliveryPrice] = useState(null);
   const inputRef = useRef(null);
+  // if (navigator.geolocation) {
+  //   console.log(navigator.geolocation.getCurrentPosition(success, error));
+  // } else {
+  //   console.log("Geolocation not supported");
+  // }
+  // function success(position) {
+  //   const latitude = position.coords.latitude;
+  //   const longitude = position.coords.longitude;
+  //   console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+  // }
+
+  // function error() {
+  //   console.log("Unable to retrieve your location");
+  // }
 
   useEffect(() => {
     if (isLoaded && inputRef.current) {
@@ -103,15 +117,16 @@ const Places = () => {
             className="text-black items-center flex gap-2 "
             onClick={() => setShowPopup(true)}
           >
+            <FaLocationArrow className="w-4 h-4 text-gray-800" />{" "}
             <input
               className="text-l text-black"
               placeholder="Na kojoj si adresi?"
             />
           </button>
-          <button className="rounded-2xl bg-orange-300 flex gap-2 p-2 items-center">
+          {/* <button className="rounded-2xl bg-orange-300 flex gap-2 p-2 items-center">
             <FaLocationArrow className="w-4 h-4 text-gray-800" />{" "}
             <h1 className="text-black">Koristi trenutnu lokaciju</h1>
-          </button>
+          </button> */}
         </div>
       )}
 
@@ -121,15 +136,16 @@ const Places = () => {
             className="text-black items-center flex flex-col gap-1 "
             onClick={() => setShowPopup(true)}
           >
+            <FaLocationArrow className="w-4 h-4 text-gray-800" />
             <h1 className="text-black">{selectedPlace.formatted_address}</h1>
             <h1 className="text-black">
               Cena vase dostave je {deliveryPrice} rsd
             </h1>
           </button>
-          <button className="rounded-2xl bg-orange-300 flex gap-2 p-2 items-center">
+          {/* <button className="rounded-2xl bg-orange-300 flex gap-2 p-2 items-center">
             <FaLocationArrow className="w-4 h-4 text-gray-800" />{" "}
             <h1 className="text-black">Koristi trenutnu lokaciju</h1>
-          </button>
+          </button> */}
         </div>
       )}
       {deliveryPrice && (

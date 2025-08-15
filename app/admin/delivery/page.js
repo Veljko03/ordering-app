@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Toaster } from "react-hot-toast";
-import { deliveryPrices } from "../admin/placesData/deliveryPrices";
+import { deliveryPrices } from "../placesData/deliveryPrices";
 
 export default function DeliveryManager() {
   console.log("delivery ", deliveryPrices);
