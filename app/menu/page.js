@@ -17,11 +17,11 @@ import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 
 const Menu = () => {
-  const { data: categories, isloading: loadingCategories } = useQuery({
+  const { data: categories = [], isloading: loadingCategories } = useQuery({
     queryKey: ["categories"],
     queryFn: fetchCategories,
   });
-  const { data: items, isloading: loadingItems } = useQuery({
+  const { data: items = [], isloading: loadingItems } = useQuery({
     queryKey: ["items"],
     queryFn: fetchItems,
   });
@@ -44,7 +44,7 @@ const Menu = () => {
     setSelectedItem(null);
   };
 
-  if (!categories || !items)
+  if (loadingCategories || loadingItems)
     return <div className="text-black text-3xl">Loading...</div>;
 
   return (

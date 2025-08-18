@@ -1,11 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import toast, { Toaster } from "react-hot-toast";
 import { infoSchemaZod } from "../../utils/zodSchemas";
-import CloudinaryUploader from "@/components/CloudinaryUploader";
-import ImageUploader from "@/components/ImageUploader";
 
 const lib = ["places"];
 
@@ -13,14 +10,6 @@ const lib = ["places"];
 // da se doda umesto stringa
 
 export default function BusinessInfo() {
-  //   const { isLoaded, loadError } = useLoadScript({
-  //     googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_KEY,
-  //     libraries: lib,
-  //     language: "sr",
-  //   });
-  //   const [selectedPlace, setSelectedPlace] = useState(null);
-  //   const [someChange, setSomeChange] = useState(true);
-
   const inputRef = useRef(null);
   const [info, setInfo] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
@@ -43,48 +32,6 @@ export default function BusinessInfo() {
       font: "",
     },
   });
-
-  //   useEffect(() => {
-  //     if (selectedPlace) {
-  //       const value = selectedPlace.formatted_address;
-  //       setFormData((prev) => ({ ...prev, adress: value }));
-  //       console.log(formData);
-  //     }
-  //   }, [selectedPlace]);
-  //   useEffect(() => {
-  //     if (isLoaded && inputRef.current) {
-  //       const autocomplete = new google.maps.places.Autocomplete(
-  //         inputRef.current,
-  //         {
-  //           componentRestrictions: { country: "RS" },
-  //           fields: [
-  //             "place_id",
-  //             "geometry",
-  //             "name",
-  //             "formatted_address",
-  //             "address_components",
-  //           ],
-  //           types: ["address"],
-  //         }
-  //       );
-  //       console.log(autocomplete);
-
-  //       autocomplete.addListener("place_changed", () => {
-  //         const place = autocomplete.getPlace();
-  //         console.log(place);
-  //         if (!place.geometry || !place.formatted_address) {
-  //           setSelectedPlace(null);
-  //           alert("bad address");
-  //           if (inputRef.current) {
-  //             inputRef.current.value = "";
-  //           }
-  //           return;
-  //         }
-  //         setSelectedPlace(place);
-  //       });
-  //     }
-  //     console.log("FFFFFFFFFFFf ", inputRef.current);
-  //   }, [isLoaded, someChange]);
 
   useEffect(() => {
     // Fetchujemo podatke o biznisu

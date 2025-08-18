@@ -6,8 +6,14 @@ import { FaPlus } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
 import { categorySchemaZod } from "../../utils/zodSchemas";
+import { fetchCategories } from "@/lib/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 export default function CategoryManager() {
-  const [categories, setCategories] = useState([]);
+  const queryClient = useQueryClient();
+  const { data: categories = [], isloading: loadingCategories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
   const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editingName, setEditingName] = useState("");
@@ -19,19 +25,61 @@ export default function CategoryManager() {
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
 
   //ovde mozda izmeniti u smislu da se dobave prvo itemi svi pa da se radi poredjenje samo po categroyId kod itema
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
-  async function fetchCategories() {
-    const res = await fetch("/api/categories");
-    const data = await res.json();
+  const addCategoryMutation = useMutation({
+    mutationFn: async (name) => {
+      const res = await fetch("/api/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name }),
+      });
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(errMsg || "Greška pri čuvanju");
+      }
 
-    console.log("data ", data);
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["categories"]);
+    },
+  });
 
-    setCategories(data);
-  }
+  const updateCategoryMutation = useMutation({
+    mutationFn: async ({ _id, name, startTime, endTime }) => {
+      const res = await fetch("/api/categories", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ _id, name, startTime, endTime }),
+      });
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(errMsg || "Greška pri azuriranju");
+      }
 
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["categories"]);
+    },
+  });
+
+  const deleteCategoryMutation = useMutation({
+    mutationFn: async (_id) => {
+      const res = await fetch(`/api/categories?_id=${_id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(errMsg || "Greška pri čuvanju");
+      }
+
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["categories"]);
+    },
+  });
   async function addCategory() {
     if (!newCategory) {
       toast.error("Unesite naziv sekcije");
@@ -44,87 +92,43 @@ export default function CategoryManager() {
 
       return;
     }
-    async function addCat() {
-      const res = await fetch("/api/categories", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: newCategory }),
-      });
-      if (!res.ok) {
-        const errMsg = await res.text();
-        throw new Error(errMsg || "Greška pri čuvanju");
-      }
 
-      return res.json();
-    }
-    await toast.promise(addCat(), {
+    await toast.promise(addCategoryMutation.mutateAsync(newCategory), {
       loading: "Čuvanje...",
       success: <b>Sekcija je uspešno sačuvana!</b>,
       error: <b>Došlo je do greške.</b>,
     });
 
     setNewCategory("");
-
-    fetchCategories();
   }
 
   async function deleteCategory(_id) {
-    const catToDelete = categories.filter((cat) => cat._id == _id);
-
-    async function deleteCat() {
-      const res = await fetch(`/api/categories?_id=${_id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) {
-        const errMsg = await res.text();
-        throw new Error(errMsg || "Greška pri čuvanju");
-      }
-
-      return res.json();
-    }
-
-    await toast.promise(deleteCat(), {
+    await toast.promise(deleteCategoryMutation.mutateAsync(_id), {
       loading: "Brisanje...",
       success: <b>Sekcija je uspešno obrisana!</b>,
       error: <b>Sekcija nije prazna! </b>,
     });
-
-    fetchCategories();
   }
 
   async function updateCategory() {
-    async function update() {
-      const res = await fetch("/api/categories", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          _id: editingId,
-          name: editingName,
-          startTime,
-          endTime,
-        }),
-      });
-
-      if (!res.ok) {
-        const errMsg = await res.text();
-        throw new Error(errMsg || "Greška pri čuvanju");
+    await toast.promise(
+      updateCategoryMutation.mutateAsync({
+        _id: editingId,
+        name: editingName,
+        startTime,
+        endTime,
+      }),
+      {
+        loading: "Čuvanje...",
+        success: <b>Sekcija je uspešno sačuvana!</b>,
+        error: <b>Došlo je do greške.</b>,
       }
-
-      return res.json();
-    }
-    console.log("RRRRRAAAAAAAAA");
-
-    await toast.promise(update(), {
-      loading: "Čuvanje...",
-      success: <b>Sekcija je uspešno sačuvana!</b>,
-      error: <b>Došlo je do greške.</b>,
-    });
+    );
 
     setEditingId(null);
     setStartTime("");
     setEndTime("");
     setEditingName("");
-    fetchCategories();
   }
 
   async function toggleCategoryItems(categoryId) {
@@ -143,8 +147,9 @@ export default function CategoryManager() {
 
     setExpandedCategoryId(categoryId);
   }
-  console.log("AAAAAAAAAAAAA ", categories);
-
+  if (loadingCategories) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="p-4 bg-[#f3f3f4]">
       <Toaster position="top-center" reverseOrder={true} />
