@@ -10,13 +10,21 @@ import Header from "@/components/Header";
 import ItemModal from "@/components/ItemModal";
 import MenuGrid from "@/components/MenuGrid";
 import Places from "@/components/PlacePicker";
+import { fetchCategories, fetchItems } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 
 const Menu = () => {
-  const [categories, setCategories] = useState(null);
-  const [items, setItems] = useState(null);
+  const { data: categories, isloading: loadingCategories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
+  const { data: items, isloading: loadingItems } = useQuery({
+    queryKey: ["items"],
+    queryFn: fetchItems,
+  });
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,29 +43,6 @@ const Menu = () => {
     setIsModalOpen(false);
     setSelectedItem(null);
   };
-
-  console.log("folterd ", filteredItems);
-
-  useEffect(() => {
-    fetchCategories();
-    fetchItems();
-  }, []);
-
-  async function fetchCategories() {
-    const res = await fetch("/api/categories");
-    const data = await res.json();
-
-    console.log("data ", data);
-
-    setCategories(data);
-  }
-  async function fetchItems() {
-    const res = await fetch("/api/items");
-    const data = await res.json();
-    console.log(data, " itemss");
-
-    setItems(data);
-  }
 
   if (!categories || !items)
     return <div className="text-black text-3xl">Loading...</div>;
