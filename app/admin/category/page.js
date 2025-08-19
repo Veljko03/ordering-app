@@ -1,12 +1,17 @@
 "use client";
 import { LucideClock2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
 import { categorySchemaZod } from "../../utils/zodSchemas";
-import { fetchCategories } from "@/lib/api";
+import {
+  deleteCategoryReq,
+  fetchCategories,
+  newCategoryReq,
+  updateCategoryReq,
+} from "@/lib/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 export default function CategoryManager() {
   const queryClient = useQueryClient();
@@ -27,55 +32,21 @@ export default function CategoryManager() {
   //ovde mozda izmeniti u smislu da se dobave prvo itemi svi pa da se radi poredjenje samo po categroyId kod itema
 
   const addCategoryMutation = useMutation({
-    mutationFn: async (name) => {
-      const res = await fetch("/api/categories", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name }),
-      });
-      if (!res.ok) {
-        const errMsg = await res.text();
-        throw new Error(errMsg || "Greška pri čuvanju");
-      }
-
-      return res.json();
-    },
+    mutationFn: newCategoryReq,
     onSuccess: () => {
       queryClient.invalidateQueries(["categories"]);
     },
   });
 
   const updateCategoryMutation = useMutation({
-    mutationFn: async ({ _id, name, startTime, endTime }) => {
-      const res = await fetch("/api/categories", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ _id, name, startTime, endTime }),
-      });
-      if (!res.ok) {
-        const errMsg = await res.text();
-        throw new Error(errMsg || "Greška pri azuriranju");
-      }
-
-      return res.json();
-    },
+    mutationFn: updateCategoryReq,
     onSuccess: () => {
       queryClient.invalidateQueries(["categories"]);
     },
   });
 
   const deleteCategoryMutation = useMutation({
-    mutationFn: async (_id) => {
-      const res = await fetch(`/api/categories?_id=${_id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) {
-        const errMsg = await res.text();
-        throw new Error(errMsg || "Greška pri čuvanju");
-      }
-
-      return res.json();
-    },
+    mutationFn: deleteCategoryReq,
     onSuccess: () => {
       queryClient.invalidateQueries(["categories"]);
     },

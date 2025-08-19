@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+//import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import toast, { Toaster } from "react-hot-toast";
 import { infoSchemaZod } from "../../utils/zodSchemas";
+import CloudinaryUploader from "@/components/CloudinaryUploader";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchInfoReq, saveInfoReq } from "@/lib/api";
+//import ImageUploader from "@/components/ImageUploader";
 
 const lib = ["places"];
 
@@ -11,9 +16,12 @@ const lib = ["places"];
 
 export default function BusinessInfo() {
   const inputRef = useRef(null);
-  const [info, setInfo] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
-
+  const queryClient = useQueryClient();
+  const { data: info = [], isloading: loadingInfo } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchInfoReq,
+  });
   const [sendingData, setSendingData] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -34,19 +42,11 @@ export default function BusinessInfo() {
   });
 
   useEffect(() => {
-    // Fetchujemo podatke o biznisu
-    const fetchInfo = async () => {
-      const res = await fetch("/api/buisnessInfo");
-      const data = await res.json();
-      const info = data[0];
-      setInfo(info);
+    if (info.length != 0) {
       setFormData(info);
-      console.log("backend data for buisness ", data);
-      //if(info.adress != "") setSelectedPlace(info.adress)
-    };
+    }
+  }, [info]);
 
-    fetchInfo();
-  }, []);
   const MAX_IMAGE_SIZE = 5000 * 1024; // 5mb
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -93,6 +93,12 @@ export default function BusinessInfo() {
 
   console.log(formData, " DATAAAAAAAA");
 
+  const updatingInfoMutation = useMutation({
+    mutationFn: saveInfoReq,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["categories"]);
+    },
+  });
   const handleSave = async () => {
     const validateData = infoSchemaZod.safeParse(formData);
     console.log(validateData.success, " OOOOOOOOOOOOOOOOOOOO");
@@ -106,34 +112,17 @@ export default function BusinessInfo() {
     }
     console.log("PROSSSSSSAAAAAAAAAAA");
 
-    setSendingData(true);
-    async function saveInfo() {
-      const res = await fetch("/api/buisnessInfo", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!res.ok) {
-        const errMsg = await res.text();
-        throw new Error(errMsg || "Greška pri čuvanju");
-      }
-      setInfo(formData);
-      setSendingData(false);
-      return res.json();
-    }
-
-    await toast.promise(saveInfo(), {
+    await toast.promise(updatingInfoMutation.mutateAsync(formData), {
       loading: "Čuvanje...",
       success: <b>Informacije uspešno sačuvane!</b>,
       error: <b>Došlo je do greške.</b>,
     });
+
     setValidationErrors({});
   };
   const isChanged = JSON.stringify(formData) !== JSON.stringify(info);
   //ubaciti isChanged u buttone za boje
-  if (!info || !formData) return <div>Loading...</div>;
+  if (loadingInfo) return <div>Loading...</div>;
 
   return (
     <div className="bg-[#f3f3f4] p-4">
@@ -281,8 +270,8 @@ export default function BusinessInfo() {
                 onClick={() => {
                   setFormData(info);
                 }}
-                disabled={sendingData}
-                hidden={sendingData}
+                disabled={updatingInfoMutation.isPending}
+                hidden={updatingInfoMutation.isPending}
                 className={`  px-4 ${
                   isChanged
                     ? "bg-[#8559A5] text-white"
@@ -293,8 +282,8 @@ export default function BusinessInfo() {
               </button>
               <button
                 onClick={handleSave}
-                hidden={sendingData}
-                disabled={sendingData}
+                hidden={updatingInfoMutation.isPending}
+                disabled={updatingInfoMutation.isPending}
                 className={`  w-24 px-4 uppercase  ${
                   isChanged
                     ? "bg-[#7893c3] text-white"
