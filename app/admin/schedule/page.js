@@ -1,12 +1,18 @@
 "use client";
 
+import { fetchScheduleReq, updateScheduleReq } from "@/lib/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 // namestiti kada restoran radi do posle ponoci jer imam gresku ako stavim recimo da radi od 10 do 1 u ponoc
 // on ce obracunati 1  u ponoc kao 60 min i porediti to sa vremenom ovim
 //tako da mora nekako
 const WeekSchedule = () => {
-  const [showPopup, setShowPopup] = useState(false);
+  const queryClient = useQueryClient();
+  const { data: data = null, isloading: loadingData } = useQuery({
+    queryKey: ["schedule"],
+    queryFn: fetchScheduleReq,
+  });
   const [timesForEachDay, setTimesForEachDay] = useState({
     monStart: "",
     monEnd: "",
@@ -30,66 +36,43 @@ const WeekSchedule = () => {
     sunEnd: "",
     sunOpend: true,
   });
-  const [backendData, setBackendData] = useState(null);
+  // const [backendData, setBackendData] = useState(null);
   const [restaurantWorks, setRestaurantWorks] = useState(null);
+  console.log("daaaaaaaaaaa ", data);
 
   useEffect(() => {
-    fetch("/api/schedule", {
-      method: "GET",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((dataa) => {
-        if (!dataa || dataa.length === 0 || !dataa[0].schedule) {
-          console.warn("Nema podataka u bazi. Inicijalizuj prazne vrednosti.");
-          return;
-        }
-        setBackendData(dataa);
-        const data = dataa[0].schedule;
-        console.log("DDDDDDDDDDDD ", data);
+    if (!data) return;
+    const transformedData = {
+      monStart: data.find((day) => day.day === "mon")?.startTime || "",
+      monEnd: data.find((day) => day.day === "mon")?.endTime || "",
+      monOpend: data.find((day) => day.day === "mon")?.isOpend || false,
 
-        const transformedData = {
-          monStart: data.find((day) => day.day === "mon")?.startTime || "",
-          monEnd: data.find((day) => day.day === "mon")?.endTime || "",
-          monOpend: data.find((day) => day.day === "mon")?.isOpend || false,
+      tueStart: data.find((day) => day.day === "tue")?.startTime || "",
+      tueEnd: data.find((day) => day.day === "tue")?.endTime || "",
+      tueOpend: data.find((day) => day.day === "tue")?.isOpend || false,
 
-          tueStart: data.find((day) => day.day === "tue")?.startTime || "",
-          tueEnd: data.find((day) => day.day === "tue")?.endTime || "",
-          tueOpend: data.find((day) => day.day === "tue")?.isOpend || false,
+      wenStart: data.find((day) => day.day === "wen")?.startTime || "",
+      wenEnd: data.find((day) => day.day === "wen")?.endTime || "",
+      wenOpend: data.find((day) => day.day === "wen")?.isOpend || false,
 
-          wenStart: data.find((day) => day.day === "wen")?.startTime || "",
-          wenEnd: data.find((day) => day.day === "wen")?.endTime || "",
-          wenOpend: data.find((day) => day.day === "wen")?.isOpend || false,
+      thuStart: data.find((day) => day.day === "thu")?.startTime || "",
+      thuEnd: data.find((day) => day.day === "thu")?.endTime || "",
+      thuOpend: data.find((day) => day.day === "thu")?.isOpend || false,
 
-          thuStart: data.find((day) => day.day === "thu")?.startTime || "",
-          thuEnd: data.find((day) => day.day === "thu")?.endTime || "",
-          thuOpend: data.find((day) => day.day === "thu")?.isOpend || false,
+      friStart: data.find((day) => day.day === "fri")?.startTime || "",
+      friEnd: data.find((day) => day.day === "fri")?.endTime || "",
+      friOpend: data.find((day) => day.day === "fri")?.isOpend || false,
 
-          friStart: data.find((day) => day.day === "fri")?.startTime || "",
-          friEnd: data.find((day) => day.day === "fri")?.endTime || "",
-          friOpend: data.find((day) => day.day === "fri")?.isOpend || false,
+      satStart: data.find((day) => day.day === "sat")?.startTime || "",
+      satOpend: data.find((day) => day.day === "sat")?.isOpend || false,
 
-          satStart: data.find((day) => day.day === "sat")?.startTime || "",
-          satOpend: data.find((day) => day.day === "sat")?.isOpend || false,
+      satEnd: data.find((day) => day.day === "sat")?.endTime || "",
+      sunStart: data.find((day) => day.day === "sun")?.startTime || "",
+      sunEnd: data.find((day) => day.day === "sun")?.endTime || "",
+      sunOpend: data.find((day) => day.day === "sun")?.isOpend || false,
+    };
 
-          satEnd: data.find((day) => day.day === "sat")?.endTime || "",
-          sunStart: data.find((day) => day.day === "sun")?.startTime || "",
-          sunEnd: data.find((day) => day.day === "sun")?.endTime || "",
-          sunOpend: data.find((day) => day.day === "sun")?.isOpend || false,
-        };
-
-        setTimesForEachDay(transformedData);
-      })
-      .catch((error) => {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        );
-      });
+    setTimesForEachDay(transformedData);
 
     fetch("/api/currTime", {
       method: "GET",
@@ -101,7 +84,7 @@ const WeekSchedule = () => {
         return response.json();
       })
       .then((data) => console.log("OOOOOOOOOOOOOOOO ", data));
-  }, []);
+  }, [data]);
 
   const getDayInWeek = (dayInDig) => {
     if (dayInDig === 1) {
@@ -134,15 +117,14 @@ const WeekSchedule = () => {
   };
 
   //checking for current day values to see if restaurant works
-  if (backendData && !restaurantWorks) {
+  if (data && !restaurantWorks) {
     const d = new Date();
     let day = d.getDay();
     const dayInWeek = getDayInWeek(day);
     const currTime = getCurrentTime();
-    console.log(backendData, "backend  ");
     console.log("day in week ", dayInWeek);
 
-    const currentDaySchedule = backendData[0].schedule.find(
+    const currentDaySchedule = data.find(
       (schedule) => schedule.day === dayInWeek
     );
 
@@ -185,25 +167,18 @@ const WeekSchedule = () => {
     }));
   };
 
+  const updatingScheduleMutation = useMutation({
+    mutationFn: updateScheduleReq,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["categories"]);
+    },
+  });
   const handleTimeFormSubmit = async (e) => {
     e.preventDefault();
     const formmatedData = formatForBackend(timesForEachDay);
     console.log(formmatedData, " RRRRRRRRRRRRRRRRRRRRRRRRR");
 
-    async function postSchedule() {
-      const res = await fetch("/api/schedule", {
-        method: "POST",
-        body: JSON.stringify(formmatedData),
-        headers: { "Content-Type": "application/json" },
-      });
-      if (!res.ok) {
-        const errMsg = await res.text();
-        throw new Error(errMsg || "Greška pri čuvanju");
-      }
-
-      return res.json();
-    }
-    await toast.promise(postSchedule(), {
+    await toast.promise(updatingScheduleMutation.mutateAsync(formmatedData), {
       loading: "Čuvanje...",
       success: <b>Raspored je uspešno sačuvan!</b>,
       error: <b>Došlo je do greške.</b>,
