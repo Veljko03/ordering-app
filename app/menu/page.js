@@ -10,7 +10,12 @@ import Header from "@/components/Header";
 import ItemModal from "@/components/ItemModal";
 import MenuGrid from "@/components/MenuGrid";
 import Places from "@/components/PlacePicker";
-import { fetchCategories, fetchItems } from "@/lib/api";
+import {
+  fetchCategoriesReq,
+  fetchInfoReq,
+  fetchItemsReq,
+  fetchItemsWithoutSinitazeReq,
+} from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
@@ -19,11 +24,11 @@ import { FaArrowLeft } from "react-icons/fa6";
 const Menu = () => {
   const { data: categories = [], isloading: loadingCategories } = useQuery({
     queryKey: ["categories"],
-    queryFn: fetchCategories,
+    queryFn: fetchCategoriesReq,
   });
   const { data: items = [], isloading: loadingItems } = useQuery({
     queryKey: ["items"],
-    queryFn: fetchItems,
+    queryFn: fetchItemsWithoutSinitazeReq,
   });
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedItem, setSelectedItem] = useState(null);

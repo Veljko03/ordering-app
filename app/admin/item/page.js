@@ -2,7 +2,6 @@
 import { XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { BiExit } from "react-icons/bi";
 import {
   FaGreaterThan,
   FaImage,
@@ -15,9 +14,16 @@ import {
 } from "react-icons/fa";
 import { HiPencilAlt, HiThumbDown } from "react-icons/hi";
 import { HiArrowDown, HiBarsArrowDown } from "react-icons/hi2";
-import { MdDeleteForever } from "react-icons/md";
 import { itemsSchemaZod } from "../../utils/zodSchemas";
-import { resolve } from "styled-jsx/css";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  createItemReq,
+  deleteItemReq,
+  fetchCategories,
+  fetchCategoriesReq,
+  fetchItemsReq,
+  updateItemReq,
+} from "@/lib/api";
 
 //za cene dodati sa klijentske strane sa admin strane nije potrebno jer admin ne dodaje u korpu i ne obracunava
 export default function ItemManager() {
@@ -30,8 +36,18 @@ export default function ItemManager() {
     sizes: [],
     addons: [],
   };
-  const [items, setItems] = useState([]);
-  const [categories, setCategories] = useState([]);
+  //const [items, setItems] = useState([]);
+
+  const queryClient = useQueryClient();
+  const { data: items = [], isLoading: loadingItems } = useQuery({
+    queryKey: ["items"],
+    queryFn: fetchItemsReq,
+  });
+  const { data: categories = [], isLoading: loadingCategories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategoriesReq,
+  });
+  //const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState(emptyFormData);
 
   const [isEditing, setIsEditing] = useState(null);
@@ -39,35 +55,6 @@ export default function ItemManager() {
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
   const [showAddNewItemForm, setShowAddNewItemForm] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
-
-  useEffect(() => {
-    fetchItems();
-    fetchCategories();
-  }, []);
-
-  async function fetchItems() {
-    const res = await fetch("/api/items");
-    const data = await res.json();
-
-    const sanitizedData = data.map((item) => ({
-      ...item,
-      basePrice: item.basePrice?.toString() ?? "",
-      sizes:
-        item.sizes?.map((s) => ({
-          ...s,
-          price: s.price?.toString() ?? "",
-        })) ?? [],
-      addons:
-        item.addons?.map((a) => ({
-          ...a,
-          price: a.price?.toString() ?? "",
-        })) ?? [],
-    }));
-    setItems(sanitizedData);
-   
-    console.log("UPDATEEEEEDDDDDDD");
-  }
-
 
   const MAX_IMAGE_SIZE = 5000 * 1024; // 5mb
   const convertToBase64 = (file) => {
@@ -82,6 +69,8 @@ export default function ItemManager() {
       };
     });
   };
+  console.log(items, " IIIIIIIIIIIIIii");
+
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -92,11 +81,6 @@ export default function ItemManager() {
     const base64 = await convertToBase64(file);
     setFormData((prev) => ({ ...prev, imageUrl: base64 }));
   };
-  async function fetchCategories() {
-    const res = await fetch("/api/categories");
-    const data = await res.json();
-    setCategories(data);
-  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -148,6 +132,20 @@ export default function ItemManager() {
     }));
   }
 
+  const updateItemMutation = useMutation({
+    mutationFn: updateItemReq,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["items"]);
+    },
+  });
+
+  const createItemMutation = useMutation({
+    mutationFn: createItemReq,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["items"]);
+    },
+  });
+
   async function handleSubmit(e) {
     e.preventDefault();
     console.log("IIIIIIIIIII ", isEditing);
@@ -163,25 +161,19 @@ export default function ItemManager() {
 
       return;
     }
-    async function saveItem() {
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+    if (isEditing) {
+      await toast.promise(updateItemMutation.mutateAsync(payload), {
+        loading: "Čuvanje...",
+        success: <b>Jelo je uspešno sačuvano!</b>,
+        error: <b>Došlo je do greške.</b>,
       });
-
-      if (!res.ok) {
-        const errMsg = await res.text();
-        throw new Error(errMsg || "Greška pri čuvanju");
-      }
-
-      return res.json();
+    } else {
+      await toast.promise(createItemMutation.mutateAsync(payload), {
+        loading: "Čuvanje...",
+        success: <b>Jelo je uspešno sačuvano!</b>,
+        error: <b>Došlo je do greške.</b>,
+      });
     }
-    await toast.promise(saveItem(), {
-      loading: "Čuvanje...",
-      success: <b>Jelo je uspešno sačuvano!</b>,
-      error: <b>Došlo je do greške.</b>,
-    });
 
     setIsEditing(null);
     setShowAddNewItemForm(false);
@@ -189,24 +181,16 @@ export default function ItemManager() {
     setFormData(emptyFormData);
     setExpandedCategoryId(null);
     setValidationErrors({});
-    await fetchItems();
   }
 
+  const deleteItemMutation = useMutation({
+    mutationFn: deleteItemReq,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["items"]);
+    },
+  });
   async function handleDelete(item) {
-    async function deleteItem() {
-      const res = await fetch(`/api/items?_id=${item.id}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) {
-        const errMsg = await res.text();
-        throw new Error(errMsg || "Greška pri čuvanju");
-      }
-
-      return res.json();
-    }
-
-    await toast.promise(deleteItem(), {
+    await toast.promise(deleteItemMutation.mutateAsync(item.id), {
       loading: "Brisanje...",
       success: <b>Jelo je uspešno obrisano!</b>,
       error: <b>Došlo je do greške.</b>,
@@ -214,8 +198,6 @@ export default function ItemManager() {
     setIsEditing(null);
     setShowAddNewItemForm(false);
 
-    await fetchItems();
-    await fetchCategories();
     setItemsByCategory({});
     setExpandedCategoryId(null);
   }
@@ -242,10 +224,6 @@ export default function ItemManager() {
     console.log("items by category ", itemsByCategory);
 
     if (!itemsByCategory[categoryId]) {
-      //const res = await fetch(`/api/items?categoryId=${categoryId}`);
-      //const data = await res.json();
-      //setItemsByCategory((prev) => ({ ...prev, [categoryId]: data }));
-
       const filtered = items.filter((item) => item.categoryId == categoryId);
 
       setItemsByCategory(filtered);
@@ -268,7 +246,7 @@ export default function ItemManager() {
   }
   const isChanged = !isFormDataEmpty(formData);
   console.log("items by cat ", itemsByCategory);
-
+  if (loadingCategories || loadingItems) return <div>Loading...</div>;
   return (
     <div className="p-4 space-y-6 bg-[#f3f3f4]">
       <Toaster position="top-center" reverseOrder={true} />

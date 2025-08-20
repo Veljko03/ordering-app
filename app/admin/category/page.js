@@ -9,6 +9,7 @@ import { categorySchemaZod } from "../../utils/zodSchemas";
 import {
   deleteCategoryReq,
   fetchCategories,
+  fetchCategoriesReq,
   newCategoryReq,
   updateCategoryReq,
 } from "@/lib/api";
@@ -17,7 +18,7 @@ export default function CategoryManager() {
   const queryClient = useQueryClient();
   const { data: categories = [], isloading: loadingCategories } = useQuery({
     queryKey: ["categories"],
-    queryFn: fetchCategories,
+    queryFn: fetchCategoriesReq,
   });
   const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState(null);
