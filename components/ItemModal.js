@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { CartContext } from "@/app/context/CartContext";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 import { FaMinus, FaPlus, FaX } from "react-icons/fa6";
 
 const ItemModal = ({ item, isOpen, onClose }) => {
+  const { itemsInCart, setItemsInCart } = useContext(CartContext);
+
   const [quantity, setQuantity] = useState(1);
   //const { addItem } = useCart();
 
@@ -35,6 +38,7 @@ const ItemModal = ({ item, isOpen, onClose }) => {
   }, [item, selectedSize, selectedAddons, quantity]);
 
   const costPerItem = totalPrice / quantity;
+  console.log("OOOOOOOOOOOO ", item);
 
   // Dodavanje/uklanjanje dodataka
   const toggleAddon = (addonId) => {
@@ -44,10 +48,16 @@ const ItemModal = ({ item, isOpen, onClose }) => {
         : [...prev, addonId]
     );
   };
-  //   const handleAddToCart = () => {
-  //     addItem(item, quantity);
-  //          handleClose();
-  //   };
+  const handleAddToCart = () => {
+    const newItemForCart = {
+      item,
+      quantity,
+      addons: selectedAddons,
+      size: selectedSize,
+    };
+    setItemsInCart([...itemsInCart, newItemForCart]);
+    handleClose();
+  };
   const handleClose = () => {
     setQuantity(1);
     setSelectedSize(item.sizes?.[0]?._id || null);
@@ -191,7 +201,7 @@ const ItemModal = ({ item, isOpen, onClose }) => {
           <button
             className="w-full bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 rounded-lg 
              shadow-md transition-colors duration-200"
-            // onClick={handleAddToCart}
+            onClick={handleAddToCart}
           >
             Add {quantity} to Cart • ${totalPrice.toFixed(2)}
           </button>

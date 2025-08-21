@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaShoppingCart, FaLocationArrow, FaClock } from "react-icons/fa";
 import Places from "./PlacePicker";
 import { useRouter } from "next/navigation";
+import { CartContext } from "@/app/context/CartContext";
 // import { Button } from "@/components/ui/button";
 // import { Badge } from "@/components/ui/badge";
 // import { useCart } from "@/context/CartContext";
@@ -10,7 +11,9 @@ import { useRouter } from "next/navigation";
 
 const Header = () => {
   //onst { toggleCart, itemCount } = useCart();
-  const [itemCount, setItemCount] = useState(1);
+  const { itemsInCart, setItemsInCart } = useContext(CartContext);
+
+  const itemCount = itemsInCart.length;
   const router = useRouter();
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur 0 border-b-1 border-orange-400">
@@ -41,7 +44,6 @@ const Header = () => {
         {/* Cart Button */}
         <button
           size="sm"
-          // onClick={toggleCart}
           className="relative transition-smooth hover:scale-105 cursor-pointer "
           onClick={() => router.push("/cart")}
         >

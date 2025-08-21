@@ -1,7 +1,6 @@
 "use client";
 import CategoryFilter from "@/components/CategoryFilter";
 // import CategoryFilter from '@/components/CategoryFilter';
-// import MenuGrid from '@/components/MenuGrid';
 // import ItemModal from '@/components/ItemModal';
 // import Cart from '@/components/Cart';
 // import { MenuItem } from '@/types/food';
@@ -10,16 +9,12 @@ import Header from "@/components/Header";
 import ItemModal from "@/components/ItemModal";
 import MenuGrid from "@/components/MenuGrid";
 import Places from "@/components/PlacePicker";
-import {
-  fetchCategoriesReq,
-  fetchInfoReq,
-  fetchItemsReq,
-  fetchItemsWithoutSinitazeReq,
-} from "@/lib/api";
+import { fetchCategoriesReq, fetchItemsWithoutSinitazeReq } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
+import { CartContext } from "../context/CartContext";
 
 const Menu = () => {
   const { data: categories = [], isloading: loadingCategories } = useQuery({
