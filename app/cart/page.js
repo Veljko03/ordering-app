@@ -2,7 +2,9 @@
 import Header from "@/components/Header";
 import { CartContext } from "../context/CartContext";
 import { useContext } from "react";
-import { FaMinus, FaPlug, FaPlus, FaTrash } from "react-icons/fa";
+import { FaArrowLeft, FaMinus, FaPlug, FaPlus, FaTrash } from "react-icons/fa";
+import Hero from "@/components/Hero";
+import Link from "next/link";
 
 export default function Cart() {
   const { itemsInCart, setItemsInCart } = useContext(CartContext);
@@ -14,7 +16,22 @@ export default function Cart() {
   return (
     <div>
       <Header />
-
+      <div className="flex gap-5 mx-auto px-4 py-4">
+        <Link
+          href={"/"}
+          className="transition-smooth hover:bg-muted text-black flex items-center"
+        >
+          <FaArrowLeft className="w-4 h-4 mr-2 text-black" />
+          Pocetna{" "}
+        </Link>
+        <Link
+          href={"/menu"}
+          className="transition-smooth hover:bg-muted text-black flex items-center"
+        >
+          <FaArrowLeft className="w-4 h-4 mr-2 text-black" />
+          Meni
+        </Link>
+      </div>
       <div className="container mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left side - Cart items */}
         <div className="lg:col-span-2 space-y-4">
