@@ -112,58 +112,47 @@ const Places = () => {
   return (
     <div className="mb-2">
       {!selectedPlace && (
-        <div className="rounded-2xl bg-white p-4 flex gap-2 justify-center">
+        <div className="rounded-2xl bg-white p-4 shadow-md flex items-center  justify-center">
           <button
-            className="text-black items-center flex gap-2 "
+            className="flex items-center  gap-3 cursor-pointer text-gray-700 hover:text-orange-500 transition"
             onClick={() => setShowPopup(true)}
           >
-            <FaLocationArrow className="w-4 h-4 text-gray-800" />{" "}
-            <input
-              className="text-l text-black"
-              placeholder="Na kojoj si adresi?"
-            />
+            <FaLocationArrow className="w-5 h-5" />
+            <span className="text-lg">Na kojoj si adresi?</span>
           </button>
-          {/* <button className="rounded-2xl bg-orange-300 flex gap-2 p-2 items-center">
-            <FaLocationArrow className="w-4 h-4 text-gray-800" />{" "}
-            <h1 className="text-black">Koristi trenutnu lokaciju</h1>
-          </button> */}
+        </div>
+      )}
+      {selectedPlace && (
+        <div className="rounded-2xl bg-white p-4 shadow-md flex flex-col items-center gap-2 text-center">
+          <FaLocationArrow className="w-6 h-6 text-indigo-600" />
+          <p className="font-medium text-gray-800">
+            {selectedPlace.formatted_address}
+          </p>
+          {deliveryPrice && (
+            <p className="text-green-600 font-semibold">
+              Cena dostave: {deliveryPrice} RSD
+            </p>
+          )}
+          <button
+            onClick={() => setShowPopup(true)}
+            className="mt-2 px-4 py-2 rounded-xl bg-orange-400 text-white hover:bg-orange-500  cursor-pointer transition"
+          >
+            Promeni adresu
+          </button>
         </div>
       )}
 
-      {selectedPlace && (
-        <div className="rounded-2xl bg-white p-4 flex gap-2 justify-center">
-          <button
-            className="text-black items-center flex flex-col gap-1 "
-            onClick={() => setShowPopup(true)}
-          >
-            <FaLocationArrow className="w-4 h-4 text-gray-800" />
-            <h1 className="text-black">{selectedPlace.formatted_address}</h1>
-            <h1 className="text-black">
-              Cena vase dostave je {deliveryPrice} rsd
-            </h1>
-          </button>
-          {/* <button className="rounded-2xl bg-orange-300 flex gap-2 p-2 items-center">
-            <FaLocationArrow className="w-4 h-4 text-gray-800" />{" "}
-            <h1 className="text-black">Koristi trenutnu lokaciju</h1>
-          </button> */}
-        </div>
-      )}
-      {deliveryPrice && (
-        <h1 className="mt-5 text-2xl font-bold z-50">
-          Cena vase dostave je: {deliveryPrice} rsd
-        </h1>
-      )}
       {showPopup && (
         <div
-          className="fixed inset-0 bg-black/55 flex  items-center justify-center z-50"
+          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
           onClick={() => setShowPopup(false)}
         >
           <div
-            className="bg-white text-black w-200 h-150 flex flex-col gap-2 p-4"
+            className="relative bg-white p-6 rounded-lg w-[90%] sm:w-1/2"
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className=" cursor-pointer  ml-auto"
+              className="absolute top-2 right-2 cursor-pointer  text-red-600 hover:text-red-800"
               onClick={() => {
                 setShowPopup(false);
                 if (!selectedPlace) {
@@ -172,28 +161,26 @@ const Places = () => {
                 }
               }}
             >
-              <FaX className="w-6 h-6 text-red-600" />
+              <FaX className="w-5 h-5" />
             </button>
 
             <input
               type="text"
               placeholder="Unesite naziv ulice"
               ref={inputRef}
-              className="rounded-md border-white border-black p-4 w-full"
+              className="w-full p-3 border border-gray-300 rounded-xl text-black mb-4 focus:ring-2 focus:ring-indigo-500 outline-none"
             />
-            <div className="h-300 w-full">
+
+            {/* Map */}
+            <div className="w-full h-64 rounded-xl overflow-hidden mb-4">
               {selectedPlace && (
                 <GoogleMap
                   mapContainerStyle={{ width: "100%", height: "100%" }}
-                  center={
-                    selectedPlace.geometry?.location
-                      ? {
-                          lat: selectedPlace.geometry.location.lat(),
-                          lng: selectedPlace.geometry.location.lng(),
-                        }
-                      : { lat: 44.8176, lng: 20.4569 }
-                  }
-                  zoom={19}
+                  center={{
+                    lat: selectedPlace.geometry?.location.lat(),
+                    lng: selectedPlace.geometry?.location.lng(),
+                  }}
+                  zoom={17}
                 >
                   <Marker
                     position={{
@@ -204,23 +191,24 @@ const Places = () => {
                 </GoogleMap>
               )}
             </div>
-            <div className="flex gap-20 items-center justify-center mt-5">
+
+            {/* Buttons */}
+            <div className="flex justify-end gap-3">
               <button
-                className="bg-red-600 cursor-pointer rounded  w-20 "
+                className="px-4 py-2 rounded-xl cursor-pointer bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
                 onClick={() => {
                   setShowPopup(false);
-
                   setSelectedPlace(null);
                   setDeliveryPrice(null);
                 }}
               >
-                Ponisti
+                Poništi
               </button>
               <button
-                className="bg-green-500 cursor-pointer rounded  w-20 "
+                className="px-4 py-2 rounded-xl cursor-pointer bg-indigo-500 text-white hover:bg-indigo-600 transition"
                 onClick={() => setShowPopup(false)}
               >
-                Sacuvaj
+                Sačuvaj
               </button>
             </div>
           </div>
