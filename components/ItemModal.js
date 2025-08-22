@@ -49,11 +49,19 @@ const ItemModal = ({ item, isOpen, onClose }) => {
     );
   };
   const handleAddToCart = () => {
+    const sizee = item?.sizes?.find((s) => s._id === selectedSize);
+    const addons = [];
+    selectedAddons.forEach((addonId) => {
+      const a = item?.addons?.find((a) => a._id === addonId);
+      if (a) addons.push(a);
+    });
+
     const newItemForCart = {
       item,
       quantity,
-      addons: selectedAddons,
-      size: selectedSize,
+      pricePerItem: costPerItem,
+      addons: addons,
+      size: sizee,
     };
     setItemsInCart([...itemsInCart, newItemForCart]);
     handleClose();
