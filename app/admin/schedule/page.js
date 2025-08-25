@@ -182,49 +182,6 @@ const WeekSchedule = () => {
     }
   }, [data]);
 
-  //checking for current day values to see if restaurant works
-  // if (data && !restaurantWorks) {
-  //   const d = new Date();
-  //   let day = d.getDay();
-  //   const dayInWeek = getDayInWeek(day);
-  //   const currTime = getCurrentTime();
-  //   console.log("day in week ", dayInWeek);
-
-  //   const currentDaySchedule = data.find(
-  //     (schedule) => schedule.day === dayInWeek
-  //   );
-
-  //   console.log("curr day ", currentDaySchedule);
-
-  //   if (!currentDaySchedule?.isOpend) {
-  //     console.log("Restoran je zatvoren danas.");
-  //     setRestaurantWorks("Restoran trenutno ne radi.");
-  //     return;
-  //   } else {
-  //     console.log("currDateschedule ", currentDaySchedule);
-
-  //     const { startTime, endTime } = currentDaySchedule;
-  //     console.log(currTime);
-
-  //     const startTimeToMinutes = toMinutes(startTime);
-  //     const endTimeToMinutes = toMinutes(endTime);
-  //     const currTimeToMinutes = toMinutes(currTime);
-
-  //     if (
-  //       startTime &&
-  //       endTime &&
-  //       currTimeToMinutes >= startTimeToMinutes &&
-  //       currTimeToMinutes <= endTimeToMinutes
-  //     ) {
-  //       setRestaurantWorks("Restoran radi!");
-  //       console.log("Restoran radi!");
-  //     } else {
-  //       console.log("Restoran trenutno ne radi.");
-  //       setRestaurantWorks("Restoran trenutno ne radi.");
-  //     }
-  //   }
-  // }
-
   const handleTimeChange = (e) => {
     const { name, value, type, checked } = e.target;
     setTimesForEachDay((prev) => ({

@@ -13,6 +13,26 @@ export default function Cart() {
   const subtotal = 90;
   console.log("CCCCCCCC ", itemsInCart);
 
+  const updateQuantity = (id, num) => {
+    let findItem = itemsInCart.filter((obj) => obj.item._id == id);
+
+    if (!findItem) return;
+    if (num == 1) findItem[0].quantity += 1;
+    if (num == -1) findItem[0].quantity -= 1;
+    console.log(findItem, " iiii");
+    const newItem = findItem[0];
+
+    const newArrOfItems = itemsInCart.map((obj) =>
+      obj.item._id === id ? newItem : obj
+    );
+
+    setItemsInCart(newArrOfItems);
+  };
+
+  const removeItem = (id) => {
+    const newArr = itemsInCart.filter((obj) => obj.item._id != id);
+    setItemsInCart(newArr);
+  };
   return (
     <div>
       <Header />
@@ -65,17 +85,18 @@ export default function Cart() {
                 {/* Quantity controls */}
                 <div className="flex items-center gap-2">
                   <button
-                    //onClick={() => updateQuantity(item._id, -1)}
-                    className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 hover:bg-gray-300"
+                    onClick={() => updateQuantity(obj.item._id, -1)}
+                    disabled={obj.quantity <= 1}
+                    className="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer bg-gray-300 hover:bg-gray-300"
                   >
                     <FaMinus className="w-3 h-3" />
                   </button>
-                  <span className="min-w-[2rem] text-center">
+                  <span className="min-w-[2rem] text-center text-black">
                     {obj.quantity}
                   </span>
                   <button
-                    onClick={() => updateQuantity(item._id, 1)}
-                    className="w-8 h-8 flex items-center justify-center rounded-full bg-orange-400 hover:bg-orange-500 text-white"
+                    onClick={() => updateQuantity(obj.item._id, 1)}
+                    className="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer bg-orange-400 hover:bg-orange-500 text-white"
                   >
                     <FaPlus className="w-3 h-3" />
                   </button>
@@ -83,7 +104,7 @@ export default function Cart() {
 
                 {/* Remove */}
                 <button
-                  onClick={() => removeItem(item._id)}
+                  onClick={() => removeItem(obj.item._id)}
                   className="ml-4 text-gray-400 hover:text-red-500"
                 >
                   <FaTrash />
