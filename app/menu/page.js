@@ -48,7 +48,7 @@ const Menu = () => {
     return <div className="text-black text-3xl">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#f3f3f4]">
       <Header />
 
       <div className="container mx-auto px-4 py-4">

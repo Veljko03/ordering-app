@@ -1,17 +1,18 @@
 "use client";
 import Header from "@/components/Header";
 import { CartContext } from "../context/CartContext";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { FaArrowLeft, FaMinus, FaPlug, FaPlus, FaTrash } from "react-icons/fa";
 import Hero from "@/components/Hero";
 import Link from "next/link";
+import toast, { Toaster } from "react-hot-toast";
+import Places from "@/components/PlacePicker";
 
 export default function Cart() {
-  const { itemsInCart, setItemsInCart } = useContext(CartContext);
-  const deliveryFee = 10;
-  const total = 100;
-  const subtotal = 90;
-  console.log("CCCCCCCC ", itemsInCart);
+  const { itemsInCart, setItemsInCart, deliveryPrice } =
+    useContext(CartContext);
+
+  const deliveryFee = deliveryPrice || 0;
 
   const updateQuantity = (id, num) => {
     let findItem = itemsInCart.filter((obj) => obj.item._id == id);
@@ -33,8 +34,33 @@ export default function Cart() {
     const newArr = itemsInCart.filter((obj) => obj.item._id != id);
     setItemsInCart(newArr);
   };
+  console.log("OOOO ", itemsInCart);
+
+  let priceOfMeals = 0;
+  itemsInCart.forEach((obj) => {
+    const priceAndQuantity = obj.pricePerItem * obj.quantity;
+    priceOfMeals += priceAndQuantity;
+  });
+
+  const total = priceOfMeals + deliveryFee;
+  const orderItem = (e) => {
+    e.preventDefault();
+    if (!deliveryFee) {
+      toast.error("Niste uneli adresu");
+      return;
+    }
+
+    if (itemsInCart.length == 0) {
+      toast.error("Korpa je prazna");
+      return;
+    }
+
+    console.log("narucuje se");
+  };
   return (
-    <div>
+    <div className="bg-[#f3f3f4]">
+      <Toaster position="top-center" reverseOrder={true} />
+
       <Header />
       <div className="flex gap-5 mx-auto px-4 py-4">
         <Link
@@ -52,6 +78,7 @@ export default function Cart() {
           Meni
         </Link>
       </div>
+      <Places />
       <div className="container mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left side - Cart items */}
         <div className="lg:col-span-2 space-y-4">
@@ -119,42 +146,50 @@ export default function Cart() {
           <h2 className="text-xl font-semibold text-black">
             Podaci za dostavu
           </h2>
-          <form className="space-y-3 text-black">
+          <form onSubmit={orderItem} className="space-y-3 text-black">
             <input
               type="text"
-              placeholder="Ime i prezime"
+              placeholder="Ime "
               className="w-full border rounded-lg p-2 text-black"
             />
             <input
               type="text"
-              placeholder="Ulica i broj"
-              className="w-full border rounded-lg p-2"
+              placeholder="Prezime"
+              className="w-full border rounded-lg p-2 text-black"
             />
             <input
               type="text"
               placeholder="Telefon"
               className="w-full border rounded-lg p-2"
             />
+            <input
+              type="text"
+              placeholder="Napomene za dostavljaca"
+              className="w-full border rounded-lg p-2"
+            />
+
+            <div className="space-y-2 pt-4 border-t">
+              <div className="flex justify-between text-gray-600">
+                <span>Cena jela</span>
+                <span>${priceOfMeals}</span>
+              </div>
+              <div className="flex justify-between text-gray-600">
+                <span>Dostava</span>
+                <span>${deliveryFee.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between font-bold text-lg text-black">
+                <span>Ukupno</span>
+                <span>${total.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full cursor-pointer bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 rounded-lg shadow-md transition-colors duration-200"
+            >
+              Naruči
+            </button>
           </form>
-
-          <div className="space-y-2 pt-4 border-t">
-            <div className="flex justify-between text-gray-600">
-              <span>Međuzbir</span>
-              <span>${subtotal.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between text-gray-600">
-              <span>Dostava</span>
-              <span>${deliveryFee.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between font-bold text-lg text-black">
-              <span>Ukupno</span>
-              <span>${total.toFixed(2)}</span>
-            </div>
-          </div>
-
-          <button className="w-full bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 rounded-lg shadow-md transition-colors duration-200">
-            Naruči
-          </button>
         </div>
       </div>
     </div>

@@ -16,7 +16,7 @@ const Header = () => {
   const itemCount = itemsInCart.length;
   const router = useRouter();
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur 0 border-b-1 border-orange-400">
+    <header className="sticky top-0 z-50  bg-background/95 backdrop-blur 0 border-b-1 border-orange-400">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo dodati mozda */}
         <div

@@ -1,10 +1,11 @@
 "use client";
 import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { point, polygon, booleanPointInPolygon } from "@turf/turf";
 import { deliveryPrices } from "../app/admin/placesData/deliveryPrices";
 import { FaLocationArrow } from "react-icons/fa";
 import { FaLocationPin, FaX } from "react-icons/fa6";
+import { CartContext } from "@/app/context/CartContext";
 
 const lib = ["places"];
 
@@ -14,9 +15,10 @@ const Places = () => {
     libraries: lib,
     language: "sr",
   });
-  const [selectedPlace, setSelectedPlace] = useState(null);
+  const { deliveryPrice, setDeliveryPrice, selectedPlace, setSelectedPlace } =
+    useContext(CartContext);
+
   const [showPopup, setShowPopup] = useState(false);
-  const [deliveryPrice, setDeliveryPrice] = useState(null);
   const inputRef = useRef(null);
   // if (navigator.geolocation) {
   //   console.log(navigator.geolocation.getCurrentPosition(success, error));
@@ -82,7 +84,8 @@ const Places = () => {
     }
   }, [isLoaded, showPopup]);
 
-  if (selectedPlace) {
+  useEffect(() => {
+    if (!selectedPlace) return;
     const userPoint1 = selectedPlace.geometry.location.lat();
     const userPoint2 = selectedPlace.geometry.location.lng();
 
@@ -103,7 +106,7 @@ const Places = () => {
         }
       });
     }
-  }
+  }, [selectedPlace]);
 
   if (loadError) return <div>Error loading Google Maps API</div>;
   if (!isLoaded) return <div>Loading...</div>;
