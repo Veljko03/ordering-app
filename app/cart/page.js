@@ -1,19 +1,32 @@
 "use client";
 import Header from "@/components/Header";
 import { CartContext } from "../context/CartContext";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
 import { FaArrowLeft, FaMinus, FaPlug, FaPlus, FaTrash } from "react-icons/fa";
 import Hero from "@/components/Hero";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import Places from "@/components/PlacePicker";
+import { userOrderSchemaZod } from "../utils/zodSchemas";
 
 export default function Cart() {
   const { itemsInCart, setItemsInCart, deliveryPrice } =
     useContext(CartContext);
-
+  const [validationErrors, setValidationErrors] = useState({});
+  const [formData, setFormData] = useState({
+    firstName: "",
+    surname: "",
+    phoneNum: "",
+    additionalInfo: "",
+  });
   const deliveryFee = deliveryPrice || 0;
-
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
   const updateQuantity = (id, num) => {
     let findItem = itemsInCart.filter((obj) => obj.item._id == id);
 
@@ -43,6 +56,7 @@ export default function Cart() {
   });
 
   const total = priceOfMeals + deliveryFee;
+
   const orderItem = (e) => {
     e.preventDefault();
     if (!deliveryFee) {
@@ -54,8 +68,19 @@ export default function Cart() {
       toast.error("Korpa je prazna");
       return;
     }
+    const validateData = userOrderSchemaZod.safeParse(formData);
+    if (!validateData.success) {
+      const errors = validateData.error.flatten().fieldErrors;
+      setValidationErrors(errors);
+      console.log(errors, " EEEEEEEEEEEEEEEEE");
+
+      return;
+    }
 
     console.log("narucuje se");
+    toast.success("Narucili ste hranuu");
+
+    setValidationErrors({});
   };
   return (
     <div className="bg-[#f3f3f4]">
@@ -149,25 +174,53 @@ export default function Cart() {
           <form onSubmit={orderItem} className="space-y-3 text-black">
             <input
               type="text"
+              name="firstName"
               placeholder="Ime "
+              value={formData.firstName}
+              onChange={handleInputChange}
               className="w-full border rounded-lg p-2 text-black"
-            />
+            />{" "}
+            {validationErrors.firstName && (
+              <p className="text-red-500 text-sm mt-1">
+                {validationErrors.firstName[0]}
+              </p>
+            )}
             <input
               type="text"
+              name="surname"
               placeholder="Prezime"
+              onChange={handleInputChange}
               className="w-full border rounded-lg p-2 text-black"
             />
+            {validationErrors.surname && (
+              <p className="text-red-500 text-sm mt-1">
+                {validationErrors.surname[0]}
+              </p>
+            )}
             <input
               type="text"
+              name="phoneNum"
               placeholder="Telefon"
+              onChange={handleInputChange}
               className="w-full border rounded-lg p-2"
             />
+            {validationErrors.phoneNum && (
+              <p className="text-red-500 text-sm mt-1">
+                {validationErrors.phoneNum[0]}
+              </p>
+            )}
             <input
               type="text"
+              name="additionalInfo"
               placeholder="Napomene za dostavljaca"
+              onChange={handleInputChange}
               className="w-full border rounded-lg p-2"
             />
-
+            {validationErrors.additionalInfo && (
+              <p className="text-red-500 text-sm mt-1">
+                {validationErrors.additionalInfo[0]}
+              </p>
+            )}
             <div className="space-y-2 pt-4 border-t">
               <div className="flex justify-between text-gray-600">
                 <span>Cena jela</span>
@@ -182,7 +235,6 @@ export default function Cart() {
                 <span>${total.toFixed(2)}</span>
               </div>
             </div>
-
             <button
               type="submit"
               className="w-full cursor-pointer bg-orange-400 hover:bg-orange-500 text-white font-semibold py-3 rounded-lg shadow-md transition-colors duration-200"

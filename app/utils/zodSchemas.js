@@ -55,6 +55,27 @@ export const categorySchemaZod = z.object({
     .max(50, "Naziv ima maksimalno 50 karatktera")
     .regex(/^[\p{L}\p{N}\s.,\/-]+$/u, "Naziv sadrži nedozvoljene karaktere"),
 });
+export const userOrderSchemaZod = z.object({
+  firstName: z
+    .string()
+    .min(2, "Ime mora imati bar 2 karaktkera")
+    .max(15, "Ime ima maksimalno 15 karatktera")
+    .regex(/^[\p{L}\p{N}\s.,\/-]+$/u, "Naziv sadrži nedozvoljene karaktere"),
+  surname: z
+    .string()
+    .min(2, "Prezime mora imati bar 2 karaktkera")
+    .max(20, "Prezime ima maksimalno 15 karatktera")
+    .regex(/^[\p{L}\p{N}\s.,\/-]+$/u, "Naziv sadrži nedozvoljene karaktere"),
+  phoneNum: z
+    .string()
+    .min(6, "Telefon mora imati bar 6 karaktera")
+    .max(20, "Telefon može imati najviše 20 karaktera")
+    .regex(
+      /^[0-9+\s()\/-]+$/,
+      "Telefon može sadržati samo brojeve, +, razmake, ( ), / i -"
+    ),
+  additionalInfo: z.string().optional(),
+});
 
 export const itemsSchemaZod = z.object({
   name: z

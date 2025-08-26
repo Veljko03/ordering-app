@@ -126,16 +126,19 @@ const Places = () => {
         </div>
       )}
       {selectedPlace && (
-        <div className="rounded-2xl bg-white p-4 shadow-md flex flex-col items-center gap-2 text-center">
-          <FaLocationArrow className="w-6 h-6 text-indigo-600" />
-          <p className="font-medium text-gray-800">
-            {selectedPlace.formatted_address}
-          </p>
-          {deliveryPrice && (
-            <p className="text-green-600 font-semibold">
-              Cena dostave: {deliveryPrice} RSD
+        <div className="rounded-2xl  bg-white p-4 shadow-md flex justify-center items-center gap-5 text-center">
+          <div className="flex flex-col gap-2">
+            <p className="font-medium text-gray-800 flex gap-2">
+              <FaLocationArrow className="w-6 h-6 text-indigo-600" />
+              {selectedPlace.formatted_address}
             </p>
-          )}
+            {deliveryPrice && (
+              <p className="text-green-600 font-semibold">
+                Cena dostave: {deliveryPrice} RSD
+              </p>
+            )}
+          </div>
+
           <button
             onClick={() => setShowPopup(true)}
             className="mt-2 px-4 py-2 rounded-xl bg-orange-400 text-white hover:bg-orange-500  cursor-pointer transition"
