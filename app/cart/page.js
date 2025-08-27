@@ -88,13 +88,22 @@ export default function Cart() {
 
       <Header />
       <div className="flex gap-5 mx-auto px-4 py-4">
-        <Link
+            <button
+        className="bg-orange-400 text-white cursor-pointer rounded-t-2xl p-2"
+      >
+ <Link
           href={"/"}
           className="transition-smooth hover:bg-muted text-black flex items-center"
         >
           <FaArrowLeft className="w-4 h-4 mr-2 text-black" />
           Pocetna{" "}
-        </Link>
+        </Link>      </button>
+          <button
+        className="bg-orange-400 text-white cursor-pointer rounded-t-2xl p-2"
+      >
+        See menu
+      </button>
+       
         <Link
           href={"/menu"}
           className="transition-smooth hover:bg-muted text-black flex items-center"
