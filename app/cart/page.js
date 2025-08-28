@@ -3,11 +3,11 @@ import Header from "@/components/Header";
 import { CartContext } from "../context/CartContext";
 import { useContext, useMemo, useState } from "react";
 import { FaArrowLeft, FaMinus, FaPlug, FaPlus, FaTrash } from "react-icons/fa";
-import Hero from "@/components/Hero";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import Places from "@/components/PlacePicker";
 import { userOrderSchemaZod } from "../utils/zodSchemas";
+import { sendEmailReq } from "@/lib/api";
 
 export default function Cart() {
   const { itemsInCart, setItemsInCart, deliveryPrice } =
@@ -57,7 +57,7 @@ export default function Cart() {
 
   const total = priceOfMeals + deliveryFee;
 
-  const orderItem = (e) => {
+  const orderItem = async (e) => {
     e.preventDefault();
     if (!deliveryFee) {
       toast.error("Niste uneli adresu");
@@ -78,8 +78,14 @@ export default function Cart() {
     }
 
     console.log("narucuje se");
-    toast.success("Narucili ste hranuu");
+    const data = await sendEmailReq(itemsInCart);
+    console.log("EEEEEEEEEEEMMMMmm ", data);
 
+    if (data.message === "Email sent successfully!") {
+      toast.success("Poslata porudzbina!");
+    } else {
+      toast.error("Došlo je do greške.");
+    }
     setValidationErrors({});
   };
   return (
@@ -88,22 +94,16 @@ export default function Cart() {
 
       <Header />
       <div className="flex gap-5 mx-auto px-4 py-4">
-            <button
-        className="bg-orange-400 text-white cursor-pointer rounded-t-2xl p-2"
-      >
- <Link
-          href={"/"}
-          className="transition-smooth hover:bg-muted text-black flex items-center"
-        >
-          <FaArrowLeft className="w-4 h-4 mr-2 text-black" />
-          Pocetna{" "}
-        </Link>      </button>
-          <button
-        className="bg-orange-400 text-white cursor-pointer rounded-t-2xl p-2"
-      >
-        See menu
-      </button>
-       
+        <button className="bg-orange-400 text-white cursor-pointer rounded-t-2xl p-2">
+          <Link
+            href={"/"}
+            className="transition-smooth hover:bg-muted text-black flex items-center"
+          >
+            <FaArrowLeft className="w-4 h-4 mr-2 text-black" />
+            Pocetna{" "}
+          </Link>{" "}
+        </button>
+
         <Link
           href={"/menu"}
           className="transition-smooth hover:bg-muted text-black flex items-center"
