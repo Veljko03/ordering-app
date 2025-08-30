@@ -1,7 +1,9 @@
 import nodemailer from "nodemailer";
 
-async function POST(req) {
+export async function POST(req) {
   try {
+    const body = await req.json();
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -20,25 +22,17 @@ async function POST(req) {
       text: `${itemDetails}`,
     };
 
-    await transporter.sendMail(mailOptions);
+    const sendData = await transporter.sendMail(mailOptions);
 
-    return new Response(
-      JSON.stringify({ message: "Email sent successfully!" }),
-      { status: 200 }
+    return Response.json(
+      { message: "Email sent successfully!" },
+      { status: 201 }
     );
   } catch (error) {
-    console.error("Error sending email:", error);
-    return new Response(
-      JSON.stringify({
-        message: "Error sending email",
-        error:
-          error instanceof Error
-            ? { message: error.message, stack: error.stack }
-            : error,
-      }),
+    console.error("Send email error:", error);
+    return Response.json(
+      { error: "Some error while sending email" },
       { status: 500 }
     );
   }
 }
-
-export default POST;

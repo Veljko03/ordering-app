@@ -72,20 +72,19 @@ export default function Cart() {
     if (!validateData.success) {
       const errors = validateData.error.flatten().fieldErrors;
       setValidationErrors(errors);
-      console.log(errors, " EEEEEEEEEEEEEEEEE");
 
       return;
     }
 
     console.log("narucuje se");
-    const data = await sendEmailReq(itemsInCart);
-    console.log("EEEEEEEEEEEMMMMmm ", data);
+    const data = await sendEmailReq({ items: itemsInCart, user: formData });
 
     if (data.message === "Email sent successfully!") {
       toast.success("Poslata porudzbina!");
     } else {
       toast.error("Došlo je do greške.");
     }
+    setItemsInCart(null);
     setValidationErrors({});
   };
   return (
@@ -180,7 +179,7 @@ export default function Cart() {
           <h2 className="text-xl font-semibold text-black">
             Podaci za dostavu
           </h2>
-          <form onSubmit={orderItem} className="space-y-3 text-black">
+          <form onSubmit={(e) => orderItem(e)} className="space-y-3 text-black">
             <input
               type="text"
               name="firstName"
