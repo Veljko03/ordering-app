@@ -1,13 +1,9 @@
 "use client";
 import { useContext, useState } from "react";
 import { FaShoppingCart, FaLocationArrow, FaClock } from "react-icons/fa";
-import Places from "./PlacePicker";
 import { useRouter } from "next/navigation";
 import { CartContext } from "@/app/context/CartContext";
-// import { Button } from "@/components/ui/button";
-// import { Badge } from "@/components/ui/badge";
-// import { useCart } from "@/context/CartContext";
-// import { restaurant } from "@/data/mockData";
+
 
 const Header = () => {
   //onst { toggleCart, itemCount } = useCart();

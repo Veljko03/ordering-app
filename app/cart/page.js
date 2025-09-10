@@ -76,7 +76,6 @@ export default function Cart() {
       return;
     }
 
-    console.log("narucuje se");
     const data = await sendEmailReq({ items: itemsInCart, user: formData });
 
     if (data.message === "Email sent successfully!") {
@@ -103,13 +102,13 @@ export default function Cart() {
           </Link>{" "}
         </button>
 
-        <Link
+        {/* <Link
           href={"/menu"}
           className="transition-smooth hover:bg-muted text-black flex items-center"
         >
           <FaArrowLeft className="w-4 h-4 mr-2 text-black" />
           Meni
-        </Link>
+        </Link> */}
       </div>
       <Places />
       <div className="container mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8">

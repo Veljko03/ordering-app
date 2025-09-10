@@ -6,10 +6,6 @@ import Hero from "@/components/Hero";
 async function Home() {
   return (
     <div className="p-4 bg-[#f3f3f4] min-h-screen">
-      <Header />
-      {/* <Places /> */}
-      <h1 className="text-black">HOMEEE PAGEEE</h1>
-
       <Hero />
     </div>
   );
