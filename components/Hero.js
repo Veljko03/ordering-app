@@ -49,14 +49,14 @@ const Menu = () => {
       <div className="container mx-auto px-4 py-4"></div>
       <Places />
       {/* Page Header */}
-      <div className="container mx-auto px-4 pb-4">
+      {/* <div className="container mx-auto px-4 pb-4">
         <div className="space-y-2">
           <h1 className="font-display font-bold text-3xl text-black">
             Our Menu
           </h1>
           <p className="text-black">Choose from our delicious selection</p>
         </div>
-      </div>
+      </div> */}
 
       <CategoryFilter
         categories={categories}

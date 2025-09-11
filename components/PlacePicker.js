@@ -6,6 +6,7 @@ import { deliveryPrices } from "../app/admin/placesData/deliveryPrices";
 import { FaLocationArrow } from "react-icons/fa";
 import { FaLocationPin, FaX } from "react-icons/fa6";
 import { CartContext } from "@/app/context/CartContext";
+import toast, { Toaster } from "react-hot-toast";
 
 const lib = ["places"];
 
@@ -108,12 +109,26 @@ const Places = () => {
     }
   }, [selectedPlace]);
 
+  const saveAdress = () => {
+    if (selectedPlace) {
+      localStorage.setItem(
+        "userAdress",
+        JSON.stringify(selectedPlace.formatted_address)
+      );
+      setShowPopup(false);
+    } else {
+      toast.error("Unesite adresu");
+    }
+  };
+
   if (loadError) return <div>Error loading Google Maps API</div>;
   if (!isLoaded) return <div>Loading...</div>;
   console.log("Selected place name ", selectedPlace);
 
   return (
     <div className="mb-2">
+      <Toaster position="top-center" reverseOrder={true} />
+
       {!selectedPlace && (
         <div className="rounded-2xl bg-white p-4 shadow-md flex items-center  justify-center">
           <button
@@ -212,7 +227,7 @@ const Places = () => {
               </button>
               <button
                 className="px-4 py-2 rounded-xl cursor-pointer bg-indigo-500 text-white hover:bg-indigo-600 transition"
-                onClick={() => setShowPopup(false)}
+                onClick={saveAdress}
               >
                 Sačuvaj
               </button>
