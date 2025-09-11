@@ -247,6 +247,7 @@ export default function ItemManager() {
   const isChanged = !isFormDataEmpty(formData);
   console.log("items by cat ", itemsByCategory);
   if (loadingCategories || loadingItems) return <div>Loading...</div>;
+  if (categories.length < 1 || !categories) return <div>Loading...</div>;
   return (
     <div className="p-4 space-y-6 bg-[#f3f3f4]">
       <Toaster position="top-center" reverseOrder={true} />
@@ -278,7 +279,7 @@ export default function ItemManager() {
 
         {showAddNewItemForm && (
           <div className="fixed  inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white   w-full h-full overflow-y-auto">
+            <div className="bg-white p-2   w-full h-full overflow-y-auto overflow-x-hidden">
               <XIcon
                 className="text-black font-extralight ml-auto cursor-pointer w-16 h-18 "
                 onClick={() => {
@@ -330,7 +331,7 @@ export default function ItemManager() {
               </h1>
               <form
                 onSubmit={handleSubmit}
-                className="  p-1 rounded  flex flex-col gap-5 overflow-x-auto mb-5"
+                className=" rounded  flex flex-col gap-5  mb-5"
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="flex flex-col text-black">
@@ -346,7 +347,8 @@ export default function ItemManager() {
                               : formData.imageUrl
                           }
                           alt="Restaurant Owner"
-                          className="w-20 h-20 rounded-md object-cover"
+                          className="w-20 h-20 rounded-md
+                           object-cover"
                         />
                         <label
                           htmlFor="image-upload"
@@ -639,7 +641,7 @@ export default function ItemManager() {
             <div key={cat._id}>
               <div
                 key={cat.id}
-                className="border p-2 flex rounded-xl  justify-between items-center text-black cursor-pointer"
+                className="border p-2 flex rounded  justify-between items-center text-black cursor-pointer"
                 onClick={() => toggleCategoryItems(cat._id)}
               >
                 <span>{cat.name}</span>
@@ -652,13 +654,22 @@ export default function ItemManager() {
                     itemsByCategory.map((item) => (
                       <div
                         key={item._id}
-                        className="border mt-2 p-2 flex rounded-xl  justify-between items-center text-black"
+                        className="border mt-2 p-2 flex rounded  justify-between items-center text-black"
                       >
                         <span className="text-black flex-1">{item.name}</span>
                         <span className="text-black w-24 text-center ">
                           {item.basePrice} rsd
                         </span>
-                        <div className=" w-16 flex justify-end  text-3xl">
+                        <button
+                          onClick={() => {
+                            setShowAddNewItemForm(true);
+                            handleEdit(item);
+                          }}
+                          className="bg-[#7893c3] font-bold text-white   flex items-center justify-center  rounded uppercase cursor-pointer ml-auto  w-10 h-8 "
+                        >
+                          <HiPencilAlt />
+                        </button>
+                        {/* <div className=" w-16 flex justify-end  text-3xl">
                           <HiPencilAlt
                             className="cursor-pointer text-[#7893c3] text-2xl "
                             onClick={() => {
@@ -666,11 +677,8 @@ export default function ItemManager() {
                               handleEdit(item);
                             }}
                           />
-                          {/* <MdDeleteForever
-                            className="text-red-500 cursor-pointer"
-                            onClick={() => handleDelete(item._id)}
-                          /> */}
-                        </div>
+                          
+                        </div> */}
                       </div>
                     ))
                   ) : (
