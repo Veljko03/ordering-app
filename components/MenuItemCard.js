@@ -30,13 +30,12 @@ const MenuItemCard = ({ item, onClick }) => {
 
         <div className="flex items-center justify-between">
           <span className="font-bold text-lg text-black">
-            ${item.basePrice.toFixed(2)}
+            {item.basePrice.toFixed(2)} rsd
           </span>
           <button
             // onClick={handleAddToCart}
             className="transition-smooth hover:bg-primary text-black flex items-center gap-2 cursor-pointer"
           >
-            Add
             <FaPlus className="w-4 h-4 text-green-400 " />
           </button>
         </div>

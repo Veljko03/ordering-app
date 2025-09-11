@@ -129,7 +129,7 @@ const ItemModal = ({ item, isOpen, onClose }) => {
                     <span>{size.size}</span>
                   </div>
                   {size.price > 0 && (
-                    <span className="text-gray-500">+${size.price}</span>
+                    <span className="text-gray-500">+{size.price}rsd</span>
                   )}
                 </label>
               ))}
@@ -157,7 +157,7 @@ const ItemModal = ({ item, isOpen, onClose }) => {
                     </span>
                   </div>
                   {addon.price > 0 && (
-                    <span className="text-gray-500">+${addon.price}</span>
+                    <span className="text-gray-500">+{addon.price}rsd</span>
                   )}
                 </label>
               ))}
@@ -178,7 +178,7 @@ const ItemModal = ({ item, isOpen, onClose }) => {
 
           <div className="flex items-center justify-between   ">
             <span className="font-bold text-2xl text-green-500">
-              ${costPerItem}
+              {costPerItem} rsd
             </span>
 
             <div className="flex items-center gap-3">
@@ -211,7 +211,7 @@ const ItemModal = ({ item, isOpen, onClose }) => {
              shadow-md transition-colors duration-200"
             onClick={handleAddToCart}
           >
-            Add {quantity} to Cart • ${totalPrice.toFixed(2)}
+            Add {quantity} to Cart • {totalPrice.toFixed(2)} rsd
           </button>
         </div>
       </div>
