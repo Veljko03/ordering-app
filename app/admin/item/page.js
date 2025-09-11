@@ -503,7 +503,7 @@ export default function ItemManager() {
                     <hr className="my-4 border-black" />
                     <div className="flex gap-4 mb-4 items-center">
                       <h3 className="text-xl text-black font-semibold  uppercase">
-                        Prilozi
+                        Prilozi(dodaci)
                       </h3>
                       <button
                         type="button"
@@ -654,9 +654,11 @@ export default function ItemManager() {
                         key={item._id}
                         className="border mt-2 p-2 flex rounded-xl  justify-between items-center text-black"
                       >
-                        <span className="text-black">{item.name}</span>
-                        <span className="text-black">{item.basePrice} rsd</span>
-                        <div className=" flex gap-5 text-3xl">
+                        <span className="text-black flex-1">{item.name}</span>
+                        <span className="text-black w-24 text-center ">
+                          {item.basePrice} rsd
+                        </span>
+                        <div className=" w-16 flex justify-end  text-3xl">
                           <HiPencilAlt
                             className="cursor-pointer text-[#7893c3] text-2xl "
                             onClick={() => {
@@ -672,7 +674,7 @@ export default function ItemManager() {
                       </div>
                     ))
                   ) : (
-                    <p className="text-gray-500 italic text-black">
+                    <p className="text-gray-500 italic ">
                       Ova kategorija je prazna
                     </p>
                   )}

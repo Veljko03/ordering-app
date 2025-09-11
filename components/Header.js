@@ -1,13 +1,13 @@
 "use client";
 import { useContext, useState } from "react";
 import { FaShoppingCart, FaLocationArrow, FaClock } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { CartContext } from "@/app/context/CartContext";
 
-
-const Header = () => {
+const Header = ({ info }) => {
   //onst { toggleCart, itemCount } = useCart();
   const { itemsInCart, setItemsInCart } = useContext(CartContext);
+  if (info) console.log("infooo ", info);
 
   const itemCount = itemsInCart.length;
   const router = useRouter();
@@ -20,10 +20,10 @@ const Header = () => {
           onClick={() => router.push("/")}
         >
           <div className="w-8 h-8 bg-orange-400 rounded-full flex items-center justify-center">
-            <span className="text-black font-bold text-sm">R</span>
+            <span className="text-black font-bold text-sm">K</span>
           </div>
           <span className="font-display font-bold text-xl text-black">
-            Restoran
+            {info?.name}
           </span>
         </div>
 

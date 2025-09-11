@@ -5,7 +5,11 @@ import Header from "@/components/Header";
 import ItemModal from "@/components/ItemModal";
 import MenuGrid from "@/components/MenuGrid";
 import Places from "@/components/PlacePicker";
-import { fetchCategoriesReq, fetchItemsWithoutSinitazeReq } from "@/lib/api";
+import {
+  fetchCategoriesReq,
+  fetchInfoReq,
+  fetchItemsWithoutSinitazeReq,
+} from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
@@ -15,6 +19,10 @@ const Menu = () => {
   const { data: categories = [], isloading: loadingCategories } = useQuery({
     queryKey: ["categories"],
     queryFn: fetchCategoriesReq,
+  });
+  const { data: info = [], isloading: loadingInfo } = useQuery({
+    queryKey: ["info"],
+    queryFn: fetchInfoReq,
   });
   const { data: items = [], isloading: loadingItems } = useQuery({
     queryKey: ["items"],
@@ -44,7 +52,7 @@ const Menu = () => {
 
   return (
     <div className="min-h-screen bg-[#f3f3f4]">
-      <Header />
+      <Header info={info} />
 
       <div className="container mx-auto px-4 py-4"></div>
       <Places />

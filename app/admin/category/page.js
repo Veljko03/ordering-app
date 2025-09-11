@@ -8,7 +8,6 @@ import { MdDeleteForever } from "react-icons/md";
 import { categorySchemaZod } from "../../utils/zodSchemas";
 import {
   deleteCategoryReq,
-  fetchCategories,
   fetchCategoriesReq,
   newCategoryReq,
   updateCategoryReq,
@@ -155,7 +154,7 @@ export default function CategoryManager() {
           <p className="text-red-500 text-sm ">{validationErrors.name[0]}</p>
         )}
         <ul>
-          {categories.map((cat) => {
+          {categories?.map((cat) => {
             const isChanged = editingName.trim() !== cat.name.trim();
 
             return (
