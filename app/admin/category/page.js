@@ -118,7 +118,7 @@ export default function CategoryManager() {
 
     setExpandedCategoryId(categoryId);
   }
-  if (loadingCategories) {
+  if (loadingCategories || !categories) {
     return <div>Loading...</div>;
   }
   return (

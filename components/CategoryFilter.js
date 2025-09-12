@@ -6,14 +6,14 @@ const CategoryFilter = ({ categories, selectedCategory, onCategoryChange }) => {
           {/* Dugme za All Items */}
           <button
             onClick={() => onCategoryChange("all")}
-            className={`whitespace-nowrap px-4 py-2 rounded-xl font-medium transition-colors duration-200
+            className={`whitespace-nowrap px-4 py-2 rounded-xl cursor-pointer font-medium transition-colors duration-200
       ${
         selectedCategory === "all"
           ? "bg-orange-400 text-white"
           : "bg-gray-300 text-black hover:bg-gray-400"
       }`}
           >
-            All Items
+            Svi proizvodi
           </button>
 
           {/* Dugmad za kategorije */}
@@ -21,7 +21,7 @@ const CategoryFilter = ({ categories, selectedCategory, onCategoryChange }) => {
             <button
               key={category._id}
               onClick={() => onCategoryChange(category._id)}
-              className={`whitespace-nowrap px-4 py-2 rounded-xl font-medium transition-colors duration-200
+              className={`whitespace-nowrap px-4 py-2 rounded-xl cursor-pointer font-medium transition-colors duration-200
         ${
           selectedCategory === category._id
             ? "bg-orange-400 text-white"
