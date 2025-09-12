@@ -7,8 +7,8 @@ const MenuGrid = ({ items, onItemClick }) => {
       <div className="container mx-auto px-4 py-16">
         <div className="text-center space-y-4">
           <div className="text-6xl">🍽️</div>
-          <h3 className="text-xl font-medium text-black">No items found</h3>
-          <p className="text-black">Try selecting a different category</p>
+          <h3 className="text-xl font-medium text-black">Prazna sekcija</h3>
+          <p className="text-black">Proverite neku drugu kategoriju</p>
         </div>
       </div>
     );

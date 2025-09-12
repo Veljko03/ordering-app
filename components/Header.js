@@ -19,8 +19,18 @@ const Header = ({ info }) => {
           className="flex items-center space-x-2 cursor-pointer"
           onClick={() => router.push("/")}
         >
-          <div className="w-8 h-8 bg-orange-400 rounded-full flex items-center justify-center">
-            <span className="text-black font-bold text-sm">K</span>
+          <div className="w-14 h-14 bg-orange-400 rounded-full flex items-center justify-center">
+            {info?.logoUrl ? (
+              <img
+                src={info.logoUrl}
+                alt={info?.name}
+                className="w-14 h-14 rounded-full"
+              />
+            ) : (
+              <div className="w-14 h-14 bg-orange-400 rounded-full flex items-center justify-center">
+                <span className="text-black font-bold text-sm">K</span>
+              </div>
+            )}
           </div>
           <span className="font-display font-bold text-xl text-black">
             {info?.name}

@@ -5,10 +5,10 @@ const MenuItemCard = ({ item, onClick }) => {
 
   return (
     <div
-      className="group cursor-pointer bg-card shadow-md shadow-gray-400 hover:shadow-card  hover:scale-105 border-border"
+      className="group cursor-pointer bg-card shadow-md shadow-gray-400 hover:shadow-card rounded-lg  hover:scale-105 border-border"
       onClick={onClick}
     >
-      <div className="relative overflow-hidden rounded-t-lg">
+      <div className="relative overflow-hidden rounded-t-lg ">
         {item.imageUrl != "" && (
           <img
             src={item.imageUrl}

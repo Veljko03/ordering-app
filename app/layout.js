@@ -25,10 +25,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <CartContextProvider>
-          <DataProvider>
-            {children}
-
-          </DataProvider>
+          <DataProvider>{children}</DataProvider>
         </CartContextProvider>
       </body>
     </html>

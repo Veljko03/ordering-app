@@ -14,6 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
+import Footer from "./Footer";
 
 const Menu = () => {
   const { data: categories = [], isloading: loadingCategories } = useQuery({
@@ -79,6 +80,8 @@ const Menu = () => {
         isOpen={isModalOpen}
         onClose={handleModalClose}
       />
+
+      <Footer info={info} />
     </div>
   );
 };

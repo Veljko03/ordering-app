@@ -7,7 +7,9 @@ import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import Places from "@/components/PlacePicker";
 import { userOrderSchemaZod } from "../utils/zodSchemas";
-import { sendEmailReq } from "@/lib/api";
+import { fetchInfoReq, sendEmailReq } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
+import Footer from "@/components/Footer";
 
 export default function Cart() {
   const { itemsInCart, setItemsInCart, deliveryPrice } =
@@ -18,6 +20,10 @@ export default function Cart() {
     surname: "",
     phoneNum: "",
     additionalInfo: "",
+  });
+  const { data: info = [], isloading: loadingInfo } = useQuery({
+    queryKey: ["info"],
+    queryFn: fetchInfoReq,
   });
   const deliveryFee = deliveryPrice || 0;
   const handleInputChange = (e) => {
@@ -87,12 +93,15 @@ export default function Cart() {
     setValidationErrors({});
   };
   return (
-    <div className="bg-[#f3f3f4]">
+    <div className=" min-h-screen p-4 bg-[#f3f3f4]">
       <Toaster position="top-center" reverseOrder={true} />
 
-      <Header />
+      <Header info={info} />
+      <div className="mt-5">
+        <Places />
+      </div>
       <div className="flex gap-5 mx-auto px-4 py-4">
-        <button className="bg-orange-400 text-white cursor-pointer rounded-t-2xl p-2">
+        <button className="bg-orange-400 text-white cursor-pointer rounded-lg p-2">
           <Link
             href={"/"}
             className="transition-smooth hover:bg-muted text-black flex items-center"
@@ -101,16 +110,8 @@ export default function Cart() {
             Pocetna{" "}
           </Link>{" "}
         </button>
-
-        {/* <Link
-          href={"/menu"}
-          className="transition-smooth hover:bg-muted text-black flex items-center"
-        >
-          <FaArrowLeft className="w-4 h-4 mr-2 text-black" />
-          Meni
-        </Link> */}
       </div>
-      <Places />
+
       <div className="container mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left side - Cart items */}
         <div className="lg:col-span-2 space-y-4">
@@ -251,6 +252,7 @@ export default function Cart() {
           </form>
         </div>
       </div>
+      <Footer info={info} />
     </div>
   );
 }
