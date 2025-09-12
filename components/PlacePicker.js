@@ -79,16 +79,31 @@ const Places = () => {
         //   alert("Molimo odaberite adresu koja sadrži broj ulice.");
         //   return;
         // }
-        setSelectedPlace(place);
+        const placee = {
+          name: place.name,
+          address: place.formatted_address,
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        };
+
+        setSelectedPlace(placee);
         setDeliveryPrice(null);
       });
     }
   }, [isLoaded, showPopup]);
 
   useEffect(() => {
+    const placeInStorage = localStorage.getItem("userAdress");
+    if (placeInStorage) {
+      setSelectedPlace(JSON.parse(placeInStorage));
+    }
+  }, []);
+  useEffect(() => {
     if (!selectedPlace) return;
-    const userPoint1 = selectedPlace.geometry.location.lat();
-    const userPoint2 = selectedPlace.geometry.location.lng();
+    console.log("AAAAAAAAAAAAAAAA ", selectedPlace);
+
+    const userPoint1 = selectedPlace.lat;
+    const userPoint2 = selectedPlace.lng;
 
     if (userPoint1 && userPoint2) {
       const userPosition = point([userPoint2, userPoint1]);
@@ -111,10 +126,7 @@ const Places = () => {
 
   const saveAdress = () => {
     if (selectedPlace) {
-      localStorage.setItem(
-        "userAdress",
-        JSON.stringify(selectedPlace.formatted_address)
-      );
+      localStorage.setItem("userAdress", JSON.stringify(selectedPlace));
       setShowPopup(false);
     } else {
       toast.error("Unesite adresu");
@@ -145,7 +157,7 @@ const Places = () => {
           <div className="flex flex-col gap-2">
             <p className="font-medium text-gray-800 flex gap-2">
               <FaLocationArrow className="w-6 h-6 text-indigo-600" />
-              {selectedPlace.formatted_address}
+              {selectedPlace.name}
             </p>
             {deliveryPrice && (
               <p className="text-green-600 font-semibold">
@@ -197,16 +209,13 @@ const Places = () => {
               {selectedPlace && (
                 <GoogleMap
                   mapContainerStyle={{ width: "100%", height: "100%" }}
-                  center={{
-                    lat: selectedPlace.geometry?.location.lat(),
-                    lng: selectedPlace.geometry?.location.lng(),
-                  }}
+                  center={{ lat: selectedPlace.lat, lng: selectedPlace.lng }}
                   zoom={17}
                 >
                   <Marker
                     position={{
-                      lat: selectedPlace.geometry?.location.lat(),
-                      lng: selectedPlace.geometry?.location.lng(),
+                      lat: selectedPlace.lat,
+                      lng: selectedPlace.lng,
                     }}
                   />
                 </GoogleMap>
