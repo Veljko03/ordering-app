@@ -3,8 +3,9 @@ import { useContext, useState } from "react";
 import { FaShoppingCart, FaLocationArrow, FaClock } from "react-icons/fa";
 import { notFound, useRouter } from "next/navigation";
 import { CartContext } from "@/app/context/CartContext";
+import RestaurantStatus from "./RestaurantStatus";
 
-const Header = ({ info }) => {
+const Header = ({ info, schedule }) => {
   //onst { toggleCart, itemCount } = useCart();
   const { itemsInCart, setItemsInCart } = useContext(CartContext);
   if (info) console.log("infooo ", info);
@@ -45,6 +46,7 @@ const Header = ({ info }) => {
           {/* <div className="flex items-center space-x-2 text-sm">
             <FaClock className="w-4 h-4 text-black" />
           </div> */}
+          <RestaurantStatus schedule={schedule} />
         </div>
 
         {/* Cart Button */}

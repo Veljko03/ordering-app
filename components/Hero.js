@@ -9,6 +9,7 @@ import {
   fetchCategoriesReq,
   fetchInfoReq,
   fetchItemsWithoutSinitazeReq,
+  fetchScheduleReq,
 } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -20,6 +21,10 @@ const Menu = () => {
   const { data: categories = [], isloading: loadingCategories } = useQuery({
     queryKey: ["categories"],
     queryFn: fetchCategoriesReq,
+  });
+  const { data: schedule = [], isloading: loadingSchedule } = useQuery({
+    queryKey: ["schedule"],
+    queryFn: fetchScheduleReq,
   });
   const { data: info = [], isloading: loadingInfo } = useQuery({
     queryKey: ["info"],
@@ -53,7 +58,7 @@ const Menu = () => {
 
   return (
     <div className="min-h-screen bg-[#f3f3f4]">
-      <Header info={info} />
+      <Header info={info} schedule={schedule} />
 
       <div className="container mx-auto px-4 py-4"></div>
       <Places />
