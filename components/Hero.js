@@ -25,10 +25,12 @@ const Menu = () => {
   const { data: schedule = [], isloading: loadingSchedule } = useQuery({
     queryKey: ["schedule"],
     queryFn: fetchScheduleReq,
+    staleTime: 1000 * 60 * 5,
   });
   const { data: info = [], isloading: loadingInfo } = useQuery({
     queryKey: ["info"],
     queryFn: fetchInfoReq,
+    staleTime: 1000 * 60 * 5,
   });
   const { data: items = [], isloading: loadingItems } = useQuery({
     queryKey: ["items"],

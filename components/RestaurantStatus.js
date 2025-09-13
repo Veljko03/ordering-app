@@ -48,7 +48,7 @@ const RestaurantStatus = ({ schedule }) => {
         <span className="text-red-600 font-bold">Zatvoreno ❌</span>
       )}
       <p className="text-black font-medium">
-        Radno vreme danas: {workingHours || "Restoran ne radi danas"}
+        Radno vreme: {workingHours || "Restoran ne radi danas"}
       </p>
     </div>
   );

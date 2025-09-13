@@ -7,7 +7,7 @@ import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import Places from "@/components/PlacePicker";
 import { userOrderSchemaZod } from "../utils/zodSchemas";
-import { fetchInfoReq, sendEmailReq } from "@/lib/api";
+import { fetchInfoReq, fetchScheduleReq, sendEmailReq } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import Footer from "@/components/Footer";
 
@@ -24,6 +24,10 @@ export default function Cart() {
   const { data: info = [], isloading: loadingInfo } = useQuery({
     queryKey: ["info"],
     queryFn: fetchInfoReq,
+  });
+  const { data: schedule = [], isloading: loadingSchedule } = useQuery({
+    queryKey: ["schedule"],
+    queryFn: fetchScheduleReq,
   });
   const deliveryFee = deliveryPrice || 0;
   const handleInputChange = (e) => {
@@ -96,7 +100,7 @@ export default function Cart() {
     <div className=" min-h-screen p-4 bg-[#f3f3f4]">
       <Toaster position="top-center" reverseOrder={true} />
 
-      <Header info={info} />
+      <Header info={info} schedule={schedule} />
       <div className="mt-5">
         <Places />
       </div>
@@ -123,7 +127,7 @@ export default function Cart() {
             itemsInCart.map((obj) => (
               <div
                 key={obj.item._id}
-                className="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm border"
+                className="flex flex-wrap items-center gap-4 p-4 bg-white rounded-xl shadow-sm border"
               >
                 <img
                   src={obj.item.imageUrl}
@@ -165,7 +169,7 @@ export default function Cart() {
                 {/* Remove */}
                 <button
                   onClick={() => removeItem(obj.item._id)}
-                  className="ml-4 text-gray-400 hover:text-red-500"
+                  className="ml-2 cursor-pointer text-gray-400 hover:text-red-500"
                 >
                   <FaTrash />
                 </button>

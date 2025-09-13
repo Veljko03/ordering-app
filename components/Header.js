@@ -39,7 +39,7 @@ const Header = ({ info, schedule }) => {
         </div>
 
         {/* // Restaurant Info - Hidden on mobile  */}
-        <div className="hidden md:flex items-center ">
+        <div className=" md:flex items-center ">
           {/* <div className="flex items-center space-x-2 text-sm">
             <Places />
           </div> */}
